@@ -1,0 +1,26 @@
+Vibrant v1.6:
+
+[ok] - on popular demand, unlink trap on borders
+[ok] - more frequent life powerups
+[ok] - energy cell max out energy
+[ok] - less bullet impact
+[ok] - more life powerups
+[ok] - less bright lines 
+[ok] - life regen more significant
+[ok] - bouncing on borders depletes all energy
+[ok] - fixed crash at exit
+[ok] - more FPS independent movement
+[ok] - map limits less visible on minimap
+[ok] - nerfed invincibility: 2 secs on reswpan instead of 4 secs
+[ok] - invincibility now reverse bullet 3x bullet, last 8 seconds
+[ok] - invincibility lasts 9 seconds instead of 10
+[ok] - ships stop dragging powerups while damageg
+[ok] - you can catch other ships, and they can catch you too. Unlink on borders.
+[ok] - ennemies collides themselves
+[ok] - less impact when hit by bullet
+[ok] - starting the game with no energy
+[ok] - pause mode with P
+[ok] - bullet time on low HP
+[ok] - slow down player bullets
+
+

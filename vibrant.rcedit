@@ -1,0 +1,62 @@
+#define VOS_NT_WINDOWS32    0x00040004L
+#define VFT_APP             0x00000001L
+
+
+ICON1      ICON "icons\vibrant_48x48_24b.ico"
+ICON2      ICON "icons\vibrant_48x48_8b.ico"
+ICON3      ICON "icons\vibrant_48x48_16.ico"
+ICON4      ICON "icons\vibrant_32x32_24b.ico"
+ICON5      ICON "icons\vibrant_32x32_8b.ico"
+ICON6      ICON "icons\vibrant_32x32_16.ico"
+ICON7      ICON "icons\vibrant_16x16_24b.ico"
+ICON8      ICON "icons\vibrant_16x16_8b.ico"
+ICON9      ICON "icons\vibrant_16x16_16.ico"
+
+
+VS_VERSION_INFO VERSIONINFO
+
+FILEVERSION 1, 4, 0, 0
+
+PRODUCTVERSION 1, 4, 0, 0
+
+FILEOS VOS_WINDOWS32
+
+FILETYPE VFT_APP
+
+BEGIN
+
+  BLOCK "StringFileInfo"
+
+  BEGIN
+
+    BLOCK "040904E4"
+
+    BEGIN
+
+      VALUE "CompanyName",      "Games From Mars, Inc.\000"
+
+      VALUE "FileDescription",  "Program description\000"
+
+      VALUE "FileVersion",      "01.50.0000\000"
+
+      VALUE "InternalName",     "VIBRANT\000"
+
+      VALUE "OriginalFilename", "VIBRANT.EXE\000"
+
+      VALUE "LegalCopyright",   "Copyright (c) 2010 Guillaume Piolat\000"
+
+      VALUE "ProductName",      "VIBRANT\000"
+
+      VALUE "ProductVersion",   "01.40.0000\000"
+
+      VALUE "Comments",         "A game you can't win. Ever.\000"
+
+    END
+
+  END
+
+END
+
+
+
+
