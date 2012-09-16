@@ -131,7 +131,9 @@ final class Game
                 m_mainFBO = new FBO();
                 m_mainFBO.color[0].setTarget(m_mainTexture, 0);                
                 m_mainFBO.setWrite(FBO.Component.COLORS);
-                m_mainFBO.setDrawBuffers(0);
+                int drawBuffer[1];
+                drawBuffer[0] = 0;
+                m_mainFBO.setDrawBuffers(drawBuffer[]);
                 m_mainFBO.check();
                 //m_mainFBO.use();
                 info("<create m_mainFBO");

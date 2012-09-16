@@ -236,7 +236,7 @@ class VibrantProgram : SDLApp
                     onFrameRateChanged(m_frameCounter.frameRate);
                 }
                 onRender(time);
-                std.gc.fullCollect();
+                //std.gc.fullCollect();
                 //std.gc.minimize();
             }
 

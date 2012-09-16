@@ -89,7 +89,7 @@ void ground(Camera camera)
     //setCurrentColor = 0xff404040;
     GL.lineWidth(3);
     GL.begin(GL.LINES);
-    GL.color = 0.65f * vec3f(0.13,0.13,0.25);
+    GL.color = 0.40f * vec3f(0.13,0.13,0.25);
     for(int i = -som + 1; i < som; ++i)
     {
         vertexf(i * 200, SOM);
