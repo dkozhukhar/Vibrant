@@ -523,7 +523,6 @@ class Player
             {
                 BulletTime.exit();
                 timeBeforeReborn = 1.4f;
-                maxenceMode = false;
             }
             
             life = -0.001;
@@ -607,7 +606,7 @@ class Player
             float baseangle = angle;
 
             int forwardBullet = min(weaponclass, 3);
-            int mguided = isHuman ? (maxenceMode ? 120 : 50) : 20;
+            int mguided = isHuman ? 50 : 20;
 
 
             for (int i = 0; i < forwardBullet; ++i)

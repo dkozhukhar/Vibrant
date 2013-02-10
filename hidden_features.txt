@@ -1,7 +1,6 @@
 :)
 
 - type NEXT to go to next level (kill all enemies)
-- type MAXENCE to enter an easy mode for child (must be repeated at each new life)
 
 - DEL make you explode
 - ALT make you strafe with LEFT and RIGHT

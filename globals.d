@@ -53,7 +53,6 @@ const char[][] TIPS =
   "It's OK to loose often."
 ];
 
-bool maxenceMode = false;
 float bullettimeTime = 0;
 int level = 0;
 bool lastTimeButton2WasOff = true;

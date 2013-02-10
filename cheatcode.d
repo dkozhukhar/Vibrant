@@ -19,7 +19,6 @@ final class CheatcodeManager
     {
         const char[][Cheat.max + 1] cheatcodeString =
         [
-            "maxence",
             "next",
             "levelmax",
         ];
@@ -32,10 +31,6 @@ final class CheatcodeManager
             m_game.soundManager.playSound(0.5f, SOUND.CATCH_POWERUP);
             switch(cheat)
             {
-                case Cheat.NEXT:
-                    m_game.initenemies;
-                    break;
-
                 debug
                 {
                 case Cheat.LEVELMAX:
@@ -44,14 +39,9 @@ final class CheatcodeManager
                     break;
                 }
 
-                case Cheat.MAXENCE:
+                case Cheat.NEXT:
                 default:
-                    if ((player !is null) && (player.destroy == 0))
-                    {
-                        player.life = 2.f;
-                        player.weaponclass = 3;
-                        maxenceMode = true;
-                    }
+                    m_game.initenemies;
                     break;
             }
 
