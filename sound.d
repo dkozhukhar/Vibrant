@@ -126,16 +126,13 @@ final class SoundManager
                 float dx = camPos.x - x;
                 float dy = camPos.y - y;
 
-                float dist = Fhypot(camPos.x - x, camPos.y - y) / 500.0;
+                float dist = sqrt(dx * dx + dy * dy) / 500.0;
 
                 float a = atan2(x - camPos.x, y - camPos.y) - _camera.angle() - PI_2_F;
 
                 if (dist > 1.f) return;
 
-                //float volumeCorrected = (1 - _timeToWait[sound]) * baseVolume;
                 m_chunks[sound].playPosition(baseVolume, dist, a);
-                //_timeToWait[sound] = max!(float)(_timeToWait[sound], 
-                  //                               TIME_TO_WAIT[sound] * baseVolume * exp3(-dist));
             }
         }
 
