@@ -523,9 +523,9 @@ final class Game
                 settextpos(x, by);
                 textout(padZero(level, 5, " "));
                 settextpos(x, by + 16);
-                textout(padZero(maxPoints, 5, " "));
+//                textout(padZero(maxPoints, 5, " "));
                 settextpos(x, by + 32);
-                textout(padZero(points, 5, " "));
+//                textout(padZero(points, 5, " "));
             }
             
             drawMinimap(_camera, m_bulletPool);

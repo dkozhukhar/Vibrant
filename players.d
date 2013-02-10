@@ -521,15 +521,11 @@ class Player
             explode(amount * 0.5 + 0.25f);
             if (isHuman)
             {
-                points = 0;
                 BulletTime.exit();
                 timeBeforeReborn = 1.4f;
                 maxenceMode = false;
             }
-            else
-            {
-                winPoints(20);
-            }
+            
             life = -0.001;
         }
     }
@@ -770,13 +766,10 @@ class Player
                 stopDraggingPlayer();
             }
 
-            for (int i = 0; i < bounces; ++i)
-            {
-                energy = 0;
-            }
-
             if (bounces > 0)
             {
+                energy = 0;
+                invincibility = 0.0f;
                 game.soundManager.playSound(pos, 1.f, SOUND.BORDER);
             }
         }
@@ -1142,6 +1135,8 @@ class Player
                     {
                         p1.mov *= 2.f;
                         p2.mov *= 2.f;
+                        p1.invincibility = 0.0f;
+                        p2.invincibility = 0.0f;
                     }                    
                 }
                 else

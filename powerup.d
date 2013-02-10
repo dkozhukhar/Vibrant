@@ -181,18 +181,6 @@ final class Powerup
         if (!caught(s)) return;
         dead = true;
 
-        // can't take powerups while invincible, except blast
-     //   if (s.invincibility > 0 && type != PowerupType.HIROSHIMA)
-     //   {
-     //       game.soundManager.playSound(pos, 1.f, SOUND.FAIL);
-     //       return;
-     //   }
-
-        if (s is player)
-        {
-            winPoints(5);
-        }
-
         switch(type)
         {
             case PowerupType.LIFE:
@@ -283,7 +271,6 @@ final class Powerup
             {
                 if (!s.isInvincible)
                 {
-                    winPoints(45);
                     s.damage(s.damageToExplode);
                 }
                 break;

@@ -121,7 +121,6 @@ final struct Bullet
             if (destroyBullet)
             {
                 dead = true;
-                if (owner is player) winPoints(1);
             }
             else
             {

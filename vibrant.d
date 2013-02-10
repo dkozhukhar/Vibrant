@@ -67,7 +67,7 @@ int mainProcedure(char[][] args)
     float gamma = 1.f;
     bool music = true;
     bool vsync = true;
-    int fsaa = 1;
+    int fsaa = 4;
     bool blur = true;
 
     // parse command-line arguments

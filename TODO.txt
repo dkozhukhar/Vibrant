@@ -1,8 +1,8 @@
 Vibrant v1.7:
 
 
-touching border disable invicibility
-touching invicible ennemies disable both
+[ok] touching border disable invicibility
+[ok] touching invicible ennemies disable both
 decreasing timer
 high-score?
 remove same-life score

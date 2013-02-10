@@ -55,8 +55,6 @@ const char[][] TIPS =
 
 bool maxenceMode = false;
 float bullettimeTime = 0;
-int points = 0;
-int maxPoints = 0;
 int level = 0;
 bool lastTimeButton2WasOff = true;
 float timeBeforeReborn = 0.f;
@@ -64,8 +62,4 @@ float timeBeforeReborn = 0.f;
 bool terminated = false;
 
 
-void winPoints(int n)
-{
-    points += n;
-    if (maxPoints < points) maxPoints = points;
-}
+
