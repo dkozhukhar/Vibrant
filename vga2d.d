@@ -3,7 +3,6 @@ module vga2d;
 import utils, futils, palettes;
 import math.all;
 import misc.logger;
-import fast32;
 import std.stdio;
 import globals;
 import camera;

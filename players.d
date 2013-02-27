@@ -10,7 +10,6 @@ import globals;
 import sdl.all;
 import mousex;
 import math.all;
-import fast32;
 import std.stdio;
 import misc.logger;
 import joy, sound;

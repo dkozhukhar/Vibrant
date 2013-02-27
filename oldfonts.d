@@ -1,6 +1,5 @@
 module oldfonts;
 
-import fast32;
 import utils;
 import math.all;
 import futils;

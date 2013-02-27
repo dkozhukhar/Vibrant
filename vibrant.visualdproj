@@ -468,12 +468,10 @@
     <File path="..\common2\sdl\thread.d" />
    </Folder>
   </Folder>
-  <File path="boxes.d" />
   <File path="bullet.d" />
   <File path="bullettime.d" />
   <File path="camera.d" />
   <File path="cheatcode.d" />
-  <File path="fast32.d" />
   <File path="futils.d" />
   <File path="game.d" />
   <File path="globals.d" />

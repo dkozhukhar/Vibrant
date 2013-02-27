@@ -1,6 +1,5 @@
 module vutils;
 
-import fast32;
 import vga2d;
 import sdl.all;
 import utils, futils;

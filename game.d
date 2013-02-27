@@ -7,10 +7,8 @@ import misc.logger;
 import math.all;;
 import gl.all;
 import vga2d;
-import fast32;
 
 import utils;
-import boxes;
 import oldfonts;
 import vutils;
 import futils;

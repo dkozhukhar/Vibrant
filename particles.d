@@ -1,7 +1,7 @@
 module particles;
 
 
-import fast32, globals, vga2d, utils, futils, palettes, misc.logger, std.string, camera;
+import globals, vga2d, utils, futils, palettes, misc.logger, std.string, camera;
 import math.all;
 import game, map;
 
