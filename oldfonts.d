@@ -7,276 +7,164 @@ import futils;
 import palettes;
 import misc.image;
 
-alias int Tfonttype;
-alias int Ttextattr;
-
-const SMALL_FONT = 3,  // 8x8 characters
-      MEDIUM_FONT = 2, // 8x14 characters
-      LARGE_FONT  = 6; // 8x16 characters
-
-uint textcolor;
-Ttextattr textattr;
-int charheight;
-
-ubyte * selectedfont;
-
-const TEXTBOLD = 1,      // the text is written in bold
-      TEXTITALIC = 2,    // the text is written in italic
-      TEXTUNDERLINE = 4, // the text is written underlined
-      TEXTHFLIP = 8,     // letters are flipped horizontally
-      TEXTVFLIP = 16,    // letters are flipped vertically
-      TEXTREVERSE = 32, // the last letter is written first
-      TEXTSHADOW = 64,
-      TEXTCENTER = 128;
-
-int cursorx = 0;
-int cursory = 0;
-
-bool isAccent(char ch)
+enum FontType
 {
-    return (ch == '`')
-        || (ch == '^')
-        || (ch == '~');
+    SMALL,  // 8x8 characters
+    MEDIUM, // 8x14 characters
+    LARGE   // 8x16 characters
 }
 
-void Settextpos(int x, int y)
-{
-    cursorx = x;
-    cursory = y;
-}
+const TEXT_BOLD = 1,      // the text is written in bold
+      TEXT_ITALIC = 2,    // the text is written in italic
+      TEXT_UNDERLINE = 4, // the text is written underlined
+      TEXT_SHADOW = 64;
 
-alias Settextpos settextpos;
-
-void Settextcolor(uint c)
-{
-    textcolor = c;
-}
-
-void SetTextattr(Ttextattr attr)
-{
-    textattr = attr;
-}
-
-alias SetTextattr Settextattr;
-
-void SetTextsize(Tfonttype size)
-{
-    if (size == SMALL_FONT)
-    {
-        selectedfont = small_font_data.ptr;
-        charheight = 8;
-    }
-    else if (size == MEDIUM_FONT)
-    {
-        selectedfont = medium_font_data.ptr;
-        charheight = 14;
-    }
-    else if (size == LARGE_FONT)
-    {
-        selectedfont = large_font_data.ptr;
-        charheight = 16;
-    }
-    else
-    {
-        assert(0);
-    }
-}
-
-alias SetTextsize settextsize;
-
-private void FontSetpixel(int x, int y)
-{
-    if (0 != (textattr & TEXTSHADOW))
-    {
-        uint color = Average(0, textcolor);
-        setHUDColor(color);
-        mb.drawPixel(x+1,y+1,getHUDColor);
-        if (0 != (textattr & TEXTBOLD))
-        {
-            mb.drawPixel(x+2,y+1, getHUDColor);
-        }
-    }
-    mb.drawPixel(x, y, getHUDColor);
-    if (0 != (textattr & TEXTBOLD))
-    {
-        mb.drawPixel(x + 1, y, getHUDColor);
-    }
-}
-
-void DrawChar(int x, int y, char ch)
-{
-    setHUDColor = textcolor;
-    ubyte c = cast(ubyte)ch;
-    ubyte * p = selectedfont + (charheight * c);
-    ubyte[16] n;
-    for (int i = 0; i < charheight; ++i)
-    {
-        n[i] = p[i];
-    }
-
-    int bxx = void;
-    int byy = void;
-    int by = void;
-    if (0 != (textattr & TEXTVFLIP))
-    {
-        byy = -1;
-        by = y + charheight - 1;
-    }
-    else
-    {
-        by = y;
-        byy = 1;
-    }
-
-    if (0 != (textattr & TEXTHFLIP))
-    {
-        bxx = -1;
-        x = x + 7;
-    }
-    else
-    {
-        bxx = 1;
-    }
-
-    for (int i = 0; i < charheight; ++i)
-    {
-        int bx = x;
-        for (int j = 0; j < 8; ++j)
-        {
-            if ((1 & (n[i] >> (7 - j))) != 0)
-            {
-                if (0 != (textattr & TEXTITALIC))
-                {
-                    FontSetpixel(bx + 1 - (i >> 2), by);
-                }
-                else
-                {
-                    FontSetpixel(bx, by);
-                }
-            }
-            bx += bxx;
-        }
-        by += byy;
-    }
-
-    if (0 != (textattr & TEXTUNDERLINE))
-    {
-        int bx = x;
-        for (int j = 0; j < 8; ++j)
-        {
-            mb.drawPixel(bx, y + charheight - 2, getHUDColor);
-            bx += bxx;
-        }
-    }
-}
-
-void Charout(char c)
-{
-    if (c == '\x0a') // LF
-    {
-        cursorx = 0;
-        cursory += charheight;
-    }
-    else if (c == '\x09') // TAB
-    {
-        cursorx += 64;
-        if (cursorx + 8 >= mb.width)
-        {
-            cursorx = 0;
-            cursory += charheight;
-        }
-    }
-    else if (isAccent(c))
-    {
-        DrawChar(cursorx, cursory - 2, c);
-    }
-    else
-    {
-        DrawChar(cursorx,cursory,c);
-        cursorx += 8;
-        if (cursorx + 8 >= mb.width)
-        {
-            cursorx = 0;
-            cursory += charheight;
-        }
-    }
-}
-
-void Textout(char[] s)
-{
-    if (0 != (textattr & TEXTCENTER))
-    {
-        cursorx = (mb.width - Textwidth(s)) >> 1;
-    }
-    int c = void;
-    int cc = void;
-
-    if (0 != (textattr & TEXTREVERSE))
-    {
-        c = s.length - 1;
-        cc = -1;
-    }
-    else
-    {
-        c = 0;
-        cc = 1;
-    }
-
-    for (int i = 0; i < s.length; ++i)
-    {
-        Charout(s[c]);
-        c += cc;
-    }
-}
-
-alias Textout textout;
-
-int Textheight(char[] s)
-{
-    int r = charheight;
-    for (int i = 0; i < s.length; ++i)
-    {
-        if (s[i] == '\x0a')
-        {
-            r += charheight;
-        }
-    }
-    return r;
-}
-alias Textheight textheight;
-
-int Textwidth(char[] s)
-{
-    int r = charheight;
-    int m = 0;
-    for (int i = 0; i < s.length; ++i)
-    {
-        if (s[i] == '\x0a')
-        {
-            r += charheight;
-            m = max(r, m);
-            r = 0;
-        }
-        else if (s[i] == '\x09')
-        {
-            r += 64;
-        }
-        if (!isAccent(s[i]))
-        {
-            r += 8;
-        }
-    }
-    return max(r,m);
-}
-
-alias Textwidth textwidth;
+TextRenderer text;
 
 static this()
 {
-    SetTextsize(LARGE_FONT);
-    Settextattr(0);
-    Settextcolor(0xC0C0C0);
+    text = new TextRenderer();
 }
+
+class TextRenderer
+{
+    public
+    {
+        this()
+        {
+            setFont(FontType.LARGE);
+        }
+
+        void setCursorPosition(int x, int y)
+        {
+            _cursorX = x;
+            _cursorY = y;
+        }
+
+        void setColor(uint c)
+        {
+            _textColor = c;
+        }
+
+        void setAttr(int attr)
+        {
+            _textAttr = attr;
+        }
+
+        void setFont(FontType font)
+        {
+            if (font == FontType.SMALL)
+            {
+                _selectedFont = small_font_data.ptr;
+                _charHeight = 8;
+            }
+            else if (font == FontType.MEDIUM)
+            {
+                _selectedFont = medium_font_data.ptr;
+                _charHeight = 14;
+            }
+            else if (font == FontType.LARGE)
+            {
+                _selectedFont = large_font_data.ptr;
+                _charHeight = 16;
+            }
+        }
+
+        void outputChar(char c)
+        {
+            drawChar(_cursorX, _cursorY, c, _textColor);
+            _cursorX += 8;
+        }
+
+        void outputString(char[] s)
+        {
+            foreach(char c; s)
+                outputChar(c);
+        }
+
+        void drawString(int cursorX, int cursorY, char[] s)
+        {
+            setCursorPosition(cursorX, cursorY);
+            outputString(s);
+        }
+    }
+
+    private
+    {
+        uint _textColor = 0xC0C0C0;
+        int _textAttr = 0;
+        int _charHeight;
+        ubyte * _selectedFont;
+        int _cursorX = 0;
+        int _cursorY = 0;       
+
+        void setPixel(int x, int y, uint color)
+        {
+            if (0 != (_textAttr & TEXT_SHADOW))
+            {
+                uint darkColor = Average(0, color);
+                mb.drawPixel(x + 1, y + 1, darkColor);
+                if (0 != (_textAttr & TEXT_BOLD))
+                {
+                    mb.drawPixel(x + 2, y + 1, darkColor);
+                }
+            }
+            mb.drawPixel(x, y, color);
+            if (0 != (_textAttr & TEXT_BOLD))
+            {
+                mb.drawPixel(x + 1, y, color);
+            }
+        }
+
+        void drawChar(int x, int y, char ch, uint color)
+        {
+            ubyte c = cast(ubyte)ch;
+            ubyte * p = _selectedFont + (_charHeight * c);
+            ubyte[16] n;
+            for (int i = 0; i < _charHeight; ++i)
+                n[i] = p[i];
+       
+            int bxx = 1;
+            int byy = 1;
+            int by = y;
+
+            for (int i = 0; i < _charHeight; ++i)
+            {
+                int bx = x;
+                for (int j = 0; j < 8; ++j)
+                {
+                    if ((1 & (n[i] >> (7 - j))) != 0)
+                    {
+                        if (0 != (_textAttr & TEXT_ITALIC))
+                        {
+                            setPixel(bx + 1 - (i >> 2), by, color);
+                        }
+                        else
+                        {
+                            setPixel(bx, by, color);
+                        }
+                    }
+                    bx += bxx;
+                }
+                by += byy;
+            }
+
+            if (0 != (_textAttr & TEXT_UNDERLINE))
+            {
+                int bx = x;
+                for (int j = 0; j < 8; ++j)
+                {
+                    mb.drawPixel(bx, y + _charHeight - 2, color);
+                    bx += bxx;
+                }
+            }
+        }
+    }
+}
+
+
+
+
 
 
 private ubyte[256 * 16] large_font_data =

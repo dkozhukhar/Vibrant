@@ -87,6 +87,7 @@
   <deffile />
   <resfile />
   <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <useStdLibPath>1</useStdLibPath>
   <additionalOptions />
   <preBuildCommand />
   <postBuildCommand />
@@ -179,6 +180,7 @@
   <deffile />
   <resfile />
   <exefile>$(OutDir)\$(ProjectName).exe</exefile>
+  <useStdLibPath>1</useStdLibPath>
   <additionalOptions />
   <preBuildCommand />
   <postBuildCommand />
@@ -480,6 +482,7 @@
   <File path="map.d" />
   <File path="mousex.d" />
   <File path="oldfonts.d" />
+  <File path="overlay.d" />
   <File path="palettes.d" />
   <File path="particles.d" />
   <File path="players.d" />

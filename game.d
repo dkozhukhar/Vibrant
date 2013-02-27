@@ -380,33 +380,22 @@ final class Game
 
             if (_localTime >= 5.0 && _localTime < 21.0)
             {
-                textattr = 0;
-                auto color = rgba(250, 255, 128, 128);
-                textcolor = 0xFF8080FF;
-                settextsize(SMALL_FONT);
+                text.setAttr(0);
+                text.setColor(0xFF8080FF);
+                text.setFont(FontType.SMALL);
 
                 int BX = 200;
                 auto BY = 101 + 1 * 16;
 
                 WindowBox(BX - 16, BY - 28, BX + 30 * 8 + 16, BY + 36 + 16 * 6, 0x8F8080FF);
 
-           //     if (_localTime >= 5.0 && _localTime < 13.0)
-                {
-                    settextpos(BX, BY);
-                    textout("      The Homeric wars.       ");
-                    settextpos(BX, BY + 16);
-                    textout("  In these times of trouble,  ");
-                    settextpos(BX, BY + 32);
-                    textout("  it was common for the best  ");
-                    settextpos(BX, BY + 48);
-                    textout("  warrior of a defeated tribe ");
-                    settextpos(BX, BY + 64);
-                    textout("    to face an humiliating    ");
-                    settextpos(BX, BY + 80);
-                    textout("  execution, fighting against ");
-                    settextpos(BX, BY + 96);
-                    textout("   members of his own house.  ");
-                }
+                text.drawString(BX, BY     , "      The Homeric wars.       ");
+                text.drawString(BX, BY + 16, "  In these times of trouble,  ");
+                text.drawString(BX, BY + 32, "  it was common for the best  ");
+                text.drawString(BX, BY + 48, "  warrior of a defeated tribe ");
+                text.drawString(BX, BY + 64, "    to face an humiliating    ");
+                text.drawString(BX, BY + 80, "  execution, fighting against ");
+                text.drawString(BX, BY + 96, "   members of his own house.  ");
             }
 
 
@@ -420,86 +409,74 @@ final class Game
                 auto BX = 101 + 2 * 8;
                 auto BY = 101 + 3 * 16;
 
-                textattr = 0;
-                textcolor = clwhite;
+                text.setAttr(0);
+                text.setColor(0xFFFFFFFF);
+                text.setFont(FontType.SMALL);
 
-                settextsize(SMALL_FONT);
-                settextpos(BX, BY);
-                textout("                   Vibrant v1.6");
-                settextpos(BX, BY + 16);
-                textcolor = 0xffff7477;
-                 textout("               www.gamesfrommars.fr    ");
+                text.drawString(BX, BY,      "                   Vibrant v1.6");
+                text.setColor(0xffff7477);
+
+                text.drawString(BX, BY + 16, "               www.gamesfrommars.fr    ");
 
                 {
                     BY = 100 + 16 * 13;
 
                     char[] tip = "Tip: " ~ TIPS[_tipIndex];
 
-                    settextpos(320 - 4 * tip.length, BY);
-                    textcolor = 0xff7477ff;
-                    textout(tip);
+                    text.setCursorPosition(320 - 4 * tip.length, BY);
+                    text.setColor(0xff7477ff);
+                    text.outputString(tip);
 
-                    char[] msg = "Now press FIRE to continue";
-                    settextpos(320 - 4 * msg.length, BY + 20);
-                    textcolor = clwhite;
-                    if (_timeBeforeReborn == 0.f) textout(msg);
-
+                    if (_timeBeforeReborn == 0.f)
+                    {
+                        char[] msg = "Now press FIRE to continue";
+                        text.setCursorPosition(320 - 4 * msg.length, BY + 20);
+                        text.setColor(clwhite);
+                        text.outputString(msg);
+                    }
                 }
 
                 {
                     BX = 101 + 8 * 8;
                     BY = 101 + 4 * 16 - 4;
-                    textcolor = clwhite;
-                    settextpos(BX, BY + 48);
-                    textout("       Keys");
-                    textcolor = clgrey;
-                    settextpos(BX, BY + 64);
-                    textout("   move: ");
-                    textout("ARROWS");
-                    settextpos(BX, BY + 80);
-                    textcolor = clgrey;
-                    textout("   fire: ");
-                    textout("CTRL, C");
-                    settextpos(BX, BY + 96);
-                    textcolor = clgrey;
-                    textout("   turbo: ");
-                    textout("SHIFT, X");
-                    settextpos(BX, BY + 112);
-                    textcolor = clgrey;
-                    textout("   catch: ");
-                    textout("SPACE, Z");
+                    text.setColor(clwhite);
+                    text.setCursorPosition(BX, BY + 48);
+                    text.outputString("       Keys");
+                    text.setColor(clgrey);
+                    text.setCursorPosition(BX, BY + 64);
+                    text.outputString("   move: ARROWS");
+                    text.setCursorPosition(BX, BY + 80);
+                    text.outputString("   fire: CTRL, C");
+                    text.setCursorPosition(BX, BY + 96);
+                    text.outputString("   turbo: SHIFT, X");
+                    text.setCursorPosition(BX, BY + 112);
+                    text.outputString("   catch: SPACE, Z");
                 }
 
                 {
                     BX = 101 + 27 * 8;
                     BY = 101 + 4 * 16 - 4;
-                    textcolor = clwhite;
-                    settextpos(BX, BY + 48);
-                    textout("      Credits");
-                    textcolor = clgrey;
-
-                    settextpos(BX, BY + 64);
-                    textcolor = clgrey;
-                    textout("   code: ");
-                    textout("#ponce");
-
-                    settextpos(BX, BY + 80);
-                    textout("   music: ");
-                    textout("DeciBeats");
-                    settextpos(BX + 8 * 10, BY + 96);
-                    textout("aka Evil");
+                    text.setColor(clwhite);
+                    text.setCursorPosition(BX, BY + 48);
+                    text.outputString("      Credits");
+                    text.setColor(clgrey);
+                    text.setCursorPosition(BX, BY + 64);                    
+                    text.outputString("   code: ponce");
+                    text.setCursorPosition(BX, BY + 80);
+                    text.outputString("   music: DeciBeats");
+                    text.setCursorPosition(BX + 8 * 10, BY + 96);
+                    text.outputString("aka Evil");
                 }
             }
 
             if (_paused)
             {
                 WindowBox(280, 222, 360, 262, 0xffffffff);
-                //WindowBox(320 - 32, 320 + 32, 240 - 10, 240 + 10, 0xffffffff);
-                textattr = 0;
-                textcolor = clwhite;
-                settextsize(SMALL_FONT);
-                settextpos(320 - 8 * 3, 240);
-                textout("Paused");
+                text.setAttr(0);
+                text.setColor(clwhite);
+                text.setFont(FontType.SMALL);
+                text.setCursorPosition(320 - 8 * 3, 240);
+                text.outputString("Paused");
             }
 
             GL.disable(GL.BLEND);
@@ -553,15 +530,12 @@ final class Game
             {
                 int x = 44;
                 int by = 10;
-                settextsize(LARGE_FONT);
-                textattr = 0;
-                textcolor = 0xffff7477;
-                settextpos(x, by);
-                textout(padZero(level, 5, " "));
-                settextpos(x, by + 16);
-//                textout(padZero(maxPoints, 5, " "));
-                settextpos(x, by + 32);
-//                textout(padZero(points, 5, " "));
+                text.setFont(FontType.LARGE);
+                text.setAttr(0);
+                text.setColor(0xffff7477);
+                text.setCursorPosition(x, by);
+                text.outputString(padZero(level, 5, " "));
+                
             }
             
             drawMinimap(_camera, m_bulletPool);

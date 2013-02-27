@@ -10,5 +10,6 @@ faster drawing of terrain
 different terrain for levels?
 powerup maxing for weapons should do something
 [ok] fix message
-
-add story
+[ok] fix life powerups for big ships
+[ok] add story
+change font

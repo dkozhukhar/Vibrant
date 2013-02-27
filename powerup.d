@@ -424,12 +424,12 @@ final class Powerup
 
         if ((_dragger !is null) && (_dragger.isHuman))
         {
-            settextsize(SMALL_FONT);
+            text.setFont(FontType.SMALL);
             auto textpos = transform(pos) + vec2f(8,-3);
-            settextpos(round(textpos.x),round(textpos.y));
-            Settextattr(0);
-            textcolor = 0xffffffff;
-            textout(POWERUP_NAMES[type]);
+            text.setCursorPosition(round(textpos.x), round(textpos.y));
+            text.setAttr(0);
+            text.setColor(0xffffffff);
+            text.outputString(POWERUP_NAMES[type]);
         }
     }
 }
