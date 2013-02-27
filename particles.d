@@ -5,35 +5,12 @@ import globals, vga2d, utils, futils, palettes, misc.logger, std.string, camera;
 import math.all;
 import game, map;
 
-//version = useVBO;
-
 private struct Tparticul
 {
     vec2f pos;
     vec2f mov;
     uint color;
     float life;
-}
-
-version(useVBO)
-{
-    import gl.vbo, gl.buffer;
-
-    struct ParticleVertex
-    {
-        vec2f pos;
-        float _filler[2];
-        vec4f color;
-
-
-        static ParticleVertex opCall(vec2f pos, vec4f color)
-        {
-            ParticleVertex p = void;
-            p.pos = pos;
-            p.color = color;
-            return p;
-        }
-    }
 }
 
 final class ParticleManager
@@ -47,12 +24,7 @@ final class ParticleManager
         Tparticul[] particulstack;
         int particleIndex;
         Game game;
-        Camera _camera;
-        version(useVBO)
-        {
-            alias VBO!(ParticleVertex) ParticleVBO;
-            ParticleVBO m_vbo1, m_vbo2, m_vbo3;
-        }
+        Camera _camera;        
     }
 
     public
@@ -64,26 +36,6 @@ final class ParticleManager
             particleIndex = 0;
             this.game = game;
             _camera = camera;
-
-            version(useVBO)
-            {
-                debug(2) crap(">create VBO");
-                m_vbo1 = new ParticleVBO(ParticleVBO.Storage.STREAM);
-                m_vbo1.addAttribute(ParticleVBO.Attribute.POSITION, 2, ParticleVBO.Type.FLOAT);
-                m_vbo1.addDummyBytes(8);
-                m_vbo1.addAttribute(ParticleVBO.Attribute.COLOR, 4, ParticleVBO.Type.FLOAT);
-
-                m_vbo2 = new ParticleVBO(ParticleVBO.Storage.STREAM);
-                m_vbo2.addAttribute(ParticleVBO.Attribute.POSITION, 2, ParticleVBO.Type.FLOAT);
-                m_vbo2.addDummyBytes(8);
-                m_vbo2.addAttribute(ParticleVBO.Attribute.COLOR, 4, ParticleVBO.Type.FLOAT);
-
-                m_vbo3 = new ParticleVBO(ParticleVBO.Storage.STREAM);
-                m_vbo3.addAttribute(ParticleVBO.Attribute.POSITION, 2, ParticleVBO.Type.FLOAT);
-                m_vbo3.addDummyBytes(8);
-                m_vbo3.addAttribute(ParticleVBO.Attribute.COLOR, 4, ParticleVBO.Type.FLOAT);
-                debug(2) crap("<create VBO");
-            }
         }
 
         void add(vec2f pos, vec2f baseVel, float mainangle, float mainspeed, float angle, float speed, uint color, int life)
