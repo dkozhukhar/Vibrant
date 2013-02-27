@@ -19,19 +19,14 @@ const TEXT_BOLD = 1,      // the text is written in bold
       TEXT_UNDERLINE = 4, // the text is written underlined
       TEXT_SHADOW = 64;
 
-TextRenderer text;
-
-static this()
-{
-    text = new TextRenderer();
-}
 
 class TextRenderer
 {
     public
     {
-        this()
+        this(Image image)
         {
+            _image = image;
             setFont(FontType.LARGE);
         }
 
@@ -97,22 +92,23 @@ class TextRenderer
         ubyte * _selectedFont;
         int _cursorX = 0;
         int _cursorY = 0;       
+        Image _image;
 
         void setPixel(int x, int y, uint color)
         {
             if (0 != (_textAttr & TEXT_SHADOW))
             {
                 uint darkColor = Average(0, color);
-                mb.drawPixel(x + 1, y + 1, darkColor);
+                _image.drawPixel(x + 1, y + 1, darkColor);
                 if (0 != (_textAttr & TEXT_BOLD))
                 {
-                    mb.drawPixel(x + 2, y + 1, darkColor);
+                    _image.drawPixel(x + 2, y + 1, darkColor);
                 }
             }
-            mb.drawPixel(x, y, color);
+            _image.drawPixel(x, y, color);
             if (0 != (_textAttr & TEXT_BOLD))
             {
-                mb.drawPixel(x + 1, y, color);
+                _image.drawPixel(x + 1, y, color);
             }
         }
 
@@ -154,7 +150,7 @@ class TextRenderer
                 int bx = x;
                 for (int j = 0; j < 8; ++j)
                 {
-                    mb.drawPixel(bx, y + _charHeight - 2, color);
+                    _image.drawPixel(bx, y + _charHeight - 2, color);
                     bx += bxx;
                 }
             }

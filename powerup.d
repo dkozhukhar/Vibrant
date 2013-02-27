@@ -417,7 +417,7 @@ final class Powerup
         }
     }
 
-    void show3()
+    void show3(TextRenderer text)
     {
         if (!_isVisible)
             return;
@@ -434,7 +434,7 @@ final class Powerup
     }
 }
 
-void showPowerups()
+void showPowerups(TextRenderer text)
 {
     for (int i = 0; i < powerupIndex; ++i)
         powerupPool[i].updateVisibility();
@@ -451,7 +451,7 @@ void showPowerups()
     GL.end;
 
     for (int i = 0; i < powerupIndex; ++i)
-        powerupPool[i].show3();
+        powerupPool[i].show3(text);
 }
 
 const MAX_POWERUPS = 200;
