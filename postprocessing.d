@@ -55,15 +55,7 @@ final class PostProcessing
             GL.disable(GL.DEPTH_TEST, GL.ALPHA_TEST, GL.CULL_FACE, GL.BLEND);
             GL.viewport = box2i(0, 0, m_viewport.width, m_viewport.height);
 
-
-
-        /*    mat4d modelViewMatrix = mat4d.scale(vec3d(2.f * invzoomfactor / SCREENY / ratio, 2.f * invzoomfactor / SCREENY,1.f))
-                                    * mat4d.rotateZ(-cam.angle)
-                                    * mat4d.translate(vec3d(-cam.pos.to!(double), 0.f));
-
-        *///    viewTransform = modelViewMatrix;//mat4d.translate(vec3d(-cam.pos.to!(double), 0.f));
-
-        viewTransform  = mat4f.identity;
+            viewTransform  = mat4f.identity;
             if (firstFrame)
             {
                 oldViewTransform = viewTransform;
@@ -79,7 +71,6 @@ final class PostProcessing
             m_mainBuffer.generateMipmaps();
 
             m_defaultFBO.use();
-         //   m_defaultFBO.setDrawBuffers(0);
 
             GL.viewport = m_viewport;
 
@@ -106,9 +97,6 @@ final class PostProcessing
             }
 
             m_finalShader.unuse();
-
-
-
         }
     }
 }
