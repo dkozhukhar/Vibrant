@@ -362,7 +362,7 @@ final class Powerup
     {
         if (_isLinkVisible)
         {
-            GL.color = RGBAF(0xff808080);
+            GL.color = RGBAF(0xff606060);
             vertexf(pos);
             vertexf(_dragger.pos);
         }

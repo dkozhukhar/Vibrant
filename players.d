@@ -306,7 +306,7 @@ class Player
         if (_catchedPlayer !is null)
         {
             GL.begin(GL.LINES);
-                GL.color = RGBAF(0xff808080);
+                GL.color = RGBAF(0xff606060);
                 vertexf(pos);
                 vertexf(_catchedPlayer.pos);
             GL.end();
@@ -528,6 +528,21 @@ class Player
         }
     }
 
+    uint particleColor()
+    {
+        vec3f r = color;
+      
+        if (invincibility > 0)
+            r.z = 1;
+
+        if (attitude == Attitude.KAMIKAZE)
+            r.x = 1;
+
+        r.z = min(1.f, r.z + mapEnergyGain * 0.02f);
+
+        return Frgb(r);
+    }
+
     void explode(float explode_power)
     {
         if (isAlive())
@@ -540,12 +555,13 @@ class Player
             angle = PI_F + normalizeAngle(angle - PI_F);
 
             int nParticul = round((100 + random.nextRange(60)) * PARTICUL_FACTOR * (shipSize / 7.f));
+            auto cc = particleColor();
             for (int i = 0; i <= nParticul; ++i)            
             {
                 int life = round(sqr(random.nextFloat) * random.nextRange(800 - round(400 * explode_power))) + 5;
                 game.particles.add(pos, sqr(random.nextFloat) * mov * invMass,  0, 0, random.nextAngle,
                                    (sqr(random.nextFloat) + sqr(random.nextFloat) * 0.3f) * 7.0f * explode_power,
-                            Frgb(color), life);
+                            cc, life);
             }
 
             // move nearby powerups
@@ -998,7 +1014,7 @@ class Player
         mov += thrust * 60.f * dt;
 
         int nParticul = cast(int)(0.4f + (1 + round(r * r * 2)) * PARTICUL_FACTOR * 85 * dt);
-        uint pcolor = Frgb(color);
+        uint pcolor = particleColor();
         for (int i = 0; i < nParticul; ++i)
         {
             float where = random.nextFloat - 0.5f;
