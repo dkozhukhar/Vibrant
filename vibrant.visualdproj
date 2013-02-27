@@ -189,17 +189,6 @@
  <Folder name="vibrant">
   <Folder name="common2">
    <Folder name="derelict">
-    <Folder name="devil">
-     <File path="..\common2\derelict\devil\il.d" />
-     <File path="..\common2\derelict\devil\ilfuncs.d" />
-     <File path="..\common2\derelict\devil\iltypes.d" />
-     <File path="..\common2\derelict\devil\ilu.d" />
-     <File path="..\common2\derelict\devil\ilufuncs.d" />
-     <File path="..\common2\derelict\devil\ilut.d" />
-     <File path="..\common2\derelict\devil\ilutfuncs.d" />
-     <File path="..\common2\derelict\devil\iluttypes.d" />
-     <File path="..\common2\derelict\devil\ilutypes.d" />
-    </Folder>
     <Folder name="opengl">
      <Folder name="extension">
       <Folder name="arb">
@@ -438,7 +427,6 @@
    <Folder name="misc">
     <File path="..\common2\misc\all.d" />
     <File path="..\common2\misc\colors.d" />
-    <File path="..\common2\misc\devilimage.d" />
     <File path="..\common2\misc\framecounter.d" />
     <File path="..\common2\misc\image.d" />
     <File path="..\common2\misc\inifile.d" />
