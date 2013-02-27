@@ -151,10 +151,6 @@ class VibrantProgram : SDLApp
 
         override void onKeyDown(int key, int mod, wchar ch)
         {
-            if (key == SDLK_ESCAPE)
-            {
-                terminated = true;
-            }
 
             debug
             {

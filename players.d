@@ -153,7 +153,7 @@ class Player
 
     void startDragPowerup(Powerup p)
     {
-        checkDragInvariant();
+        debug checkDragInvariant();
         assert(_numDraggedPowerups < MAX_DRAGGED_POWERUPS);
         
         // check for non-presence
@@ -163,12 +163,12 @@ class Player
         _draggedPowerups[_numDraggedPowerups++] = p;
                   
         game.soundManager.playSound(p.pos, 0.7f + random.nextFloat * 0.3f, SOUND.CATCH_POWERUP);
-        checkDragInvariant();
+        debug checkDragInvariant();
     }
 
     void stopDragPowerup(Powerup p)
     {        
-        checkDragInvariant();
+        debug checkDragInvariant();
         bool found = false;
         int i = 0;
         while (i < _numDraggedPowerups)
@@ -187,7 +187,7 @@ class Player
             }
         }
         assert(found);
-        checkDragInvariant();
+        debug checkDragInvariant();
     }
 
     void stopDraggingPlayer()
@@ -208,7 +208,7 @@ class Player
             _draggedPowerups[0].setDragger(null);
             ++i;
         }      
-        checkDragInvariant();
+        debug checkDragInvariant();
     }    
 
     float invMass()
@@ -370,7 +370,7 @@ class Player
                 float fi = i / 32.f;
                 float angle = TAU_F * fi;
                 vec3f c = mix(  mix(vec3f(1,1,0), color, fi), vec3f(0), (i+1) / 32.f);
-                GL.color = c;
+                GL.color = vec4f(c, 0.5f + 0.5f * (life - 1));
                 float cosa = void, sina = void;
                 sincos(angle, sina, cosa);
                 vertexf(cosa * SHIELD_SIZE_FACTOR, sina * SHIELD_SIZE_FACTOR);
@@ -522,7 +522,6 @@ class Player
             if (isHuman)
             {
                 BulletTime.exit();
-                timeBeforeReborn = 1.4f;
             }
             
             life = -0.001;

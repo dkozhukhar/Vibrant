@@ -352,7 +352,7 @@ final class Powerup
         if (random.nextFloat < dt * 2.f) swap(finalcolor2,finalcolor1);
         if (random.nextFloat < dt * 2.f) swap(finalcolor3,finalcolor2);
 
-        counter += dt;
+        counter += dt * 0.75f;
 
         dPos = pos - lastPos;
 
@@ -373,7 +373,7 @@ final class Powerup
         if (_isVisible)
         {
             vec2f p = pos;
-            mat2f m = mat2f.scale(1.5f);
+            mat2f m = mat2f.scale(1.45f);
 
             mat2f m2 = m * mat2f.rotate(counter * 6);
             mat2f m3 = mat2f.rotate(TAU_F / 3.f);
@@ -382,19 +382,19 @@ final class Powerup
             m2 *= mat2f.scale(0.7+0.3*cosa, 0.7+0.3*sina);
 
             GL.color = color1;
-            vertexf(p + m2 * vec2f(0,0));
+            vertexf(p);
             vertexf(p + m2 * vec2f(0,4));
             vertexf(p + m2 * vec2f(-3.4614,-2));
 
             m2 *= m3;
             GL.color = color2;
-            vertexf(p + m2 * vec2f(0,0));
+            vertexf(p);
             vertexf(p + m2 * vec2f(0,4));
             vertexf(p + m2 * vec2f(-3.4614,-2));
 
             m2 *= m3;
             GL.color = color3;
-            vertexf(p + m2 * vec2f(0,0));
+            vertexf(p);
             vertexf(p + m2 * vec2f(0,4));
             vertexf(p + m2 * vec2f(-3.4614,-2));
 

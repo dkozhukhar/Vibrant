@@ -54,12 +54,12 @@ final class Game
         int _tipIndex;
         Random _random;
         float _zoomFactor;
-        float _invZoomFactor;
         double _localTime;
 
         Camera _camera;
 
         bool _paused;
+        float _timeBeforeReborn = 0.f;
 
         void renewTipIndex()
         {
@@ -69,7 +69,6 @@ final class Game
         void setZoomfactor(float zoom)
         {
             _zoomFactor = clamp(zoom, 0.5f, 1.5f);
-            _invZoomFactor = 1.f / _zoomFactor;
         }
     }
 
@@ -100,7 +99,6 @@ final class Game
 
             _camera = new Camera();
 
-        //    assert(usePostProcessing);
             m_usePostProcessing = usePostProcessing;
             mb = new Image(SCREENX, SCREENY);
 
@@ -206,7 +204,7 @@ final class Game
 
         void newGame()
         {
-            if (((player is null) || player.dead) && (timeBeforeReborn <= 0))
+            if (((player is null) || player.dead) && (_timeBeforeReborn <= 0))
             {
                 _mainPlayerMustReborn = true;
                 _camera.nodizzy();
@@ -236,7 +234,7 @@ final class Game
 
             if (joyButton(1)) newGame();
 
-            timeBeforeReborn = max!(float)(timeBeforeReborn - dt, 0.f);
+            _timeBeforeReborn = max!(float)(_timeBeforeReborn - dt, 0.f);
 
             BulletTime.progress(dt);
 
@@ -251,6 +249,7 @@ final class Game
                 renewTipIndex();
             }
 
+            bool playerWasAlive = player !is null && !player.dead;
 
             if ((_localTime > 22) && (allEnemiesAreDead())) // new game
             {
@@ -322,6 +321,11 @@ final class Game
                 _camera.setTarget(targetPos, targetAngle);
             }
 
+            bool playerIsDead = player !is null && player.dead;
+
+            if (playerWasAlive && playerIsDead)
+                _timeBeforeReborn = 1.4f;
+
             _camera.progress(dt, isRotateViewNow);
 
         }
@@ -374,6 +378,38 @@ final class Game
 
             mb.data[] = m_ui.data[];
 
+            if (_localTime >= 5.0 && _localTime < 21.0)
+            {
+                textattr = 0;
+                auto color = rgba(250, 255, 128, 128);
+                textcolor = 0xFF8080FF;
+                settextsize(SMALL_FONT);
+
+                int BX = 200;
+                auto BY = 101 + 1 * 16;
+
+                WindowBox(BX - 16, BY - 28, BX + 30 * 8 + 16, BY + 36 + 16 * 6, 0x8F8080FF);
+
+           //     if (_localTime >= 5.0 && _localTime < 13.0)
+                {
+                    settextpos(BX, BY);
+                    textout("      The Homeric wars.       ");
+                    settextpos(BX, BY + 16);
+                    textout("  In these times of trouble,  ");
+                    settextpos(BX, BY + 32);
+                    textout("  it was common for the best  ");
+                    settextpos(BX, BY + 48);
+                    textout("  warrior of a defeated tribe ");
+                    settextpos(BX, BY + 64);
+                    textout("    to face an humiliating    ");
+                    settextpos(BX, BY + 80);
+                    textout("  execution, fighting against ");
+                    settextpos(BX, BY + 96);
+                    textout("   members of his own house.  ");
+                }
+            }
+
+
             if ((player !is null) && (player.dead) && (!_paused))
             {
 
@@ -406,7 +442,7 @@ final class Game
                     char[] msg = "Now press FIRE to continue";
                     settextpos(320 - 4 * msg.length, BY + 20);
                     textcolor = clwhite;
-                    if (timeBeforeReborn == 0.f) textout(msg);
+                    if (_timeBeforeReborn == 0.f) textout(msg);
 
                 }
 
@@ -470,7 +506,7 @@ final class Game
             GL.disable(GL.ALPHA_TEST);
 
             mat4f projectionMatrix = mat4f.scale(1 / ratio, 1.f, 1.f);
-            float viewScale = 2.f * _invZoomFactor /  mb.height;
+            float viewScale = 2.f * (1.0f / _zoomFactor) /  mb.height;
             mat4f modelViewMatrix = mat4f.scale(vec3f(viewScale, viewScale,1.f))
                                     * mat4f.rotateZ(-_camera.angle())
                                     * mat4f.translate(vec3f(-_camera.position(), 0.f));

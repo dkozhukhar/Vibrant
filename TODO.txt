@@ -4,9 +4,11 @@ Vibrant v1.7:
 [ok] touching border disable invicibility
 [ok] touching invicible ennemies disable both
 decreasing timer
-high-score?
 remove same-life score
 remove/replace cell powerup
 faster drawing of terrain
 different terrain for levels?
 powerup maxing for weapons should do something
+[ok] fix message
+
+add story

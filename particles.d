@@ -188,9 +188,12 @@ final class ParticleManager
                 for (int i = 0; i < particleIndex; ++i)
                 with(particulstack[i])
                 {
-                    uint colorswapped = swapRB(color);
-                    GL.color(colorswapped);
-                    GL.vertex(pos);
+                    if (life > 0.2f)
+                    {
+                        uint colorswapped = swapRB(color);
+                        GL.color(colorswapped);
+                        GL.vertex(pos);
+                    }
                 }
                 GL.end();
 
@@ -199,9 +202,12 @@ final class ParticleManager
                 for (int i = 0; i < particleIndex; ++i)
                 with(particulstack[i])
                 {
-                    uint colorswapped = swapRB(average(clwhite,color));
-                    GL.color(colorswapped);
-                    GL.vertex(pos);
+                    if (life > 0.4f)
+                    {
+                        uint colorswapped = swapRB(average(clwhite,color));
+                        GL.color(colorswapped);
+                        GL.vertex(pos);
+                    }
                 }
                 GL.end();
             }

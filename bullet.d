@@ -23,6 +23,7 @@ final struct Bullet
     int guided;
     float remainingtime;
     float _damage;
+    float liveliness;
 
     static Bullet opCall(Game game, vec2f pos, vec2f mov, vec3f color, float angle, 
                           int guided, Player owner, float damage)
@@ -213,13 +214,18 @@ final struct Bullet
         }
 
         remainingtime -= dt;
+        if (remainingtime <= 0) dead = true;
+
         if (remainingtime < 16.f / 60.f)
         {
-            color.x -= max(0.f, color.x - random.nextRange(32) / 255.f);
-            color.y -= max(0.f, color.y - random.nextRange(32) / 255.f);
-            color.z -= max(0.f, color.z - random.nextRange(32) / 255.f);
+            liveliness = remainingtime / (16.f / 60.f);
         }
-        if (remainingtime <= 0) dead = true;
+        else if (dead)
+        {
+            liveliness = 0.0f;
+        }
+        else
+            liveliness = 1.0f;
 
         this.dPos = pos - lastPos;
     }
@@ -237,8 +243,12 @@ final struct Bullet
             scale = 1.3f;
         }
 
+
         mat2f m = mat2f.rotate(angle) * scale;
         vec3f c2 = colorBase + vec3f(2.f / 255.f, 20.f / 255.f, 20.f / 255.f);
+
+        colorBase *= liveliness;
+        c2 *= liveliness;
 
         GL.color = colorBase * 0.5f;
         vec2f displacement = pos - lastPos;
@@ -274,7 +284,7 @@ class BulletPool
             if (_bulletIndex >= MAX_BULLETS)
                 return;
 
-            float damage = (owner.isInvincible()) ? 2.f : 1.f;            
+            float damage = owner.isInvincible() ? 2.f : 1.f;            
             _bulletPool[_bulletIndex++] = Bullet(game, pos, mov, color, angle, guided, owner, damage);
         }
 

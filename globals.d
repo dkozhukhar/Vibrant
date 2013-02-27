@@ -41,9 +41,10 @@ const char[][] TIPS =
   "Borders can give you energy.",
   "Borders deplete your energy.",
   "Borders break captures.",
+  "Borders terminate invicibility.",
   "Don't get too fat.",
-  "No, we won't remove inertia.",
-  "Blue bullets.",
+  "No, inertia won't be removed.",
+  "Blue bullets inflict 2x damage.",
   "Take a look at our other products!",
   "Visit our website to get updates.",  
   "Enemies get smarter and smarter.",
@@ -56,9 +57,6 @@ const char[][] TIPS =
 float bullettimeTime = 0;
 int level = 0;
 bool lastTimeButton2WasOff = true;
-float timeBeforeReborn = 0.f;
-
-bool terminated = false;
 
 
 
