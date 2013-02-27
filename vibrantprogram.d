@@ -22,6 +22,7 @@ class VibrantProgram : SDLApp
 
         wchar[] cheatString;
         Texture2D m_blurTex;
+        Tmouse _mouse;
 
     //    double mA1, mA2;
 
@@ -110,7 +111,7 @@ class VibrantProgram : SDLApp
 
             // restart a game
             {
-                bool mouseLeft = 0 != (mouse.buttons & MOUSE_LEFT);
+                bool mouseLeft = 0 != (_mouse.buttons & MOUSE_LEFT);
                 bool isFire = iskeydown(SDLK_LCTRL) || iskeydown(SDLK_RCTRL) || iskeydown(SDLK_c) || mouseLeft || joyButton(1);
 
                 if (isFire)
@@ -128,7 +129,7 @@ class VibrantProgram : SDLApp
                 if (iskeydown(SDLK_PAGEUP))
                     m_game.addZoomFactor(- 1.2f * dt);
             }
-            m_game.progress(dt);
+            m_game.progress(_mouse, dt);
         }
 
         override void onKeyUp(int key, int mod, wchar ch)
@@ -164,40 +165,40 @@ class VibrantProgram : SDLApp
 
         override void onMouseMove(int x, int y, int dx, int dy)
         {
-            mouse.x = x;
-            mouse.y = y;
-            mouse.vx = dx;
-            mouse.vy = dx;
+            _mouse.x = x;
+            _mouse.y = y;
+            _mouse.vx = dx;
+            _mouse.vy = dx;
         }
 
         override void onMouseDown(int button)
         {
             if (button == SDL_BUTTON_LEFT)
-                mouse.buttons |= MOUSE_LEFT;
+                _mouse.buttons |= MOUSE_LEFT;
 
             if (button == SDL_BUTTON_MIDDLE)
-                mouse.buttons |= MOUSE_CENTER;
+                _mouse.buttons |= MOUSE_CENTER;
 
             if (button == SDL_BUTTON_RIGHT)
-                mouse.buttons |= MOUSE_RIGHT;
+                _mouse.buttons |= MOUSE_RIGHT;
 
             if (button == SDL_BUTTON_WHEELUP)
-                mouse.buttons |= MOUSE_CENTER;    // hack to catch powerups with mousewheel
+                _mouse.buttons |= MOUSE_CENTER;    // hack to catch powerups with mousewheel
 
             if (button == SDL_BUTTON_WHEELDOWN)
-                mouse.buttons |= MOUSE_CENTER;    // hack to catch powerups with mousewheel
+                _mouse.buttons |= MOUSE_CENTER;    // hack to catch powerups with mousewheel
         }
 
         override void onMouseUp(int button)
         {
             if (button == SDL_BUTTON_LEFT)
-                mouse.buttons &= ~MOUSE_LEFT;
+                _mouse.buttons &= ~MOUSE_LEFT;
 
             if (button == SDL_BUTTON_MIDDLE)
-                mouse.buttons &= ~MOUSE_CENTER;
+                _mouse.buttons &= ~MOUSE_CENTER;
 
             if (button == SDL_BUTTON_RIGHT)
-                mouse.buttons &= ~MOUSE_RIGHT;
+                _mouse.buttons &= ~MOUSE_RIGHT;
         }
 
         override void onReshape(int width, int height)  {  }

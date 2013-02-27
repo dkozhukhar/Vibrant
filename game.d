@@ -7,6 +7,7 @@ import misc.logger;
 import math.all;;
 import gl.all;
 import vga2d;
+import mousex;
 
 import utils;
 import oldfonts;
@@ -224,7 +225,7 @@ final class Game
             return _paused;
         }
 
-        void progress(double dt)
+        void progress(ref Tmouse mouse, double dt)
         {
             _localTime += dt;
             m_soundManager.timePassed(dt);
@@ -260,12 +261,12 @@ final class Game
                 addPowerup(gmap.randomPoint(), vec2f(0), 0, 0);
             }
 
-            if (player !is null) player.intelligence(dt);
+            if (player !is null) player.intelligence(mouse, dt);
             for (int i = 0; i < ia.length; ++i)
             {
                 if (ia[i] !is null)
                 {
-                    ia[i].intelligence(dt);
+                    ia[i].intelligence(mouse, dt);
                 }
             }
 
