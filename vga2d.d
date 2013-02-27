@@ -64,7 +64,7 @@ vec2f transform(vec2f pt)
     }
     vec3d tr = projectSub(vec3d(pt.x, pt.y, 0.f), vec4i(0,0,SCREENX, SCREENY));
 
-    vec2f res = vec2f(tr.x, mb.height - 1 - tr.y);
+    vec2f res = vec2f(tr.x, SCREENY - 1 - tr.y);
     return res;
 }
 

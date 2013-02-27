@@ -25,6 +25,7 @@ import std.stdio;
 import sdl.all;
 import camera;
 import map;
+import overlay;
 
 import derelict.opengl.extension.sgis.generate_mipmap;
 
@@ -37,7 +38,7 @@ final class Game
         bool _mainPlayerMustReborn;
         Texture2D m_fbTex;
 
-        TextRenderer _text;
+        Overlay _overlay;
         
         Image m_ui;
         box2i m_viewport;
@@ -102,9 +103,7 @@ final class Game
             _camera = new Camera();
 
             m_usePostProcessing = usePostProcessing;
-            mb = new Image(SCREENX, SCREENY);
-
-            _text = new TextRenderer(mb);
+            _overlay = new Overlay();
 
             info(">create m_fbTex");
             m_fbTex = new Texture2D(SCREENX, SCREENY, Texture.IFormat.RGBA8, false, false, false);
@@ -159,11 +158,7 @@ final class Game
                 m_blit = new Shader("data/blit.vs", "data/blit.fs");
                 info("<m_blit");
             }
-
-            info(">create m_uiImage");
-            SDLImage m_uiImage = new SDLImage("data/ui.png");
-            info("<create m_uiImage");
-            m_ui = new Image(m_uiImage);
+            
             m_viewport = viewport;
 
             // sound
@@ -335,28 +330,29 @@ final class Game
         }
 
 
-        void showbars()
+        void showBars()
         {
             if (player !is null)
             {
-                int s = (mb.height >> 1) - 14;
+                int s = (SCREENY / 2) - 14;
 
                 // bullet time bar
                 float bu = 2.f * BulletTime.fraction;
-                Bar(mb.width - 29, mb.height - 14,max(s, round(s * bu)), bu, rgb(160,24,160));
+
+                _overlay.drawBar(SCREENX - 29, SCREENY - 14,max(s, round(s * bu)), bu, rgb(160,24,160));
 
                 // energy bar
-                Bar(mb.width - 18, mb.height - 14, max(s, round(player.energy / cast(float)ENERGYMAX * s)), player.energy / cast(float)ENERGYMAX,  rgb(252, 26, 15));
+                _overlay.drawBar(SCREENX - 18, SCREENY - 14, max(s, round(player.energy / cast(float)ENERGYMAX * s)), player.energy / cast(float)ENERGYMAX,  rgb(252, 26, 15));
 
                 // life bar
-                Bar(mb.width - 7, mb.height - 14, max(s,round(player.life*s)),player.life, rgb(42, 6, 245));
+                _overlay.drawBar(SCREENX - 7, SCREENY - 14, max(s,round(player.life*s)),player.life, rgb(42, 6, 245));
 
                 // invicibility bar
-                Bar(mb.width - 7, mb.height - 14, max(s,round(player.life*s)),player.life * min(3.f, player.invincibility) / 3.f, rgb(252, 26, 15));
+                _overlay.drawBar(SCREENX - 7, SCREENY - 14, max(s,round(player.life*s)),player.life * min(3.f, player.invincibility) / 3.f, rgb(252, 26, 15));
 
                 if (player.isInvincible)
                 {
-                    mb.drawFilledBox(mb.width - 11, mb.height - 4,mb.width - 3, mb.height - 12, rgb(128,128,128));
+                    _overlay._mb.drawFilledBox(SCREENX - 11, SCREENY - 4, SCREENX - 3, SCREENY - 12, rgb(128,128,128));
                 }
             }
         }
@@ -380,114 +376,26 @@ final class Game
                 setZoomfactor(0.85f + 0.35f * sin(-PI_2_F + PI_F * _localTime / 5));
             }
 
-            mb.data[] = m_ui.data[];
-
-            if (_localTime >= 5.0 && _localTime < 21.0)
-            {
-                _text.setAttr(0);
-                _text.setColor(0xFF8080FF);
-                _text.setFont(FontType.SMALL);
-
-                int BX = 200;
-                auto BY = 101 + 1 * 16;
-
-                WindowBox(BX - 16, BY - 28, BX + 30 * 8 + 16, BY + 36 + 16 * 6, 0x8F8080FF);
-
-                _text.drawString(BX, BY     , "      The Homeric wars.       ");
-                _text.drawString(BX, BY + 16, "  In these times of trouble,  ");
-                _text.drawString(BX, BY + 32, "  it was common for the best  ");
-                _text.drawString(BX, BY + 48, "  warrior of a defeated tribe ");
-                _text.drawString(BX, BY + 64, "    to face an humiliating    ");
-                _text.drawString(BX, BY + 80, "  execution, fighting against ");
-                _text.drawString(BX, BY + 96, "   members of his own house.  ");
-            }
-
-
+            _overlay.clearBuffer();
+            
             if ((player !is null) && (player.dead) && (!_paused))
             {
-
-                // help screen
-
-                WindowBox(130, 116, 510, 364, 0xffffffff);
-
-                auto BX = 101 + 2 * 8;
-                auto BY = 101 + 3 * 16;
-
-                _text.setAttr(0);
-                _text.setColor(0xFFFFFFFF);
-                _text.setFont(FontType.SMALL);
-
-                _text.drawString(BX, BY,      "                   Vibrant v1.6");
-                _text.setColor(0xffff7477);
-
-                _text.drawString(BX, BY + 16, "               www.gamesfrommars.fr    ");
-
-                {
-                    BY = 100 + 16 * 13;
-
-                    char[] tip = "Tip: " ~ TIPS[_tipIndex];
-
-                    _text.setCursorPosition(320 - 4 * tip.length, BY);
-                    _text.setColor(0xff7477ff);
-                    _text.outputString(tip);
-
-                    if (_timeBeforeReborn == 0.f)
-                    {
-                        char[] msg = "Now press FIRE to continue";
-                        _text.setCursorPosition(320 - 4 * msg.length, BY + 20);
-                        _text.setColor(clwhite);
-                        _text.outputString(msg);
-                    }
-                }
-
-                {
-                    BX = 101 + 8 * 8;
-                    BY = 101 + 4 * 16 - 4;
-                    _text.setColor(clwhite);
-                    _text.setCursorPosition(BX, BY + 48);
-                    _text.outputString("       Keys");
-                    _text.setColor(clgrey);
-                    _text.setCursorPosition(BX, BY + 64);
-                    _text.outputString("   move: ARROWS");
-                    _text.setCursorPosition(BX, BY + 80);
-                    _text.outputString("   fire: CTRL, C");
-                    _text.setCursorPosition(BX, BY + 96);
-                    _text.outputString("   turbo: SHIFT, X");
-                    _text.setCursorPosition(BX, BY + 112);
-                    _text.outputString("   catch: SPACE, Z");
-                }
-
-                {
-                    BX = 101 + 27 * 8;
-                    BY = 101 + 4 * 16 - 4;
-                    _text.setColor(clwhite);
-                    _text.setCursorPosition(BX, BY + 48);
-                    _text.outputString("      Credits");
-                    _text.setColor(clgrey);
-                    _text.setCursorPosition(BX, BY + 64);                    
-                    _text.outputString("   code: ponce");
-                    _text.setCursorPosition(BX, BY + 80);
-                    _text.outputString("   music: DeciBeats");
-                    _text.setCursorPosition(BX + 8 * 10, BY + 96);
-                    _text.outputString("aka Evil");
-                }
+                _overlay.drawHelpScreen(TIPS[_tipIndex], _timeBeforeReborn == 0.f);
             }
-
-            if (_paused)
+            else if (_paused)
             {
-                WindowBox(280, 222, 360, 262, 0xffffffff);
-                _text.setAttr(0);
-                _text.setColor(clwhite);
-                _text.setFont(FontType.SMALL);
-                _text.setCursorPosition(320 - 8 * 3, 240);
-                _text.outputString("Paused");
+                _overlay.drawPauseScreen();                
+            }
+            else if (_localTime >= 5.0 && _localTime < 21.0)
+            {
+                _overlay.drawIntroductoryText();
             }
 
             GL.disable(GL.BLEND);
             GL.disable(GL.ALPHA_TEST);
 
             mat4f projectionMatrix = mat4f.scale(1 / ratio, 1.f, 1.f);
-            float viewScale = 2.f * (1.0f / _zoomFactor) /  mb.height;
+            float viewScale = 2.f * (1.0f / _zoomFactor) /  SCREENY;
             mat4f modelViewMatrix = mat4f.scale(vec3f(viewScale, viewScale,1.f))
                                     * mat4f.rotateZ(-_camera.angle())
                                     * mat4f.translate(vec3f(-_camera.position(), 0.f));
@@ -503,7 +411,7 @@ final class Game
             ground(_camera);
             m_particleManager.draw();
 
-            showPowerups(_text);
+            showPowerups(_overlay._text);
 
             m_bulletPool.draw();
 
@@ -520,35 +428,15 @@ final class Game
                 //m_mainFBO.setDrawBuffers(0);
             }
 
-            char[] padZero(int n, int size, char[] pad)
-            {
-                char[] res = format("%s", n);
-                while (res.length < size)
-                {
-                    res = pad ~ res; // TODO : remove inefficiency
-                }
-                return res;
-            }
-
-
-            {
-                int x = 44;
-                int by = 10;
-                _text.setFont(FontType.LARGE);
-                _text.setAttr(0);
-                _text.setColor(0xffff7477);
-                _text.setCursorPosition(x, by);
-                _text.outputString(padZero(level, 5, " "));                
-            }
+            _overlay.drawStatus();
             
             drawMinimap(_camera, m_bulletPool);
-            showbars;
+            showBars();
             
             GL.enable(GL.ALPHA_TEST);
             GL.alphaFunc(GL.GREATER, 0.001f);
-            debug(2) crap("14");
-            m_fbTex.setSubImage(0, 0, 0, SCREENX, SCREENY, Texture.Format.RGBA, Texture.Type.UBYTE, mb.ptr);
-            debug(2) crap("15");
+
+            m_fbTex.setSubImage(0, 0, 0, SCREENX, SCREENY, Texture.Format.RGBA, Texture.Type.UBYTE, _overlay._mb.ptr);
             
             {
                 int texUnit = m_fbTex.use();
