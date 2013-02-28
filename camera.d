@@ -1,7 +1,7 @@
 module camera;
 
 import math.all;
-import futils;
+import utils;
 
 final class Camera
 {

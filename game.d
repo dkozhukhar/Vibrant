@@ -12,7 +12,6 @@ import mousex;
 import utils;
 import oldfonts;
 import vutils;
-import futils;
 import palettes;
 import bullettime;
 import players;

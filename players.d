@@ -5,7 +5,6 @@ import oldfonts;
 import palettes;
 import vga2d;
 import utils;
-import futils;
 import globals;
 import sdl.all;
 import mousex;

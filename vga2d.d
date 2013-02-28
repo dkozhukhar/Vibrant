@@ -1,6 +1,6 @@
 module vga2d;
 
-import utils, futils, palettes;
+import utils, palettes;
 import math.all;
 import misc.logger;
 import std.stdio;

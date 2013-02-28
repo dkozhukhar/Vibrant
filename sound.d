@@ -3,7 +3,7 @@ module sound;
 import sdl.mixer.all;
 import derelict.sdl.mixer;
 import sdl.all;
-import utils, futils;
+import utils;
 import math.common;
 import camera;
 import math.all;

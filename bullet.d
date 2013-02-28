@@ -4,7 +4,7 @@ import gl.all;
 import misc.logger;
 import math.all;
 import sound;
-import particles, palettes, globals, utils, futils, vga2d, players, game;
+import particles, palettes, globals, utils, vga2d, players, game;
 import map;
 import camera;
 

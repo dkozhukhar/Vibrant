@@ -460,12 +460,12 @@
   <File path="bullettime.d" />
   <File path="camera.d" />
   <File path="cheatcode.d" />
-  <File path="futils.d" />
   <File path="game.d" />
   <File path="globals.d" />
   <File path="joy.d" />
   <File path="lfo.d" />
   <File path="map.d" />
+  <File path="minimap.d" />
   <File path="mousex.d" />
   <File path="oldfonts.d" />
   <File path="overlay.d" />
@@ -481,6 +481,5 @@
   <File path="vibrant.d" />
   <File path="vibrant.rc" />
   <File path="vibrantprogram.d" />
-  <File path="vutils.d" />
  </Folder>
 </DProject>

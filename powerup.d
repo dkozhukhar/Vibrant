@@ -2,7 +2,7 @@ module powerup;
 
 
 import vga2d;
-import utils, futils, bullet, palettes, oldfonts, globals, players;
+import utils, bullet, palettes, oldfonts, globals, players;
 import math.all, misc.all;
 import vutils, sound;
 import particles;

@@ -3,8 +3,6 @@ module palettes;
 
 import math.all;
 import utils;
-import futils;
-
 
 struct Tbgra
 {
