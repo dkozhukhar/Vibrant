@@ -325,29 +325,6 @@
      <File path="..\common2\derelict\opengl\wgl.d" />
     </Folder>
     <Folder name="sdl">
-     <Folder name="macinit">
-      <File path="..\common2\derelict\sdl\macinit\CoreFoundation.d" />
-      <File path="..\common2\derelict\sdl\macinit\ID.d" />
-      <File path="..\common2\derelict\sdl\macinit\MacTypes.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSApplication.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSArray.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSAutoreleasePool.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSDictionary.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSEnumerator.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSEvent.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSGeometry.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSMenu.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSMenuItem.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSNotification.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSObject.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSProcessInfo.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSString.d" />
-      <File path="..\common2\derelict\sdl\macinit\NSZone.d" />
-      <File path="..\common2\derelict\sdl\macinit\runtime.d" />
-      <File path="..\common2\derelict\sdl\macinit\SDLMain.d" />
-      <File path="..\common2\derelict\sdl\macinit\selectors.d" />
-      <File path="..\common2\derelict\sdl\macinit\string.d" />
-     </Folder>
      <File path="..\common2\derelict\sdl\active.d" />
      <File path="..\common2\derelict\sdl\audio.d" />
      <File path="..\common2\derelict\sdl\byteorder.d" />

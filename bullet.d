@@ -17,7 +17,6 @@ final struct Bullet
     vec2f pos;
     vec2f mov;
     vec2f lastPos;
-    vec2f dPos;
     vec3f color;
     float angle;
     int guided;
@@ -32,7 +31,6 @@ final struct Bullet
         res.pos = pos;
         res.mov = mov;
         res.lastPos = pos;
-        res.dPos = vec2f(0);
         res.color = color;
         res.angle = angle;
         res.guided = guided;
@@ -227,7 +225,6 @@ final struct Bullet
         else
             liveliness = 1.0f;
 
-        this.dPos = pos - lastPos;
     }
 
     void show()

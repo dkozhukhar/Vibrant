@@ -33,7 +33,6 @@ class Player
     vec2f pos;
     vec2f mov;
     vec2f lastPos;
-    vec2f dPos;
     float armsPhase;
     float angle, vangle;
     vec3f color;
@@ -70,7 +69,6 @@ class Player
         this.pos = pos;
         this.angle = angle;
         this.lastPos = pos;
-        this.dPos = vec2f(0);
         this.game = game;
         this.random = Random();
         this.mapEnergyGain = 0.f;
@@ -804,9 +802,6 @@ class Player
 
             if (!player.isValidTarget()) attitude = Attitude.OCCUPIED;
         }
-
-
-        dPos = pos - lastPos;
     }
 
     void becomeMad()

@@ -43,7 +43,7 @@ final class Powerup
     {    
         PowerupType choosePowerupClass()
         {
-            const uint[PowerupType.max + 1] weight = [40, 10, 10, 10, 12, 8, 0, 8, 10, 9, 5];
+            const uint[PowerupType.max + 1] weight = [40, 0, 10, 10, 12, 8, 0, 8, 10, 9, 5];
 
             int totalWeight = 0;
             for (PowerupType bt = PowerupType.min; bt <= PowerupType.max; bt++)
