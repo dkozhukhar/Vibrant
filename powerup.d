@@ -35,7 +35,6 @@ final class Powerup
     vec2f pos;
     vec2f mov;
     private vec2f lastPos;
-    private vec2f dPos;
     private vec3f finalcolor1,finalcolor2,finalcolor3;
     vec3f color1, color2, color3;
 
@@ -66,7 +65,6 @@ final class Powerup
         this.pos = pos;
         this.mov = mov;
         this.lastPos = pos;
-        this.dPos = vec2f(0);
 
         const uint[PowerupType.max + 1] colors1 = [0xffffffff,0xffa010C0,0xffffff00,0xffa010C0,0xffffff00,0xffffffff,0xff80C080,0xffC0C0C0,0xffffffff, 0xff9000, 0xff00ff];
         const uint[PowerupType.max + 1] colors2 = [0xffff0000,0xff10a0c0,0xff00ffff,0xff10a0c0,0xff00ffff,0xffc000a0,0xff00ff00,0xff808080,0xff00ff00, 0xff9080, 0xff8000];
@@ -352,9 +350,6 @@ final class Powerup
         if (random.nextFloat < dt * 2.f) swap(finalcolor3,finalcolor2);
 
         counter += dt * 0.75f;
-
-        dPos = pos - lastPos;
-
     }
 
     void show1()
