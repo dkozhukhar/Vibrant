@@ -10,13 +10,15 @@ import camera;
 
 final struct Bullet
 {
+    // tail length
+    const N = 10;
+
     bool dead;
     Player owner;
     Game game;
     Camera _camera;
-    vec2f pos;
+    vec2f[N] pos; // pos[0] = current   pos[1] = last frame position
     vec2f mov;
-    vec2f lastPos;
     vec3f color;
     float angle;
     int guided;
@@ -28,9 +30,11 @@ final struct Bullet
                           int guided, Player owner, float damage)
     {
         Bullet res = void;
-        res.pos = pos;
+
+        for (int i = 0; i < N; ++i)
+            res.pos[i] = pos;
         res.mov = mov;
-        res.lastPos = pos;
+
         res.color = color;
         res.angle = angle;
         res.guided = guided;
@@ -51,18 +55,24 @@ final struct Bullet
 
         float limit = s.effectiveSize + BULLET_SIZE;
 
-        if (abs(pos.x - s.pos.x) > limit) return false;
-        if (abs(pos.y - s.pos.y) > limit) return false;
+        if (abs(pos[0].x - s.pos.x) > limit) return false;
+        if (abs(pos[0].y - s.pos.y) > limit) return false;
 
         float limit2 = sqr(limit);
 
-        if (pos.squaredDistanceTo(s.pos) < limit2)
+        float dist2 = pos[0].squaredDistanceTo(s.pos);
+
+        if (dist2 < limit2)
         {
             return true;
         }
+        else if (dist2 > OUT_OF_SIGHT_SQUARED)
+        {
+            return false;
+        }
         else
         {
-            vec2f posm = (pos + lastPos) * 0.5f;
+            vec2f posm = (pos[0] + pos[1]) * 0.5f;
             vec2f sposm = (s.pos + s.lastPos) * 0.5f;
 
             return posm.squaredDistanceTo(sposm) < limit2;
@@ -75,7 +85,7 @@ final struct Bullet
         if (s is null) return;
         if (owner is s) return;
         if (s.destroy > 0) return;
-        float sqrdist = pos.squaredDistanceTo(s.pos);
+        float sqrdist = pos[0].squaredDistanceTo(s.pos);
         if (sqrdist > 1000000.0) return;
 
 
@@ -86,7 +96,7 @@ final struct Bullet
             //float force = s.isInvincible ? -1.f : 1.f;
             auto P = clamp(f, 0.f, 1.f) * ((bullettimeTime > 0.f) ? 2.f : 1.f);
             P = min!(float)(1.f, P);
-            pos += (s.pos - pos) * P * dt * 85.f;
+            pos[0] += (s.pos - pos[0]) * P * dt * 85.f;
         }
     }
 
@@ -110,7 +120,7 @@ final struct Bullet
         {
             for (int i = 0; i < 15 * PARTICUL_FACTOR; ++i)
             {
-                game.particles.add(pos, vec2f(0), 0, 0, random.nextAngle,
+                game.particles.add(pos[0], vec2f(0), 0, 0, random.nextAngle,
                                    sqr(random.nextFloat * 2.0) + random.nextFloat * 6.0, Frgb(color), random.nextRange(12) + 10);
             }
 
@@ -129,7 +139,7 @@ final struct Bullet
                 _damage = 3;
 
                 // reflect bullet on shield
-                vec2f diff = pos - p.pos;
+                vec2f diff = pos[0] - p.pos;
                 if ((diff.length > 0.001f) && (mov.length > 0.001f))
                 {
                     diff = diff.normalized;
@@ -145,10 +155,10 @@ final struct Bullet
             {
                 {
                     float power = p.isInvincible ? 0.125f : 1.f;
-                    vec2f vel = pos - lastPos;
+                    vec2f vel = pos[0] - pos[1];
                     vec2f pvel = p.pos - p.lastPos;
                     vec2f diffVel = pvel - vel;
-                    vec2f diffPos = p.lastPos - lastPos;
+                    vec2f diffPos = p.lastPos - pos[1];
 
                     float force = diffVel.length;
                     float L = 1e-2f;
@@ -184,31 +194,34 @@ final struct Bullet
 
     void move(float dt)
     {
-        this.lastPos = pos;
+        for (int i = N - 1; i > 0; --i)
+        {
+            pos[i] = pos[i - 1];
+        }
 
         const BULLET_CONSTANT_ROTATION = -0.08 * 60.f;
 
         angle = angle + BULLET_CONSTANT_ROTATION * dt;
-        vec2f anc = pos;
-        pos = pos + mov * dt * 60.f;
+        vec2f anc = pos[0];
+        pos[0] = pos[0] + mov * dt * 60.f;
 
-        if (_camera.canSee(pos))
+        if (_camera.canSee(pos[0]))
         {
             float nParticles = 85.f * dt * 2.f * PARTICUL_FACTOR;
             for (int i = 0; i < nParticles; ++i)
             {
                 float a = random.nextFloat;
-                vec2f p = mix(anc, pos, vec2f(a));
+                vec2f p = mix(anc, pos[0], vec2f(a));
                 game.particles.add(p, vec2f(0), 0, 0, random.nextAngle, random.nextFloat * 0.6f,
                                    Frgb(color * 0.5f), random.nextRange(5) + 1);
             }
         }
 
-        int bc = gmap.enforceBounds(pos, mov, BULLET_SIZE, 1.f, 0.f);
+        int bc = gmap.enforceBounds(pos[0], mov, BULLET_SIZE, 1.f, 0.f);
 
         if (bc > 0)
         {
-            game.soundManager.playSound(pos, 1.f, SOUND.BORDER2);
+            game.soundManager.playSound(pos[0], 1.f, SOUND.BORDER2);
         }
 
         remainingtime -= dt;
@@ -229,7 +242,7 @@ final struct Bullet
 
     void show()
     {
-        if (!_camera.canSee(pos)) 
+        if (!_camera.canSee(pos[0])) 
             return;
 
         vec3f colorBase = color;
@@ -248,20 +261,20 @@ final struct Bullet
         c2 *= liveliness;
 
         GL.color = colorBase * 0.5f;
-        vec2f displacement = pos - lastPos;
-        vertexf(pos + displacement.yx * 0.15f);
-        vertexf(pos - displacement.yx * 0.15f);
-        vertexf(lastPos - displacement * 4.f);
+        vec2f displacement = pos[0] - pos[1];
+        vertexf(pos[0] + displacement.yx * 0.15f);
+        vertexf(pos[0] - displacement.yx * 0.15f);
+        vertexf(pos[1] - displacement * 4.f);
 
         GL.color = colorBase;
-        vertexf(m * vec2f(-1.20,-1.38) + pos);
-        vertexf(m * vec2f(1.20,-1.38) + pos);
-        vertexf(m * vec2f(0.0,3.09) + pos);
+        vertexf(m * vec2f(-1.20,-1.38) + pos[0]);
+        vertexf(m * vec2f(1.20,-1.38) + pos[0]);
+        vertexf(m * vec2f(0.0,3.09) + pos[0]);
         GL.color = c2;
         m.transpose();
-        vertexf(m * vec2f(-1.20,-1.38) + pos);
-        vertexf(m * vec2f(1.20,-1.38) + pos);
-        vertexf(m * vec2f(0.0,3.09) + pos);
+        vertexf(m * vec2f(-1.20,-1.38) + pos[0]);
+        vertexf(m * vec2f(1.20,-1.38) + pos[0]);
+        vertexf(m * vec2f(0.0,3.09) + pos[0]);
 
     }
 }

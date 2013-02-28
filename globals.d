@@ -29,6 +29,9 @@ const MAX_INVINCIBILITY = 16;
 const BULLET_BASE_SPEED = 1.f;
 const DAMAGE_MULTIPLIER = 1.6f;
 
+const OUT_OF_SIGHT = 240000;
+const OUT_OF_SIGHT_SQUARED = 240000.f * 240000.f;
+
 
 const char[][] TIPS =
 [

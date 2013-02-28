@@ -19,8 +19,7 @@ final class ParticleManager
     {
         const MAX_PARTICUL = 50000;
         const ENOUGH_PARTICUL = MAX_PARTICUL >> 1;
-        const OUT_OF_SIGHT = 240000;
-
+        
         Tparticul[] particulstack;
         int particleIndex;
         Game game;

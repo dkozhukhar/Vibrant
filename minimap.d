@@ -179,12 +179,12 @@ void drawMinimap(Camera camera, BulletPool bulletPool)
     {
         Bullet* bullet = bulletPool.item(i);
 
-        float sqrd = player.pos.squaredDistanceTo(bullet.pos);
+        float sqrd = player.pos.squaredDistanceTo(bullet.pos[0]);
 
         if (sqrd <= MAP_LIMIT * MAP_LIMIT)
         {
             float d = sqrt(sqrd);
-            float a = atan2(bullet.pos.y - player.pos.y, bullet.pos.x - player.pos.x) - camera.angle - PI_2_F;
+            float a = atan2(bullet.pos[0].y - player.pos.y, bullet.pos[0].x - player.pos.x) - camera.angle - PI_2_F;
 
             if (isFinite(a))
             {
