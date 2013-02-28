@@ -11,7 +11,7 @@ import camera;
 final struct Bullet
 {
     // tail length
-    const N = 10;
+    const N = 12;
 
     bool dead;
     Player owner;
@@ -207,7 +207,7 @@ final struct Bullet
 
         if (_camera.canSee(pos[0]))
         {
-            float nParticles = 85.f * dt * 2.f * PARTICUL_FACTOR;
+            float nParticles = 85.f * dt * 1.f * PARTICUL_FACTOR;
             for (int i = 0; i < nParticles; ++i)
             {
                 float a = random.nextFloat;
@@ -231,16 +231,12 @@ final struct Bullet
         {
             liveliness = remainingtime / (16.f / 60.f);
         }
-        else if (dead)
-        {
-            liveliness = 0.0f;
-        }
         else
             liveliness = 1.0f;
 
     }
 
-    void show()
+    void show1()
     {
         if (!_camera.canSee(pos[0])) 
             return;
@@ -260,12 +256,6 @@ final struct Bullet
         colorBase *= liveliness;
         c2 *= liveliness;
 
-        GL.color = colorBase * 0.5f;
-        vec2f displacement = pos[0] - pos[1];
-        vertexf(pos[0] + displacement.yx * 0.15f);
-        vertexf(pos[0] - displacement.yx * 0.15f);
-        vertexf(pos[1] - displacement * 4.f);
-
         GL.color = colorBase;
         vertexf(m * vec2f(-1.20,-1.38) + pos[0]);
         vertexf(m * vec2f(1.20,-1.38) + pos[0]);
@@ -276,6 +266,47 @@ final struct Bullet
         vertexf(m * vec2f(1.20,-1.38) + pos[0]);
         vertexf(m * vec2f(0.0,3.09) + pos[0]);
 
+    }
+
+    void show2()
+    {
+        if (!_camera.canSee(pos[0])) 
+            return;
+
+        vec3f colorBase = color;
+        float scale = 1.f;
+        if (_damage > 1.5f)
+        {
+            colorBase += vec3f(-0.5f, -0.5f, +0.7f);
+            scale = 1.3f;
+        }
+    
+        colorBase *= liveliness;
+        
+        GL.begin(GL.TRIANGLE_STRIP);
+        for (int i = 0; i < N - 1; ++i)
+        {
+            float df = i / cast(float)(N - 1);
+            GL.color = vec4f(colorBase * 0.5f, 0.8f * (1 - df)*(1-df) + 0.2f);
+            vec2f B = pos[i];
+            vec2f E = pos[i + 1];
+            vec2f diff = B - E;
+            double dl = diff.length();
+
+            if (dl < 1e-3f)
+                break;
+
+            float expectedWidthN = 1.f * (1 - df);
+            expectedWidthN = minf(expectedWidthN, dl);
+            diff.normalize();
+
+            vec2f D = B + vec2f(diff.y, -diff.x) * expectedWidthN;
+            vec2f F = B + vec2f(-diff.y, diff.x) * expectedWidthN;
+            vertexf(D);
+            vertexf(F);
+        }
+        vertexf(pos[N - 1]);        
+        GL.end();
     }
 }
 
@@ -316,10 +347,16 @@ class BulletPool
 
         void draw()
         {
+            GL.enable(GL.BLEND);
+            for(int i = 0; i < _bulletIndex; ++i)
+                _bulletPool[i].show2();
+
+            GL.disable(GL.BLEND);
+
             GL.begin(GL.TRIANGLES);
             for(int i = 0; i < _bulletIndex; ++i)
             {
-                _bulletPool[i].show();
+                _bulletPool[i].show1();
             }
             GL.end();
         }
