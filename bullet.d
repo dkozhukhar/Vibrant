@@ -11,7 +11,7 @@ import camera;
 final struct Bullet
 {
     // tail length
-    const N = 12;
+    const N = 14;
 
     bool dead;
     Player owner;
@@ -121,7 +121,7 @@ final struct Bullet
             for (int i = 0; i < 15 * PARTICUL_FACTOR; ++i)
             {
                 game.particles.add(pos[0], vec2f(0), 0, 0, random.nextAngle,
-                                   sqr(random.nextFloat * 2.0) + random.nextFloat * 6.0, Frgb(color), random.nextRange(12) + 10);
+                                   sqr(random.nextFloat * 2.0) + random.nextFloat * 6.0, Frgb(color), random.nextRange(64) + 10);
             }
 
             game.soundManager.playSound(p.pos, 0.73, SOUND.DAMAGED);

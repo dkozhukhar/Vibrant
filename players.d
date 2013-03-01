@@ -314,12 +314,14 @@ class Player
 
         scale(shipSize, shipSize);
 
+        GL.enable(GL.BLEND);
+
         // invincibility shield
         if (isInvincible())
         {
             GL.begin(GL.TRIANGLE_FAN);
 
-            GL.color = vec4f(0.0f,0.0f,0.1f,1.f);
+            GL.color = vec4f(0.0f,0.0f,0.1f,0.8f);
             for (int i = 0; i < 32; ++i)
             {
                 float fi = i / 32.f;
@@ -341,7 +343,7 @@ class Player
                 float fi = i / 32.f;
                 float angle = TAU_F * fi;
                 vec3f c = mix(mix(vec3f(0,0,1), color, fi), vec3f(0), (i+1) / 32.f);
-                GL.color = c;
+                GL.color = vec4f(c, 0.8f);
                 float sina = void, cosa = void;
                 sincos(angle, sina, cosa);
                 vertexf(cosa * INVICIBILITY_SIZE_FACTOR, sina * INVICIBILITY_SIZE_FACTOR);
@@ -351,13 +353,12 @@ class Player
 
         }
 
-
         // life shield
         if ((life > 1.00001) && (!isInvincible()))
         {
-             pushmatrix;
+            pushmatrix;
 
-             rotate(shieldAngle);
+            rotate(shieldAngle);
 
             GL.begin(GL.LINE_STRIP);
 
@@ -366,7 +367,7 @@ class Player
                 float fi = i / 32.f;
                 float angle = TAU_F * fi;
                 vec3f c = mix(  mix(vec3f(1,1,0), color, fi), vec3f(0), (i+1) / 32.f);
-                GL.color = vec4f(c, 0.5f + 0.5f * (life - 1));
+                GL.color = vec4f(c, (life - 1) * 0.7f );
                 float cosa = void, sina = void;
                 sincos(angle, sina, cosa);
                 vertexf(cosa * SHIELD_SIZE_FACTOR, sina * SHIELD_SIZE_FACTOR);

@@ -10,6 +10,7 @@ import std.string;
 
 class Overlay
 {
+    const ATTR = TEXT_SHADOW;
     public
     {
         Image _mb; // framebuffer
@@ -48,7 +49,7 @@ class Overlay
 
         void drawIntroductoryText()
         {
-            _text.setAttr(0);
+            _text.setAttr(ATTR);
             _text.setColor(0xFF8080FF);
             _text.setFont(FontType.SMALL);
 
@@ -69,9 +70,9 @@ class Overlay
         void drawPauseScreen()
         {
             drawWindowBox(280, 222, 360, 262, 0xffffffff);
-            _text.setAttr(0);
+            _text.setAttr(ATTR);
             _text.setColor(clwhite);
-            _text.setFont(FontType.SMALL);
+            _text.setFont(FontType.MEDIUM);
             _text.setCursorPosition(320 - 8 * 3, 240);
             _text.outputString("Paused");
         }
@@ -85,7 +86,7 @@ class Overlay
             auto BX = 101 + 2 * 8;
             auto BY = 101 + 3 * 16;
 
-            _text.setAttr(0);
+            _text.setAttr(ATTR);
             _text.setColor(0xFFFFFFFF);
             _text.setFont(FontType.SMALL);
 
@@ -160,7 +161,7 @@ class Overlay
             int x = 44;
             int by = 10;
             _text.setFont(FontType.LARGE);
-            _text.setAttr(0);
+            _text.setAttr(ATTR);
             _text.setColor(0xffff7477);
             _text.setCursorPosition(x, by);
             _text.outputString(padZero(level, 5, " "));                
