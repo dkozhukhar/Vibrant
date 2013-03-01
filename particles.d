@@ -139,7 +139,7 @@ final class ParticleManager
                 for (int i = 0; i < particleIndex; ++i)
                 with(particulstack[i])
                 {
-                    if (life > 0.2f)
+                    if (life > 0.4f)
                     {
                         uint colorswapped = swapRB(color);
                         GL.color(colorswapped);
@@ -153,7 +153,7 @@ final class ParticleManager
                 for (int i = 0; i < particleIndex; ++i)
                 with(particulstack[i])
                 {
-                    if (life > 0.4f && (i & 1))
+                    if (life > 0.8f && (i & 1))
                     {
                         uint colorswapped = swapRB(average(clwhite,color));
                         GL.color(colorswapped);
