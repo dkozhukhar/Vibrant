@@ -62,8 +62,8 @@ class Overlay
             _text.drawString(BX, BY + 32, "  it was common for the best  ");
             _text.drawString(BX, BY + 48, "  warrior of a defeated tribe ");
             _text.drawString(BX, BY + 64, "    to face an humiliating    ");
-            _text.drawString(BX, BY + 80, "  execution, fighting against ");
-            _text.drawString(BX, BY + 96, "   members of his own house.  ");
+            _text.drawString(BX, BY + 80, "  execution, fighting members ");
+            _text.drawString(BX, BY + 96, "       of his own house.      ");
         }
 
         void drawPauseScreen()
