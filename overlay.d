@@ -72,7 +72,7 @@ class Overlay
             drawWindowBox(280, 222, 360, 262, 0xffffffff);
             _text.setAttr(ATTR);
             _text.setColor(clwhite);
-            _text.setFont(FontType.MEDIUM);
+            _text.setFont(FontType.SMALL);
             _text.setCursorPosition(320 - 8 * 3, 240);
             _text.outputString("Paused");
         }
