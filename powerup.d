@@ -174,7 +174,7 @@ final class Powerup
     void checkCaughtByPlayer(Player s)
     {
         if (s is null) return;
-        if (player.destroy > 0) return;
+        if (s.destroy > 0) return;
         if (!caught(s)) return;
         dead = true;
 
@@ -248,9 +248,12 @@ final class Powerup
                     float angle = s.angle + TWO_PI_F * i / cast(float)count;
                     float d = 0.3f * (8.f - (i & 1) * 2.f);
 
-                    vec2f mov = polarOld(angle, d) + s.mov;
+                    if (!s.isHuman) 
+                        d /= 1.25f;
 
-                    game.addBullet(pos, mov, color, angle, 200, s);
+                    vec2f mov = polarOld(angle, d) + s.mov;
+                    int mguided = s.isHuman ? 200 : 100;
+                    game.addBullet(pos, mov, color, angle, mguided, s);
                 }
                 game.soundManager.playSound(pos, 1.f, SOUND.BLAST);
                 break;

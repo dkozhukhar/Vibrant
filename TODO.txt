@@ -12,6 +12,7 @@ powerup maxing for weapons should do something
 [ok] fix message
 [ok] fix life powerups for big ships
 [ok] add story
+[ok] a bit better graphics for bullets and shields
 change font
 more acceleration while being fat
 map with blocks
@@ -23,4 +24,4 @@ map with blocks
 
   trap should be a bomb
 
-  easier survival to ennemies blast
+  [ok] nerfed ennemies blast
