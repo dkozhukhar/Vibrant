@@ -13,3 +13,14 @@ powerup maxing for weapons should do something
 [ok] fix life powerups for big ships
 [ok] add story
 change font
+more acceleration while being fat
+map with blocks
+  - spatial void blocks
+  - time change blocks
+  - out of map blocks
+  - energy gain block?
+  - life regain block?
+
+  trap should be a bomb
+
+  easier survival to ennemies blast

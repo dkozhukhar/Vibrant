@@ -649,7 +649,7 @@ class Player
     }
 
 
-    void move(double dt)
+    void move(Map map, double dt)
     {
         auto BUMPFACTOR = 1.414;
         auto CONSTANT_BUMP = 0.0;
@@ -751,24 +751,20 @@ class Player
         // gain energy from map borders (yes, like in the real world, just go the the edge of the World :)
         {
             mapEnergyGain = 0.f;
-            float fx = gmap.size() - abs(pos.x);
-            float fy = gmap.size() - abs(pos.y);
+
+            float fx = map.distanceToBorder(pos);
+   
             if (fx < 100)
             {
                 mapEnergyGain += 0.4f * dt * (100 - fx) * mov.squaredLength;
             }
 
-            if (fy < 100 )
-            {
-                mapEnergyGain += 0.4f * dt * (100 - fy) * mov.squaredLength;
-            }
-    //        mapEnergyGain = min(mapEnergyGain, 2 * ENERGYMAX - energy);
             energy = clampf(energy + mapEnergyGain, 0.f, 2 * ENERGYMAX);
         }
 
         //  borders
         {
-            int bounces = gmap.enforceBounds(pos, mov, angle, effectiveSize, BUMPFACTOR, CONSTANT_BUMP);
+            int bounces = map.enforceBounds(pos, mov, angle, effectiveSize, BUMPFACTOR, CONSTANT_BUMP);
 
             bounced = bounces > 0;
 

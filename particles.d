@@ -52,7 +52,7 @@ final class ParticleManager
             n.life = life / 60.f;
         }
 
-        void move(float dt) // also delete dead particles
+        void move(Map map, float dt) // also delete dead particles
         {
             int i = 0;
             const uint DECAY = 0x10000000;
@@ -66,7 +66,7 @@ final class ParticleManager
                     if (life < 16 / 60.f) color = colorsub(color,DECAY);
                     pos += mov * dt2;
 
-                    gmap.enforceBounds(pos, mov, 0.f, 0.35f, 0.f);
+                    map.enforceBounds(pos, mov, 0.f, 0.35f, 0.f);
                 }
 
                 if (particulstack[i].life <= 0)

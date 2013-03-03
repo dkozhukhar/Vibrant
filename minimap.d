@@ -16,7 +16,7 @@ import sound;
 import camera;
 import map;
 
-void drawMinimap(Camera camera, BulletPool bulletPool)
+void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
 {
     auto MAP_RADIUS = round(SCREENY * 0.2f);
     auto MAP_X = MAP_RADIUS;
@@ -88,7 +88,7 @@ void drawMinimap(Camera camera, BulletPool bulletPool)
 
         // only for rectangular maps
         {
-            float M = gmap.size();
+            float M = map.size();
             {
                 float d = abs(player.pos.x - M);
                 if (d < MAP_LIMIT)

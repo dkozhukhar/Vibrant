@@ -43,6 +43,7 @@ final class Game
         SoundManager m_soundManager;
         CheatcodeManager m_cheatcodeManager;
         Texture2D m_mainTexture;
+        Map _map;
 
         FBO m_mainFBO, m_defaultFBO;
         PostProcessing m_postProcessing;
@@ -99,6 +100,7 @@ final class Game
             _localTime = 0.0;
 
             _camera = new Camera();
+            _map = new Map();
 
             m_usePostProcessing = usePostProcessing;
             _overlay = new Overlay();
@@ -257,7 +259,7 @@ final class Game
 
             if (powerupIndex < minPowerupCount)
             {
-                addPowerup(gmap.randomPoint(), vec2f(0), 0, 0);
+                addPowerup(_map.randomPoint(), vec2f(0), 0, 0);
             }
 
             if (player !is null) player.intelligence(mouse, dt);
@@ -269,22 +271,22 @@ final class Game
                 }
             }
 
-            if (player !is null) player.move(dt);
+            if (player !is null) player.move(_map, dt);
             for (int i = 0; i < ia.length; ++i)
             {
                 if (ia[i] !is null)
                 {
-                    ia[i].move(dt);
+                    ia[i].move(_map, dt);
                 }
             }
 
-            m_particleManager.move(dt);
+            m_particleManager.move(_map, dt);
 
-            m_bulletPool.move(dt);            
+            m_bulletPool.move(_map, dt);            
 
             for (int i = 0; i < powerupIndex; ++i)
             {
-                powerupPool[i].move(dt);
+                powerupPool[i].move(_map, dt);
             }
 
             m_bulletPool.checkCollision(dt);            
@@ -406,7 +408,7 @@ final class Game
                 m_blit.use;
             }
 
-            ground(_camera);
+            _map.draw(_camera);
             m_particleManager.draw();
 
             showPowerups(_overlay._text);
@@ -428,7 +430,7 @@ final class Game
 
             _overlay.drawStatus();
             
-            drawMinimap(_camera, m_bulletPool);
+            drawMinimap(_camera, _map, m_bulletPool);
             showBars();
             
             GL.enable(GL.ALPHA_TEST);

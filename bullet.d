@@ -192,7 +192,7 @@ final struct Bullet
 
     }
 
-    void move(float dt)
+    void move(Map map, float dt)
     {
         for (int i = N - 1; i > 0; --i)
         {
@@ -217,7 +217,7 @@ final struct Bullet
             }
         }
 
-        int bc = gmap.enforceBounds(pos[0], mov, BULLET_SIZE, 1.f, 0.f);
+        int bc = map.enforceBounds(pos[0], mov, BULLET_SIZE, 1.f, 0.f);
 
         if (bc > 0)
         {
@@ -329,11 +329,11 @@ class BulletPool
             _bulletPool[_bulletIndex++] = Bullet(game, pos, mov, color, angle, guided, owner, damage);
         }
 
-        void move(float dt)
+        void move(Map map, float dt)
         {
             for(int i = 0; i < _bulletIndex; ++i)
             {
-                _bulletPool[i].move(dt);
+                _bulletPool[i].move(map, dt);
             }
         }
 

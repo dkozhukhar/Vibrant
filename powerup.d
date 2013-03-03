@@ -287,7 +287,7 @@ final class Powerup
         }
     }
 
-    void move(float dt)
+    void move(Map map, float dt)
     {
         if (dead) return;
         const BUMP_FACTOR = 1.f;
@@ -338,7 +338,7 @@ final class Powerup
             }
         }
 
-        gmap.enforceBounds(pos, mov, 0.f, BUMP_FACTOR, BUMP);
+        map.enforceBounds(pos, mov, 0.f, BUMP_FACTOR, BUMP);
 
         float fact = 1.0 - expd(-dt * 3.0);
         color1 += (finalcolor1 - color1) * fact;
