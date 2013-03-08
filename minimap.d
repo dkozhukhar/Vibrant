@@ -37,7 +37,7 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
     // clear the minimap zone
     {
         GL.begin(GL.TRIANGLE_FAN);
-        GL.color(vec4f(0, 0, 0, 0.5f));
+        GL.color(vec4f(0, 0, 0, 0.75f));
         vertexf(MAP_TRANSLATE_X, MAP_TRANSLATE_Y);
         for (int i = 0; i <= 64; ++i)
         {
@@ -173,6 +173,9 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
     }
 
     // draw bullets
+    GL.enable(GL.POINT_SMOOTH);
+    GL.hint(GL.POINT_SMOOTH_HINT, GL.NICEST);
+
     GL.pointSize(1);
     GL.begin(GL.POINTS);
     for (int i = 0; i < bulletPool.length; ++i)
@@ -198,7 +201,7 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
     }
     GL.end();
 
-    GL.pointSize(1);
+    GL.pointSize(2.0);
     GL.begin(GL.POINTS);
     for (int i = 0; i < powerupIndex; ++i)
     with (powerupPool[i])

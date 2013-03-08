@@ -74,7 +74,7 @@ class VibrantProgram : SDLApp
             m_view = box2i(0, 0, width, height).subRectWithRatio(ratio);
             GL.check();
             info(">OpenGL settings");
-            GL.disable(GL.DEPTH_TEST, GL.LINE_SMOOTH, GL.POLYGON_SMOOTH, GL.POINT_SMOOTH);
+            GL.disable(GL.DEPTH_TEST);
             GL.disable(GL.BLEND, GL.FOG, GL.LIGHTING, GL.NORMALIZE, GL.STENCIL_TEST, GL.CULL_FACE);
             GL.disable(GL.AUTO_NORMAL, GL.DITHER, GL.FOG, GL.LIGHTING, GL.NORMALIZE);        
             GL.disable(GL.POLYGON_SMOOTH, GL.LINE_SMOOTH, GL.POINT_SMOOTH);

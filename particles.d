@@ -79,49 +79,11 @@ final class ParticleManager
 
         void draw()
         {
+            GL.disable(GL.POINT_SMOOTH);
             GL.enable(GL.BLEND);
 
             GL.blend(GL.BlendMode.ADD, GL.BlendFactor.SRC_ALPHA, GL.BlendFactor.ONE_MINUS_SRC_ALPHA);
-
-            version(useVBO)
-            {
-                m_vbo1.clear();
-                m_vbo2.clear();
-                m_vbo3.clear();
-
-                static vec4f colorToVec4(uint c)
-                {
-                    return vec4f(Rvalue(c), Gvalue(c), Bvalue(c), Avalue(c)) / 255.f;
-                }
-
-                for (int i = 0; i < particleIndex; ++i)
-                with(particulstack[i])
-                {
-                    uint colorswapped1 = average(0,color);
-                    uint colorswapped2 = color;
-                    uint colorswapped3 = average(clwhite,color);
-                    vec4f c1 = colorToVec4(colorswapped1);
-                    vec4f c2 = colorToVec4(colorswapped2);
-                    vec4f c3 = colorToVec4(colorswapped3);
-
-                    m_vbo1.add(ParticleVertex(pos, c1));
-                    m_vbo2.add(ParticleVertex(pos, c2));
-                    m_vbo3.add(ParticleVertex(pos, c3));
-                }
-                m_vbo1.update;
-                m_vbo2.update;
-                m_vbo3.update;
-
-                GL.pointSize(10.f);
-                m_vbo1.draw(GL.POINTS, 0, m_vbo1.length);
-
-                GL.pointSize(5.f);
-                m_vbo2.draw(GL.POINTS, 1, m_vbo2.length);
-
-                GL.pointSize(2.f);
-                m_vbo3.draw(GL.POINTS, 2, m_vbo3.length);
-
-            } else
+            
             {
                 GL.pointSize(10.f);
                 GL.begin(GL.POINTS);
