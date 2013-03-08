@@ -182,7 +182,7 @@ final class Powerup
         {
             case PowerupType.LIFE:
             {
-                s.life = min(2.f, s.life + 0.5f / s.damageMultiplier());
+                s.life = min(2.f, s.life + 0.5f);
                 makePowerupSound(game.soundManager, pos);                
                 break;
             }
