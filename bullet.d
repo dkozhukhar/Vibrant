@@ -11,13 +11,12 @@ import camera;
 final struct Bullet
 {
     // tail length
-    const N = 14;
-
+    static const MAX_TAIL = 24;
     bool dead;
     Player owner;
     Game game;
     Camera _camera;
-    vec2f[N] pos; // pos[0] = current   pos[1] = last frame position
+    vec2f[MAX_TAIL] pos; // pos[0] = current   pos[1] = last frame position
     vec2f mov;
     vec3f color;
     float angle;
@@ -25,13 +24,16 @@ final struct Bullet
     float remainingtime;
     float _damage;
     float liveliness;
+    int _tailLength;
 
     static Bullet opCall(Game game, vec2f pos, vec2f mov, vec3f color, float angle, 
                           int guided, Player owner, float damage)
     {
         Bullet res = void;
 
-        for (int i = 0; i < N; ++i)
+        res._tailLength = guided > 90 ? MAX_TAIL : 14;
+
+        for (int i = 0; i < MAX_TAIL; ++i)
             res.pos[i] = pos;
         res.mov = mov;
 
@@ -194,7 +196,7 @@ final struct Bullet
 
     void move(Map map, float dt)
     {
-        for (int i = N - 1; i > 0; --i)
+        for (int i = _tailLength - 1; i > 0; --i)
         {
             pos[i] = pos[i - 1];
         }
@@ -284,9 +286,9 @@ final struct Bullet
         colorBase *= liveliness;
         
         GL.begin(GL.TRIANGLE_STRIP);
-        for (int i = 0; i < N - 1; ++i)
+        for (int i = 0; i < _tailLength - 1; ++i)
         {
-            float df = i / cast(float)(N - 1);
+            float df = i / cast(float)(_tailLength - 1);
             GL.color = vec4f(colorBase * 0.5f, 0.8f * (1 - df)*(1-df) + 0.2f);
             vec2f B = pos[i];
             vec2f E = pos[i + 1];
@@ -305,7 +307,7 @@ final struct Bullet
             vertexf(D);
             vertexf(F);
         }
-        vertexf(pos[N - 1]);        
+        vertexf(pos[_tailLength - 1]);        
         GL.end();
     }
 }
