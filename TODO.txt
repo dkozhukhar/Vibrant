@@ -15,7 +15,7 @@ powerup maxing for weapons should do something
 [ok] a bit better graphics for bullets and shields
 [ok] better looking particles, bullets
 change font
-more acceleration for fat ships
+[ok] big ships have 25% less acceleration instead of 50% less
 map with blocks
   - spatial void blocks
   - time change blocks
