@@ -415,17 +415,11 @@
     <File path="..\common2\misc\textfile.d" />
    </Folder>
    <Folder name="sdl">
-    <Folder name="mixer">
-     <File path="..\common2\sdl\mixer\all.d" />
-     <File path="..\common2\sdl\mixer\channel.d" />
-     <File path="..\common2\sdl\mixer\chunk.d" />
-     <File path="..\common2\sdl\mixer\general.d" />
-     <File path="..\common2\sdl\mixer\music.d" />
-    </Folder>
     <File path="..\common2\sdl\all.d" />
     <File path="..\common2\sdl\app.d" />
     <File path="..\common2\sdl\joystick.d" />
     <File path="..\common2\sdl\keyboard.d" />
+    <File path="..\common2\sdl\mixer.d" />
     <File path="..\common2\sdl\mutex.d" />
     <File path="..\common2\sdl\sdlimage.d" />
     <File path="..\common2\sdl\semaphore.d" />
