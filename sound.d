@@ -1,6 +1,6 @@
 module sound;
 
-import sdl.mixer.all;
+import sdl.mixer;
 import derelict.sdl.mixer;
 import sdl.all;
 import utils;
