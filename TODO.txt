@@ -4,8 +4,8 @@ Vibrant v1.7:
 [ok] touching border disable invicibility
 [ok] touching invicible ennemies disable both
 decreasing timer
-remove same-life score
-remove/replace cell powerup
+[ok] remove highscore
+[ok] remove cell powerup
 faster drawing of terrain
 different terrain for levels?
 powerup maxing for weapons should do something
@@ -13,8 +13,9 @@ powerup maxing for weapons should do something
 [ok] fix life powerups for big ships
 [ok] add story
 [ok] a bit better graphics for bullets and shields
+[ok] better looking particles, bullets
 change font
-more acceleration while being fat
+more acceleration for fat ships
 map with blocks
   - spatial void blocks
   - time change blocks
