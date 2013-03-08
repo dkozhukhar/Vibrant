@@ -207,7 +207,7 @@ final class Powerup
             }
             case PowerupType.IMPROVE_ENGINE:
             {
-                s.velocity  = min(PLAYER_BASE_VELOCITY * 1.8f, s.velocity + PLAYER_BASE_VELOCITY * 0.2f);
+                s.baseVelocity = min(PLAYER_BASE_VELOCITY * 1.8f, s.baseVelocity + PLAYER_BASE_VELOCITY * 0.2f);
                 makePowerupSound(game.soundManager, pos);
                 break;
             }

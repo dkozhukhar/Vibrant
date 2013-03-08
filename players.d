@@ -38,7 +38,7 @@ class Player
     vec3f color;
     Random random;
     float life;
-    float velocity;
+    float baseVelocity; // velocity at size 7
     float shipSize;
     float energy;
     float waitforshootTime;
@@ -100,7 +100,7 @@ class Player
             attitude = Attitude.HUMAN;
             shipSize = 7.0;
             color = vec3f(1, 0, 0);
-            velocity = PLAYER_BASE_VELOCITY;
+            baseVelocity = PLAYER_BASE_VELOCITY;
             waitforshootTime = 0.f;
             invincibility = level > 0 ? 2.f : 0.f;
             energy = 0;
@@ -126,7 +126,10 @@ class Player
             }
             color = colorchoose;
             angle = random.nextFloat * TAU_F;
-            velocity = PLAYER_BASE_VELOCITY * (1.f + (random.nextFloat - 0.5f) * 0.1f);
+
+            // AI have slightly different velocities
+            baseVelocity = PLAYER_BASE_VELOCITY * (1.f + (random.nextFloat - 0.5f) * 0.1f);
+
             attitude = (random.nextRange(2) == 0) ? Attitude.OCCUPIED : Attitude.FEARFUL;
         }
     }
@@ -867,19 +870,19 @@ class Player
 
                 if (turbo || isUp)
                 {
-                    progress(velocity, 0, dt);
+                    progress(velocity(), 0, dt);
                 }
 
                 if (isDown)
                 {
-                    progress(velocity, PI_F, dt);
+                    progress(velocity(), PI_F, dt);
                 }
-                if (isLeft && isAlt) { progress(velocity, + PI_2_F, dt); }
-                if (isRight && isAlt) { progress(velocity, - PI_2_F, dt); }
+                if (isLeft && isAlt) { progress(velocity(), + PI_2_F, dt); }
+                if (isRight && isAlt) { progress(velocity(), - PI_2_F, dt); }
 
 
                 angle -= axisx * dt * 60.f * TURNSPEED * invMass();
-                progress(-velocity * axisy, 0, dt);
+                progress(-velocity() * axisy, 0, dt);
                 break;
             }
 
@@ -932,7 +935,7 @@ class Player
                             {
                                 angle += dangle * TURNSPEED * 0.5f;
                             }
-                            progress(velocity * (min(0.4f, 1.f -(abs(dangle) / PI_F))), 0, dt);
+                            progress(velocity() * (min(0.4f, 1.f -(abs(dangle) / PI_F))), 0, dt);
                             if (abs(dangle) < 0.2f)
                             {
                                 shoot();
@@ -947,7 +950,7 @@ class Player
                     case Attitude.FEARFUL:
                         {
                             if (random.nextFloat < 3 * dt) vangle = vangle - dangle * TURNSPEED* random.nextFloat * 0.2;
-                            progress(velocity, 0, dt);
+                            progress(velocity(), 0, dt);
                             if (random.nextFloat < 1.5 * dt) turbo = true;
                             if (abs(dangle) < 12 * dt) shoot();
                         }
@@ -961,7 +964,7 @@ class Player
                                 if (random.nextFloat < 3 * dt) turbo = true;
                             }
                             float advance = clamp(1 - sqr(abs(dangle)/PI_F), 0.f, 1.f);
-                            progress(velocity * advance, 0, dt);
+                            progress(velocity() * advance, 0, dt);
                         }
                         break;
 
@@ -970,7 +973,7 @@ class Player
                         {
                             vangle = vangle + random.nextFloat2 * TURNSPEED * 0.012;
                             if (random.nextFloat < 0.1f * dt) turbo = !turbo;
-                            progress(velocity*0.5,0, dt);
+                            progress(velocity() * 0.5,0, dt);
                             if (random.nextFloat < 0.6 * dt) 
                                 drag();
                         }
@@ -978,6 +981,11 @@ class Player
                 }
             }
         }
+    }
+
+    float velocity()
+    {
+        return baseVelocity * (1.0f + (shipSize - 7) * 0.07f);
     }
 
     void progress(float acceleration, float theta, float dt)
