@@ -184,6 +184,8 @@ final class Game
         {
             if (ch == 'p')
                 pause();
+            if (ch == 'm')
+                m_soundManager.toggleMusic();
             else
                 m_cheatcodeManager.keyTyped(ch);
         }

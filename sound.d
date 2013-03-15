@@ -17,7 +17,6 @@ enum SOUND { SHOT, EXPLODE, BLAST, CATCH_POWERUP, DAMAGED, BORDER, BORDER2, COLL
              POWERUP1, POWERUP2, POWERUP3, POWERUP4, PSCHIT, FAIL };
 
 float[SOUND.max + 1] TIME_TO_WAIT = [0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0];
-version = music;
 
 static const BUF_LENGTH = 0x4000;
 
@@ -40,12 +39,10 @@ final class SoundManager
 
             m_music = new Music("deciBeats-Martini_Trip.ogg");
             Music.setVolume(0.8f);
+            _musicActivated = true;
 
-            version(music)
-            {
-                m_music.play(true);
-            }
-
+            m_music.play(true);
+            
             _paused = false;
 
             m_chunks.length = SOUND.max + 1;
@@ -81,6 +78,15 @@ final class SoundManager
             }            
         }
 
+        void toggleMusic()
+        {
+            if (_musicActivated)
+                Music.setVolume(0.0f);
+            else
+                Music.setVolume(0.8f);
+            _musicActivated = !_musicActivated;
+        }
+
         synchronized void setMainPlayer(Player p)
         {            
             _mainPlayer = p;
@@ -89,11 +95,7 @@ final class SoundManager
         // because the GC destroys this when the callback is running :(
         void close()
         {
-            version(music)
-            {
-                m_music.stop();
-            }
-
+            m_music.stop();
             Mix_UnregisterAllEffects(MIX_CHANNEL_POST);          
         }
 
@@ -159,6 +161,7 @@ final class SoundManager
         double[] m_bufL;
         double[] m_bufR;    
         bool _paused;
+        bool _musicActivated;
 
         static const char[][] wavFiles =
         [

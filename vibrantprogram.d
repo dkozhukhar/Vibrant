@@ -214,15 +214,11 @@ class VibrantProgram : SDLApp
             {
                 firstFrame = false;
 
-                final double time = m_frameCounter.elapsedTime;
+                double time = m_frameCounter.elapsedTime;
 
                 double dt = m_frameCounter.deltaTime;                
-                //processEvents();
-                //onMove(time, dt / 2);
                 processEvents();
-                onMove(time, dt);
-                //processEvents();
-                //onMove(time + dt / 2, dt  /2);
+                onMove(time, dt);                
 
                 if (!firstFrame) swapBuffers();
 
