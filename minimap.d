@@ -50,19 +50,24 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
     GL.lineWidth(1);
 
     // draw borders
+    
     {
         void line(vec2f a, vec2f b)
         {
+            vec2f center = (a + b) * 0.5f;
+            float alpha = max!(float)(0.f, 0.5f - 2.f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(center) / (MAP_RADIUS * MAP_RADIUS));
+            if (alpha <= 0.001)
+                return;
+
             float distA = MAP_RADIUS * player.pos.distanceTo(a) / MAP_LIMIT;
-            float distB = MAP_RADIUS * player.pos.distanceTo(b) / MAP_LIMIT;
+            float distB = MAP_RADIUS * player.pos.distanceTo(b) / MAP_LIMIT;            
+
             float angleA = atan2(a.y - player.pos.y, a.x - player.pos.x) - camera.angle - PI_2_F;
 
             if (!isFinite(angleA)) return;
 
             float angleB = atan2(b.y - player.pos.y, b.x - player.pos.x) - camera.angle - PI_2_F;
             if (!isFinite(angleB)) return;
-
-
 
             float sA = void, cA = void;
             float sB = void, cB = void;
@@ -72,70 +77,21 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
             vec2f at = vec2f(MAP_TRANSLATE_X + distA * sA, MAP_TRANSLATE_Y + distA * cA);
             vec2f bt = vec2f(MAP_TRANSLATE_X + distB * sB, MAP_TRANSLATE_Y + distB * cB);
 
-            GL.begin(GL.LINE_STRIP);
+            GL.color = vec4f(0.5,0.5,0.6, alpha);
 
-            for (int i = 0; i <= 10; ++i)
-            {
-
-                vec2f pt = at + (bt - at) * 0.1 * i;
-                float dist = max(0.f, 0.5f - 2.f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(pt) / (MAP_RADIUS * MAP_RADIUS));
-                GL.color = vec4f(0.5,0.5,0.6, dist);
-                vertexf(pt);
-            }
-
-            GL.end();
+            vertexf(at);
+            vertexf(bt);            
         }
 
-        // only for rectangular maps
-        {
-            float M = map.size();
-            {
-                float d = abs(player.pos.x - M);
-                if (d < MAP_LIMIT)
-                {
-                    float dist = sqrtf(sqrf(MAP_LIMIT) - sqrf(d));
-                    float ymin = maxf(-M, player.pos.y - dist);
-                    float ymax = minf(+M, player.pos.y + dist);
-                    line(vec2f(M, ymin), vec2f(M, ymax));
-                }
-            }
-            {
-                float d = abs(player.pos.x + M);
-                if (d < MAP_LIMIT)
-                {
-                    float dist = sqrtf(sqrf(MAP_LIMIT) - sqrf(d));
-                    float ymin = maxf(-M, player.pos.y - dist);
-                    float ymax = minf(+M, player.pos.y + dist);
-                    line(vec2f(-M, ymin), vec2f(-M, ymax));
-                }
-            }
-            {
-                float d = abs(player.pos.y - M);
-                if (d < MAP_LIMIT)
-                {
-                    float dist = sqrtf(sqrf(MAP_LIMIT) - sqrf(d));
-                    float xmin = maxf(-M, player.pos.x - dist);
-                    float xmax = minf(+M, player.pos.x + dist);
-                    line(vec2f(xmin, M), vec2f(xmax, M));
-                }
-            }
-            {
-                float d = abs(player.pos.y + M);
-                if (d < MAP_LIMIT)
-                {
-                    float dist = sqrtf(sqrf(MAP_LIMIT) - sqrf(d));
-                    float xmin = maxf(-M, player.pos.x - dist);
-                    float xmax = minf(+M, player.pos.x + dist);
-                    line(vec2f(xmin, -M), vec2f(xmax, -M));
-                }
-            }
+        MapLine[] outLines = map._outLines;
 
-        }
-
-
+        GL.begin(GL.LINES);
+        for (size_t i = 0; i < outLines.length; ++i)
+            with (outLines[i])
+                if (type == LINE_ELECTRIC_ARC)
+                    line(a, b);
+        GL.end();
     }
-
-
 
     // draw AIs
     for (int i = 0; i < ia.length; ++i)
