@@ -1,6 +1,5 @@
 Vibrant v1.7:
 
-
 [ok] touching border disable invicibility
 [ok] touching invicible ennemies disable both
 decreasing timer
@@ -25,5 +24,4 @@ map with blocks
 
 [ok] nerfed ennemies blast
 [ok] ability to disable music pressing M
-1 regressions !
-- no walls on minimap
+
