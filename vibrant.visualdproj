@@ -392,7 +392,6 @@
     <File path="..\common2\math\random.d" />
     <File path="..\common2\math\ray.d" />
     <File path="..\common2\math\rootsolver.d" />
-    <File path="..\common2\math\rounding.d" />
     <File path="..\common2\math\sphere.d" />
     <File path="..\common2\math\torus3.d" />
     <File path="..\common2\math\triangle3.d" />

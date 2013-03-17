@@ -82,7 +82,7 @@ class Player
 
         turbo = false;
         shipSize = 7.f + sqr(random.nextFloat) * 7;
-        weaponclass = 1 + round(sqr(random.nextFloat)*2);
+        weaponclass = 1 + cast(int)round(sqr(random.nextFloat)*2);
         energygain = BASE_ENERGY_GAIN;
         shieldAngle = random.nextFloat;
         armsPhase = random.nextAngle;
@@ -554,11 +554,11 @@ class Player
             cleanup();
             angle = PI_F + normalizeAngle(angle - PI_F);
 
-            int nParticul = round((100 + random.nextRange(60)) * PARTICUL_FACTOR * (shipSize / 7.f));
+            int nParticul = cast(int)round((100 + random.nextRange(60)) * PARTICUL_FACTOR * (shipSize / 7.f));
             auto cc = particleColor();
             for (int i = 0; i <= nParticul; ++i)            
             {
-                int life = round(sqr(random.nextFloat) * random.nextRange(800 - round(400 * explode_power))) + 5;
+                int life = cast(int)round(sqr(random.nextFloat) * random.nextRange(800 - cast(int)round(400 * explode_power))) + 5;
                 game.particles.add(pos, sqr(random.nextFloat) * mov * invMass,  0, 0, random.nextAngle,
                                    (sqr(random.nextFloat) + sqr(random.nextFloat) * 0.3f) * 7.0f * explode_power,
                             cc, life);
@@ -589,7 +589,7 @@ class Player
             }
             movePlayer(player);
 
-            int nPowerup = 1 + round(random.nextFloat * level * 0.08);
+            int nPowerup = 1 + cast(int)round(random.nextFloat * level * 0.08);
             for (int i = 0; i < nPowerup; ++i)
             {
                 float t = random.nextFloat;

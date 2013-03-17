@@ -341,16 +341,16 @@ final class Game
                 // bullet time bar
                 float bu = 2.f * BulletTime.fraction;
 
-                _overlay.drawBar(SCREENX - 29, SCREENY - 14,max(s, round(s * bu)), bu, rgb(160,24,160));
+                _overlay.drawBar(SCREENX - 29, SCREENY - 14,max(s, cast(int)round(s * bu)), bu, rgb(160,24,160));
 
                 // energy bar
-                _overlay.drawBar(SCREENX - 18, SCREENY - 14, max(s, round(player.energy / cast(float)ENERGYMAX * s)), player.energy / cast(float)ENERGYMAX,  rgb(252, 26, 15));
+                _overlay.drawBar(SCREENX - 18, SCREENY - 14, max(s, cast(int)round(player.energy / cast(float)ENERGYMAX * s)), player.energy / cast(float)ENERGYMAX,  rgb(252, 26, 15));
 
                 // life bar
-                _overlay.drawBar(SCREENX - 7, SCREENY - 14, max(s,round(player.life*s)),player.life, rgb(42, 6, 245));
+                _overlay.drawBar(SCREENX - 7, SCREENY - 14, max(s, cast(int)round(player.life*s)),player.life, rgb(42, 6, 245));
 
                 // invicibility bar
-                _overlay.drawBar(SCREENX - 7, SCREENY - 14, max(s,round(player.life*s)),player.life * min(3.f, player.invincibility) / 3.f, rgb(252, 26, 15));
+                _overlay.drawBar(SCREENX - 7, SCREENY - 14, max(s,cast(int)round(player.life*s)),player.life * min(3.f, player.invincibility) / 3.f, rgb(252, 26, 15));
 
                 if (player.isInvincible)
                 {

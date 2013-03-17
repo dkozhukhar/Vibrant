@@ -33,7 +33,7 @@ class Overlay
         void drawBar(int x, int y, int height, float status, uint c)
         {
             _mb.drawBox(x-4,y-height-1,x+4,y+2, clwhite);
-            int up = y - round((height - 1.f) * clamp(status, 0.f, 1.f));
+            int up = y - cast(int)round((height - 1.f) * clamp(status, 0.f, 1.f));
             if (up >= y) return;
             _mb.drawLine(x-2,y,x-2,up, average(c,clblack));
             _mb.drawLine(x-1,y,x-1,up, average(average(c,clwhite),clwhite));

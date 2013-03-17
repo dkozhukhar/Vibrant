@@ -241,7 +241,7 @@ final class Powerup
             }
             case PowerupType.HIROSHIMA:
             {
-                int count = round(s.shipSize * 4);
+                int count = cast(int)round(s.shipSize * 4);
                 for (int i = 0; i < count; ++i)
                 {
                     vec3f color = s.color;
@@ -423,7 +423,7 @@ final class Powerup
         {
             text.setFont(FontType.SMALL);
             auto textpos = transform(pos) + vec2f(8,-3);
-            text.setCursorPosition(round(textpos.x), round(textpos.y));
+            text.setCursorPosition(cast(int)round(textpos.x), cast(int)round(textpos.y));
             text.setAttr(0);
             text.setColor(0xffffffff);
             text.outputString(POWERUP_NAMES[type]);

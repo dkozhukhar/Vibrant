@@ -39,11 +39,6 @@ const clyellow = 0xFFFFFF00;
 const clgrey = 0xFF808080;
 const clmagenta = 0xFFFF00FF;
 
-uint Colordiv(uint c, uint d)
-{
-    return MixColor(clblack, c, round(255/d));
-}
-
 int Avalue(uint c)
 {
     return (0xff & (c >> 24));
@@ -222,9 +217,9 @@ uint rgba(int r, int g, int b, int a)
 
 uint Frgb(float r, float g, float b)
 {
-    return rgb(round(clamp(r, 0.f, 1.f)*255.f), 
-               round(clamp(g, 0.f, 1.f)*255.f), 
-               round(clamp(b, 0.f, 1.f)*255.f));
+    return rgb(cast(int)round(clamp(r, 0.f, 1.f)*255.f), 
+               cast(int)round(clamp(g, 0.f, 1.f)*255.f), 
+               cast(int)round(clamp(b, 0.f, 1.f)*255.f));
 }
 
 uint Frgb(vec3f c)
@@ -235,10 +230,10 @@ uint Frgb(vec3f c)
 
 uint Frgba(float r, float g, float b, float a)
 {
-    return rgba(round(clamp(r, 0.f, 1.f)*255.f), 
-                round(clamp(g, 0.f, 1.f)*255.f), 
-                round(clamp(b, 0.f, 1.f)*255.f), 
-                round(clamp(a, 0.f, 1.f)*255.f));
+    return rgba(cast(int)round(clamp(r, 0.f, 1.f)*255.f), 
+                cast(int)round(clamp(g, 0.f, 1.f)*255.f), 
+                cast(int)round(clamp(b, 0.f, 1.f)*255.f), 
+                cast(int)round(clamp(a, 0.f, 1.f)*255.f));
 }
 
 uint Frgba(vec4f c)

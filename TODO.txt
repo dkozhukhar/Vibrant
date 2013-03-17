@@ -6,7 +6,6 @@ Vibrant v1.7:
 decreasing timer
 [ok] remove highscore
 [ok] remove cell powerup
-faster drawing of terrain
 different terrain for levels?
 powerup maxing for weapons should do something
 [ok] fix message
@@ -14,7 +13,6 @@ powerup maxing for weapons should do something
 [ok] add story
 [ok] a bit better graphics for bullets and shields
 [ok] better looking particles, bullets
-change font
 [ok] big ships have 25% less acceleration instead of 50% less
 map with blocks
   - spatial void blocks
@@ -25,4 +23,7 @@ map with blocks
 
   trap should be a bomb
 
-  [ok] nerfed ennemies blast
+[ok] nerfed ennemies blast
+[ok] ability to disable music pressing M
+1 regressions !
+- no walls on minimap

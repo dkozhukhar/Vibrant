@@ -12,6 +12,9 @@ const TILE_NORMAL = 1;
 const LINE_ELECTRIC_ARC = 0;
 const LINE_TILE_SEP = 1;
 
+const NTILE_X = 34;
+const NTILE_Y = 34;
+
 struct MapLine
 {
     vec2f a;
@@ -36,7 +39,8 @@ class MapTile
 
         vec2f pos()
         {
-            return vec2f((_index.x - 16) * TILE_SIZE, (_index.y - 16) * TILE_SIZE);
+            return vec2f((_index.x - NTILE_X / 2) * TILE_SIZE, 
+                         (_index.y - NTILE_Y / 2) * TILE_SIZE); 
         }
 
         box2f bounds()
@@ -44,8 +48,6 @@ class MapTile
             vec2f p = pos();
             return box2f(p, p + vec2f(TILE_SIZE, TILE_SIZE));
         }
-
-        
     }
 
     private
@@ -64,35 +66,36 @@ class Map
         this()
         {
             random = Random();
-            _tiles.length = 32 * 32;
-            for (int i = 0; i < 32; ++i)
-                for (int j = 0; j < 32; ++j)
+            _tiles.length = NTILE_X * NTILE_Y;
+            for (int j = 0; j < NTILE_Y; ++j)
+                for (int i = 0; i < NTILE_X; ++i)
                 {
-                    bool border = i == 0 || j == 0 || i == 31 || j == 31;
-                    _tiles[j * 32 + i] = new MapTile(border ? TILE_OUTSIDE : TILE_NORMAL, vec2i(i, j));
+                    bool border = i <= 1 || j <= 1 || i >= NTILE_X - 2 || j >= NTILE_Y - 2;
+                    _tiles[j * NTILE_X + i] = new MapTile(border ? TILE_OUTSIDE : TILE_NORMAL, vec2i(i, j));
                 }
         }
 
         static bool indexInMap(vec2i i)
         {
-            return i.x >= 0 && i.x < 32 && i.y >= 0 && i.y < 32;
+            return i.x >= 0 && i.x < NTILE_X && i.y >= 0 && i.y < NTILE_Y;
         }
 
         static vec2i getIndex(vec2f pos)
         {
-            return vec2i (floor(pos.x / TILE_SIZE) + 16, floor(pos.y / TILE_SIZE) + 16);
+            return vec2i(cast(int)(floor(pos.x / TILE_SIZE)) + (NTILE_X / 2), 
+                         cast(int)(floor(pos.y / TILE_SIZE) + (NTILE_Y / 2)));
         }
 
         MapTile getTile(vec2i i)
         {
             assert(indexInMap(i));
-            return _tiles[i.y * 32 + i.x];
+            return _tiles[i.y * NTILE_X + i.x];
         }
 
         MapTile getTile(int ix, int iy)
         {
             assert(indexInMap(vec2i(ix, iy)));
-            return _tiles[iy * 32 + ix];
+            return _tiles[iy * NTILE_X + ix];
         }
 
         MapTile getTileAtPoint(vec2f pos)
@@ -109,7 +112,7 @@ class Map
 
             do
             {
-                t = getTile(random.nextRange(32), random.nextRange(32));
+                t = getTile(random.nextRange(NTILE_X), random.nextRange(NTILE_Y));
             }
             while (t.type() != TILE_NORMAL);
 
@@ -260,8 +263,8 @@ class Map
         {
             int nline = 0;            
 
-            for (int j = 0; j < 31; ++j)
-                for (int i = 0; i < 31; ++i)
+            for (int j = 0; j < NTILE_Y - 1; ++j)
+                for (int i = 0; i < NTILE_X - 1; ++i)
                 {
                     MapTile here = getTile(vec2i(i, j));
 
@@ -305,6 +308,7 @@ class Map
                 float t = 0;
 
                 GL.begin(GL.LINE_STRIP);
+                GL.color = RGBAF(0xff4040c0);
 
                 vertexf(a);
                 while (t < 1.f)
@@ -340,8 +344,6 @@ class Map
                 }
 
             GL.end();
-
-            GL.color = RGBAF(0xff4040c0);
 
             for (size_t i = 0; i < _outLines.length; ++i)
                 with (_outLines[i])
