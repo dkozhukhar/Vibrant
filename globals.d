@@ -39,7 +39,6 @@ const char[][] TIPS =
   "Hit SPACE to capture ennemies.",
   "You can play with a joypad.",
   "You can give traps away.",
-  "Strafe is possible.",
   "Blast bullets are guided.",
   "Borders can give you energy.",
   "Borders deplete your energy.",

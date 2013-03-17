@@ -117,33 +117,35 @@ class Overlay
                 BX = 101 + 8 * 8;
                 BY = 101 + 4 * 16 - 4;
                 _text.setColor(clwhite);
-                _text.setCursorPosition(BX, BY + 48);
-                _text.outputString("       Keys");
+                _text.setCursorPosition(BX, BY + 32);
+                _text.outputString("               Controls");
                 _text.setColor(clgrey);
                 _text.setCursorPosition(BX, BY + 64);
-                _text.outputString("   move: ARROWS");
+                _text.outputString("   move:              strafe: ");
                 _text.setCursorPosition(BX, BY + 80);
-                _text.outputString("   fire: CTRL, C");
+                _text.outputString("   fire:      ,       pause:  ");
                 _text.setCursorPosition(BX, BY + 96);
-                _text.outputString("   turbo: SHIFT, X");
+                _text.outputString("   turbo:      ,      music:  ");
                 _text.setCursorPosition(BX, BY + 112);
-                _text.outputString("   catch: SPACE, Z");
+                _text.outputString("   catch:      ,    ");
+
+                _text.setColor(0xff50bfbf);
+                
+                _text.setCursorPosition(BX, BY + 64);
+                _text.outputString("          ARROWS              ALT");
+                _text.setCursorPosition(BX, BY + 80);
+                _text.outputString("          CTRL  C             P");
+                _text.setCursorPosition(BX, BY + 96);
+                _text.outputString("          SHIFT  X            M ");
+                _text.setCursorPosition(BX, BY + 112);
+                _text.outputString("          SPACE  Z  ");
             }
 
-            {
-                BX = 101 + 27 * 8;
-                BY = 101 + 4 * 16 - 4;
-                _text.setColor(clwhite);
-                _text.setCursorPosition(BX, BY + 48);
-                _text.outputString("      Credits");
-                _text.setColor(clgrey);
-                _text.setCursorPosition(BX, BY + 64);                    
-                _text.outputString("   code: ponce");
-                _text.setCursorPosition(BX, BY + 80);
-                _text.outputString("   music: DeciBeats");
-                _text.setCursorPosition(BX + 8 * 10, BY + 96);
-                _text.outputString("aka Evil");
-            }
+/*
+            ALT strafe
+                P pause
+                M toggle music*/
+
         }
 
         char[] padZero(int n, int size, char[] pad)
