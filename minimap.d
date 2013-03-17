@@ -18,7 +18,7 @@ import map;
 
 void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
 {
-    auto MAP_RADIUS = round(SCREENY * 0.2f);
+    auto MAP_RADIUS = cast(int)(0.5f + SCREENY * 0.2f);
     auto MAP_X = MAP_RADIUS;
     auto MAP_Y = SCREENY - MAP_RADIUS;
     auto MAP_LIMIT = 2500;
@@ -54,11 +54,7 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
     {
         void line(vec2f a, vec2f b)
         {
-            vec2f center = (a + b) * 0.5f;
-            float alpha = max!(float)(0.f, 0.5f - 2.f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(center) / (MAP_RADIUS * MAP_RADIUS));
-            if (alpha <= 0.001)
-                return;
-
+            
             float distA = MAP_RADIUS * player.pos.distanceTo(a) / MAP_LIMIT;
             float distB = MAP_RADIUS * player.pos.distanceTo(b) / MAP_LIMIT;            
 
@@ -77,9 +73,14 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
             vec2f at = vec2f(MAP_TRANSLATE_X + distA * sA, MAP_TRANSLATE_Y + distA * cA);
             vec2f bt = vec2f(MAP_TRANSLATE_X + distB * sB, MAP_TRANSLATE_Y + distB * cB);
 
-            GL.color = vec4f(0.5,0.5,0.6, alpha);
+            float alpha_a = max!(float)(0.f, 0.5f - 2.f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(at) / (MAP_RADIUS * MAP_RADIUS));
+            float alpha_b = max!(float)(0.f, 0.5f - 2.f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(bt) / (MAP_RADIUS * MAP_RADIUS));
+            if (alpha_a <= 0.001 && alpha_b <= 0.001)
+                return;
 
+            GL.color = vec4f(0.5,0.5,0.6, alpha_a);
             vertexf(at);
+            GL.color = vec4f(0.5,0.5,0.6, alpha_b);
             vertexf(bt);            
         }
 
