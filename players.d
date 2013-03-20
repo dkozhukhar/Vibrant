@@ -323,7 +323,27 @@ class Player
 
         rotate(-angle + PI_2_F);
 
-        // dram engine activity
+        // shadow
+        {
+
+            GL.begin(GL.TRIANGLE_FAN);
+
+            GL.color = vec4f(0.0f,0.0f,0.0f,0.5f);
+            vertexf(0,0);
+            GL.color = vec4f(0.0f,0.0f,0.0f,0.0f);
+            const SIZE = 2;
+            for (int i = 0; i < 32; ++i)
+            {
+                float fi = i / 32.f;
+                float angle = TAU_F * fi;
+                float sina = void, cosa = void;
+                sincos(angle, sina, cosa);
+                vertexf(cosa * SIZE, sina * SIZE);
+            }
+            GL.end();
+        }
+
+        // draw engine activity
         if (engineExcitation > 0)
         {
             GL.begin(GL.TRIANGLE_FAN);
@@ -458,7 +478,7 @@ class Player
                 popmatrix;
             }
 
-            // dram main quads
+            // dram main part
             {
                 GL.begin(GL.TRIANGLES);
                 {
@@ -475,8 +495,8 @@ class Player
                     vertexf(0.72f,-1.0f);
                     vertexf(0.0f,1.0f);
 
+                    // thrust
                     GL.color = mix(c, vec3f(0.2f, 0.6f, 0.6f),  0.5f);
-
                     float bb = baseVelocity / PLAYER_BASE_VELOCITY;
                     vertexf(0.0f,-0.5f);
                     vertexf(0.42f,-0.5f);                    
@@ -489,10 +509,14 @@ class Player
 
                 GL.begin(GL.QUADS);
                 {  
-                    GL.color = mix(color, RGBF(ColorROR(Frgb(color), 24)), 0.5f);
+                    vec3f col = mix(color, RGBF(ColorROR(Frgb(color), 24)), 0.5f);
+                    GL.color = mix(col, vec3f(0.0f), 0.95f);
                     vertexf(0.0,0.5);
+                    GL.color = col;
                     vertexf(-0.36,-0.5);
+                    GL.color = mix(col, vec3f(1.0f), 0.8f);
                     vertexf(0.0,-0.643);
+                    GL.color = col;
                     vertexf(0.36,-0.5);
                 }
                 GL.end();
@@ -1079,16 +1103,17 @@ class Player
 
         vec2f thrust = polarOld(angle + theta, 1.f) * r;
 
-        vec2f dec = polarOld(angle + theta, shipSize * 0.5f);
+        vec2f dec = polarOld(angle, shipSize * 0.75f);
 
         mov += thrust * 60.f * dt;
 
         int nParticul = cast(int)(0.4f + (1 + round(r * r * 2)) * PARTICUL_FACTOR * 85 * dt);
         uint pcolor = particleColor();
+        vec2f basePos = pos - dec;
         for (int i = 0; i < nParticul; ++i)
         {
             float where = random.nextFloat - 0.5f;
-            game.particles.add(pos + where * mov - dec, vec2f(0), angle + PI_F + theta, 0,
+            game.particles.add(basePos + where * mov, vec2f(0), angle + PI_F + theta, 0,
                                random.nextAngle, random.nextFloat, pcolor, random.nextRange(80));
 
         }
