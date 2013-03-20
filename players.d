@@ -58,6 +58,7 @@ class Player
 
     private Powerup[MAX_DRAGGED_POWERUPS] _draggedPowerups;
     private int _numDraggedPowerups;
+    float engineExcitation;
 
     static const float SHIELD_SIZE_FACTOR = 2.f;
     static const float INVICIBILITY_SIZE_FACTOR = 2.f;
@@ -78,6 +79,7 @@ class Player
         dead = false;
         destroy = 0.f;
         life = 1;
+        engineExcitation = 0;
         
 
         turbo = false;
@@ -319,12 +321,36 @@ class Player
 
         GL.enable(GL.BLEND);
 
+        rotate(-angle + PI_2_F);
+
+        // dram engine activity
+        if (engineExcitation > 0)
+        {
+            GL.begin(GL.TRIANGLE_FAN);
+            vec2f center = vec2f(0.0f, -0.75f);
+
+            GL.color = vec4f(0.0f,1.0f,1.0f,engineExcitation);
+            vertexf(center);
+            const SIZE = 0.6f;
+            GL.color = vec4f(0.0f,1.0f,1.0f,0.0f);
+            for (int i = 0; i < 9; ++i)
+            {
+                float fi = i / 9.f;
+                float angle = TAU_F * fi;
+                float sina = void, cosa = void;
+                sincos(angle, sina, cosa);
+                vertexf(center.x + cosa * SIZE, center.y + sina * SIZE);
+            }
+            GL.end();
+        }
+
         // invincibility shield
         if (isInvincible())
         {
             GL.begin(GL.TRIANGLE_FAN);
 
             GL.color = vec4f(0.0f,0.0f,0.1f,0.8f);
+            vertexf(0,0);
             for (int i = 0; i < 32; ++i)
             {
                 float fi = i / 32.f;
@@ -378,55 +404,101 @@ class Player
             GL.end();
             popmatrix;
         }
-
-        rotate(-angle + PI_2_F);
+        
         if (destroy == 0)
         {
-            GL.color = maincolor();
-            GL.begin(GL.QUADS);
+            // draw arms
             {
-                vertexf(0.0,1.0);
-                vertexf(-0.72,-1.0);
-                vertexf(0.0,-0.29);
-                vertexf(0.72,-1.0);
-            }
-            GL.end();
-
-
-            GL.color = mix(color, RGBF(ColorROL(Frgb(color), 12 + weaponclass)), 0.5f);
-
-            {
+                vec3f armsColor = mix(color, RGBF(ColorROL(Frgb(color), 12 + weaponclass)), 0.5f);
+                vec3f armsColorDark = mix(armsColor, vec3f(0.3f, 0.3f, 0.4f), 0.5f);// * 0.4f;
                 float wingswidth = min(3, weaponclass);
                 pushmatrix;
-                rotate(-waitforshootTime*60*0.2);
+                rotate(-waitforshootTime*12);
+                
+
                 GL.begin(GL.TRIANGLES);
-                {
-                    vertexf(-0.72,-0.143);
-                    vertexf(-0.29,-0.143);
-                    vertexf(-0.51-0.29*weaponclass,0.43+0.29*weaponclass);
-                  }
-                  GL.end();
-                  rotate(waitforshootTime*60*0.4);
-                  GL.begin(GL.TRIANGLES);
-                {
-                    vertexf(0.72,-0.143);
-                    vertexf(0.29,-0.143);
-                    vertexf(+0.51+0.29*weaponclass,0.43+0.29*weaponclass);
+                {                    
+                    auto a = vec2f(-0.72f, -0.143f);
+                    auto b = vec2f(-0.29f, -0.143f);
+                    auto c = vec2f(-0.51f-0.29f*weaponclass,0.43f+0.29f*weaponclass);
+                    auto d = (a + b) * 0.5f;
+
+                    GL.color = armsColorDark;
+                    vertexf(a);
+                    vertexf(c);
+                    vertexf(d);
+
+                    GL.color = armsColor;
+                    vertexf(b);
+                    vertexf(c);
+                    vertexf(d);
                 }
                 GL.end();
-                  popmatrix;
-              }
 
-              GL.color = mix(color, RGBF(ColorROR(Frgb(color), 24)), 0.5f);
+                rotate(waitforshootTime*24);
+                
+                GL.begin(GL.TRIANGLES);
+                {
+                    auto a = vec2f(0.72f, -0.143f);
+                    auto b = vec2f(0.29f, -0.143f);
+                    auto c = vec2f(0.51f+0.29f*weaponclass,0.43f+0.29f*weaponclass);
+                    auto d = (a + b) * 0.5f;
 
-            GL.begin(GL.QUADS);
-            {
-                vertexf(0.0,0.5);
-                vertexf(-0.36,-0.5);
-                vertexf(0.0,-0.143);
-                vertexf(0.36,-0.5);
+                    GL.color = armsColorDark;
+                    vertexf(a);
+                    vertexf(c);
+                    vertexf(d);
+
+                    GL.color = armsColor;
+                    vertexf(b);
+                    vertexf(c);
+                    vertexf(d);                   
+                }
+                GL.end();
+                popmatrix;
             }
-            GL.end();
+
+            // dram main quads
+            {
+                GL.begin(GL.TRIANGLES);
+                {
+                    vec3f c = maincolor();
+                    GL.color = c;
+                    vertexf(0.0f,1.0f);
+                    vertexf(-0.72f,-1.0f);
+
+                    GL.color = mix(c, vec3f(1,1,1), 0.5f);
+                    vertexf(0.0f,-0.5f);
+                    vertexf(0.0f,-0.5f);
+
+                    GL.color = c;
+                    vertexf(0.72f,-1.0f);
+                    vertexf(0.0f,1.0f);
+
+                    GL.color = mix(c, vec3f(0.2f, 0.6f, 0.6f),  0.5f);
+
+                    float bb = baseVelocity / PLAYER_BASE_VELOCITY;
+                    vertexf(0.0f,-0.5f);
+                    vertexf(0.42f,-0.5f);                    
+                    vertexf(0.12f,-0.75f - bb * 0.25f);
+                    vertexf(0.0f,-0.5f);
+                    vertexf(-0.42f,-0.5f);                    
+                    vertexf(-0.12f,-0.75f - bb * 0.25f);
+                }
+                GL.end();
+
+                GL.begin(GL.QUADS);
+                {  
+                    GL.color = mix(color, RGBF(ColorROR(Frgb(color), 24)), 0.5f);
+                    vertexf(0.0,0.5);
+                    vertexf(-0.36,-0.5);
+                    vertexf(0.0,-0.643);
+                    vertexf(0.36,-0.5);
+                }
+                GL.end();
+            }
+
+           
             {
                 pushmatrix;
 
@@ -446,15 +518,11 @@ class Player
 
                     float baseangle = j * 6.2831853f / 3.f;
 
-                    assert(!isNaN(baseangle));
-
-
                     static const float[4] disp = [-0.6f, -1.2f, -1.8f, -2.4f];
 
                     for (int i = 0; i < 4; ++i)
                     {
                         float ang = baseangle - disp[0];
-                        assert(!isNaN(ang));
                         float dist = 0.21f;
                         float sina = void, cosa = void;
                         sincos(ang, sina, cosa);
@@ -468,7 +536,7 @@ class Player
 
                 popmatrix;
             }
-
+          
         }
         else
         {
@@ -664,6 +732,8 @@ class Player
 
         livingTime += dt;
         while (livingTime > LIVING_TIME_CYCLE) livingTime -= LIVING_TIME_CYCLE;
+
+        engineExcitation *= exp3(-dt * 12);
 
         {
             armsPhase += dt * 0.6 * PI_F;
@@ -1004,6 +1074,8 @@ class Player
                 r = r * TURBO_FACTOR;
             }
         }
+
+        engineExcitation = min(1.0f, engineExcitation + abs(r));
 
         vec2f thrust = polarOld(angle + theta, 1.f) * r;
 
