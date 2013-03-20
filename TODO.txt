@@ -14,6 +14,7 @@ Vibrant v1.7:
 [ok] nerfed ennemies blast
 [ok] ability to disable music pressing M
 [ok] document more keys
+[ok] remove console window in release mode (1.6 regression)
 
 decreasing timer
 fix story

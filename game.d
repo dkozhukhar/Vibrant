@@ -390,7 +390,7 @@ final class Game
             }
             else if (_localTime >= 5.0 && _localTime < 21.0)
             {
-                _overlay.drawIntroductoryText();
+                _overlay.drawIntroductoryText((_localTime - 5) / 16.0);
             }
 
             GL.disable(GL.BLEND);

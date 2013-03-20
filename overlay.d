@@ -47,7 +47,7 @@ class Overlay
             _mb.data[] = _ui.data[];
         }
 
-        void drawIntroductoryText()
+        void drawIntroductoryText(double t)
         {
             _text.setAttr(ATTR);
             _text.setColor(0xFF8080FF);
@@ -56,15 +56,32 @@ class Overlay
             int BX = 200;
             auto BY = 101 + 1 * 16;
 
-            drawWindowBox(BX - 16, BY - 28, BX + 30 * 8 + 16, BY + 36 + 16 * 6, 0x8F8080FF);
+            double h = 0;
+            const START = 0.03;
+            const STOP = 0.97;
 
-            _text.drawString(BX, BY     , "      The Homeric wars.       ");
-            _text.drawString(BX, BY + 16, "  In these times of trouble,  ");
-            _text.drawString(BX, BY + 32, "  it was common for the best  ");
-            _text.drawString(BX, BY + 48, "  warrior of a defeated tribe ");
-            _text.drawString(BX, BY + 64, "    to face an humiliating    ");
-            _text.drawString(BX, BY + 80, "  execution, fighting members ");
-            _text.drawString(BX, BY + 96, "       of his own house.      ");
+            if (t < 0.03) h = 60 * (1 - t / 0.03);
+            if (t > STOP) h = 60 * (t - STOP) / (1 - STOP);
+
+            drawWindowBox(BX - 16, BY - 28 + cast(int)(0.5 + h), BX + 30 * 8 + 16, BY + 116 - cast(int)(0.5 + h), 0x8F8080FF);
+
+            const char[][] test = 
+            [
+                "      The Homeric wars.       ",
+                "  In these times of trouble,  ",
+                "  it was common for the best  ",
+                "  warrior of a defeated tribe ",
+                "    to face an humiliating    ",
+                "          execution.          "
+            ];
+
+            if (t > START && t < STOP)
+            {
+                for (int i = 0; i < 6; ++i)
+                {
+                    _text.drawString(BX, BY + 16 * i, test[i]);
+                }
+            }
         }
 
         void drawPauseScreen()
