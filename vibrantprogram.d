@@ -22,7 +22,7 @@ class VibrantProgram : SDLApp
 
         wchar[] cheatString;
         Texture2D m_blurTex;
-        Tmouse _mouse;
+        MouseState _mouse;
 
     //    double mA1, mA2;
 

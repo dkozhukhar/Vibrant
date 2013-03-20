@@ -90,7 +90,7 @@ class Overlay
             _text.setColor(0xFFFFFFFF);
             _text.setFont(FontType.SMALL);
 
-            _text.drawString(BX, BY,      "                   Vibrant v1.6");
+            _text.drawString(BX, BY,      "                   Vibrant v1.7");
             _text.setColor(0xffff7477);
 
             _text.drawString(BX, BY + 16, "               www.gamesfrommars.fr    ");
@@ -129,7 +129,7 @@ class Overlay
                 _text.setCursorPosition(BX, BY + 112);
                 _text.outputString("   catch:      ,    ");
 
-                _text.setColor(0xff50bfbf);
+                _text.setColor(0xffbfbf50);
                 
                 _text.setCursorPosition(BX, BY + 64);
                 _text.outputString("          ARROWS              ALT");

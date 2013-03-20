@@ -814,7 +814,7 @@ class Player
         return isAlive();
     }
 
-    void intelligence(ref Tmouse mouse, float dt)
+    void intelligence(ref MouseState mouse, float dt)
     {
         if (destroy > 0) return;
         switch (attitude)

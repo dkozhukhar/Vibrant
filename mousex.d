@@ -2,7 +2,7 @@ module mousex;
 
 import sdl.all;
 
-struct Tmouse
+struct MouseState
 {
     int x, y;
     int vx, vy;

@@ -228,7 +228,7 @@ final class Game
             return _paused;
         }
 
-        void progress(ref Tmouse mouse, double dt)
+        void progress(ref MouseState mouse, double dt)
         {
             _localTime += dt;
             m_soundManager.timePassed(dt);

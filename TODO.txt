@@ -3,21 +3,21 @@ Vibrant v1.7:
 [ok] touching border disable invicibility
 [ok] touching invicible ennemies disable both
 
-[ok] remove highscore
+[ok] remove highscores
 [ok] remove cell powerup
-
-[ok] fix message
+[ok] fix typo in tips
 [ok] fix life powerups for big ships
 [ok] add story
 [ok] a bit better graphics for bullets and shields
 [ok] better looking particles, bullets
 [ok] big ships have 25% less acceleration instead of 50% less
-
 [ok] nerfed ennemies blast
 [ok] ability to disable music pressing M
 [ok] document more keys
 
 decreasing timer
+fix story
+
 
 Vibrant 1.8:
 
