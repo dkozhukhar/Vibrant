@@ -33,3 +33,14 @@ map with blocks
   - life regain block?
 
   trap should be a bomb
+
+
+
+  Experiments on MMO player:
+  - likes it because it's fast and remembers Asteroids
+  - did not found how to catch powerups at first
+  - did not read help
+  - did not understand english
+  - took a trap as a first powerup
+  - stopped the game after 5 min ("is there anything else to find out?")
+  - wonders about the objective
