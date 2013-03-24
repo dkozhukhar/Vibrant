@@ -7,20 +7,16 @@ Vibrant v1.7:
 [ok] fix typo in tips
 [ok] fix life powerups for big ships
 [ok] add a bit of background story at startup
-[ok] a bit better graphics for bullets and shields
-[ok] better looking particles, bullets
+[ok] better graphics for bullets, ships and particles
 [ok] big ships have 25% less acceleration instead of 50% less
 [ok] nerfed ennemies blast
 [ok] ability to disable music pressing M
 [ok] document more keys
 [ok] remove console window in release mode (1.6 regression)
 
-decreasing timer
-
-
 Vibrant 1.8:
 
-
+decreasing timer
 
 different terrain for levels?
 powerup maxing for weapons should do something

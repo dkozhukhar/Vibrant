@@ -348,8 +348,9 @@ class Player
         {
             GL.begin(GL.TRIANGLE_FAN);
             vec2f center = vec2f(0.0f, -0.75f);
+            vec3f engineCol = particleColor() * 0.75f + 0.25f * vec3f(1.0f, 1.0f, 0.0f);
 
-            GL.color = vec4f(0.0f,1.0f,1.0f,engineExcitation);
+            GL.color = vec4f(engineCol, engineExcitation * 0.75f);
             vertexf(center);
             const SIZE = 0.6f;
             GL.color = vec4f(0.0f,1.0f,1.0f,0.0f);
@@ -424,9 +425,51 @@ class Player
             GL.end();
             popmatrix;
         }
-        
+
+        // helix
         if (destroy == 0)
         {
+            pushmatrix;
+
+            vga2d.translate(0.f,1.f);
+
+            vec3f hcolor = 0.5f * color + 0.5f * vec3f(1.f, 0.f, 1.f);
+
+
+
+            rotate( armsPhase + PI_F * 20.f * energy / cast(float)(ENERGYMAX));
+
+            for (int j = 0; j < ENGINE_ARMS; ++j)
+            {
+                GL.begin(GL.LINES);
+                GL.color = hcolor;
+                vertexf(0,0);
+
+                float px = 0.01;
+                float py = 0.01;
+
+                float baseangle = j * 6.2831853f / 3.f;
+                float dist = ((energygain - BASE_ENERGY_GAIN) / BASE_ENERGY_GAIN) * 0.03f + 0.18f;
+
+                for (int i = 0; i < 4; ++i)
+                {
+                    GL.color = hcolor / (1.0f + i);
+                    float ang = baseangle + 0.6f;
+
+                    float sina = void, cosa = void;
+                    sincos(ang, sina, cosa);
+                    px = px + cosa * dist;
+                    py = py + sina * dist;
+                    vertexf(px,py);
+
+                    if (i < 3) 
+                        vertexf(px,py);
+                }
+                GL.end();
+            }
+
+            popmatrix;
+
             // draw arms
             {
                 vec3f armsColor = mix(color, RGBF(ColorROL(Frgb(color), 12 + weaponclass)), 0.5f);
@@ -520,47 +563,7 @@ class Player
                     vertexf(0.36,-0.5);
                 }
                 GL.end();
-            }
-
-           
-            {
-                pushmatrix;
-
-                vga2d.translate(0.f,1.f);
-
-                GL.color = 0.5f * color + 0.5f * vec3f(1.f, waitforshootTime * 960 / 255.f, 1.f);
-
-                rotate( armsPhase + PI_F * 20.f * energy / cast(float)(ENERGYMAX));
-
-                for (int j = 0; j < ENGINE_ARMS; ++j)
-                {
-                    GL.begin(GL.LINES);
-                    vertexf(0,0);
-
-                    float px = 0.01;
-                    float py = 0.01;
-
-                    float baseangle = j * 6.2831853f / 3.f;
-
-                    static const float[4] disp = [-0.6f, -1.2f, -1.8f, -2.4f];
-
-                    for (int i = 0; i < 4; ++i)
-                    {
-                        float ang = baseangle - disp[0];
-                        float dist = 0.21f;
-                        float sina = void, cosa = void;
-                        sincos(ang, sina, cosa);
-                        px = px + cosa * dist;
-                        py = py + sina * dist;
-                        vertexf(px,py);
-                        vertexf(px,py);
-                    }
-                    GL.end();
-                }
-
-                popmatrix;
-            }
-          
+            }          
         }
         else
         {
@@ -622,16 +625,8 @@ class Player
 
     uint particleColor()
     {
-        vec3f r = color;
-      
-        if (invincibility > 0)
-            r.z = 1;
-
-        if (attitude == Attitude.KAMIKAZE)
-            r.x = 1;
-
+        vec3f r = color;      
         r.z = min(1.f, r.z + mapEnergyGain * 0.02f);
-
         return Frgb(r);
     }
 
