@@ -165,25 +165,24 @@ class Overlay
 
         }
 
-        char[] padZero(int n, int size, char[] pad)
-        {
-            char[] res = format("%s", n);
-            while (res.length < size)
-            {
-                res = pad ~ res; // TODO : remove inefficiency
-            }
-            return res;
-        }
-
         void drawStatus()
         {
-            int x = 44;
-            int by = 10;
             _text.setFont(FontType.LARGE);
             _text.setAttr(ATTR);
             _text.setColor(0xffff7477);
-            _text.setCursorPosition(x, by);
-            _text.outputString(padZero(level, 5, " "));                
+            _text.setCursorPosition(40, 10);
+            
+            int levelMod100 = level % 100;
+
+            int[2] levelDigit;
+            levelDigit[0] = levelMod100 / 10;
+            levelDigit[1] = levelMod100 % 10;
+
+            if (levelDigit[0] != 0) 
+                _text.outputChar('0' + levelDigit[0]);
+            else
+                _text.outputChar(' ');
+            _text.outputChar('0' + levelDigit[1]);
         }
     }
 
