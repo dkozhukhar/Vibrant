@@ -302,13 +302,15 @@ class Map
 
         void draw(Camera camera)
         {
+            vec4f colE = RGBAF(0xff4848b0);
+
             void eclairs(vec2f a, vec2f b)
             {
                 float d = a.distanceTo(b);
                 float t = 0;
 
                 GL.begin(GL.LINE_STRIP);
-                GL.color = RGBAF(0xff4040c0);
+                GL.color = colE;
 
                 vertexf(a);
                 while (t < 1.f)
