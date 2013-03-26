@@ -370,7 +370,9 @@ class Player
         {
             GL.begin(GL.TRIANGLE_FAN);
 
-            GL.color = vec4f(0.0f,0.0f,0.1f,0.8f);
+            float alpha = 0.7f * (0.3f + 0.7f * min(3.f, player.invincibility) / 3.f);
+
+            GL.color = vec4f(0.0f,0.0f,0.1f, alpha);
             vertexf(0,0);
             for (int i = 0; i < 32; ++i)
             {
@@ -393,7 +395,7 @@ class Player
                 float fi = i / 32.f;
                 float angle = TAU_F * fi;
                 vec3f c = mix(mix(vec3f(0,0,1), color, fi), vec3f(0), (i+1) / 32.f);
-                GL.color = vec4f(c, 0.8f);
+                GL.color = vec4f(c, alpha);
                 float sina = void, cosa = void;
                 sincos(angle, sina, cosa);
                 vertexf(cosa * INVICIBILITY_SIZE_FACTOR, sina * INVICIBILITY_SIZE_FACTOR);
