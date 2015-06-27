@@ -38,7 +38,7 @@ private
     import derelict.util.wrapper;
 }
 
-private bool enabled = false;
+private __gshared bool enabled = false;
 
 struct ARBPointSprite
 {
@@ -63,7 +63,7 @@ version(DerelictGL_NoExtensionLoaders)
 }
 else
 {
-    static this()
+    shared static this()
     {
         DerelictGL.registerExtensionLoader(&ARBPointSprite.load);
     }

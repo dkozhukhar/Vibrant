@@ -33,7 +33,7 @@ module derelict.sdl.error;
 
 private import derelict.sdl.types;
 
-extern(C)
+extern(C) __gshared
 {
     void function(char*,...) SDL_SetError;
     char* function() SDL_GetError;

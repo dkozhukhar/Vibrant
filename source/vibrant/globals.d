@@ -56,9 +56,9 @@ const string[] TIPS =
   "It's OK to loose often."
 ];
 
-float bullettimeTime = 0;
-int level = 0;
-bool lastTimeButton2WasOff = true;
+__gshared float bullettimeTime = 0;
+__gshared int level = 0;
+__gshared bool lastTimeButton2WasOff = true;
 
 
 

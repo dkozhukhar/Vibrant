@@ -1259,9 +1259,9 @@ class Player
     }
 }
 
-Player[NUMBER_OF_IA] ia;
+__gshared Player[NUMBER_OF_IA] ia;
 
-Player player;
+__gshared Player player;
 
 void playerkillia()
 {

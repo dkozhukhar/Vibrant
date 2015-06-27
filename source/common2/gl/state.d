@@ -24,7 +24,7 @@ import gl.textureunit;
 // Global GL state
 // because globals rules
 
-GLState GL;
+__gshared GLState GL;
 
 enum OpenGLVersion
 {

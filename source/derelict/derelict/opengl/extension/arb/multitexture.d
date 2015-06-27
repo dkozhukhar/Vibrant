@@ -39,7 +39,7 @@ private
     import derelict.util.wrapper;
 }
 
-private bool enabled = false;
+private __gshared bool enabled = false;
 
 struct ARBMultitexture
 {
@@ -132,7 +132,7 @@ version(DerelictGL_NoExtensionLoaders)
 }
 else
 {
-    static this()
+    shared static this()
     {
         DerelictGL.registerExtensionLoader(&ARBMultitexture.load);
     }
@@ -214,6 +214,8 @@ alias void function(GLenum, GLint*) pfglMultiTexCoord4ivARB;
 alias void function(GLenum, GLshort, GLshort, GLshort, GLshort) pfglMultiTexCoord4sARB;
 alias void function(GLenum, GLshort*) pfglMultiTexCoord4svARB;
 
+__gshared
+{
 pfglActiveTextureARB            glActiveTextureARB;
 pfglClientActiveTextureARB      glClientActiveTextureARB;
 pfglMultiTexCoord1dARB          glMultiTexCoord1dARB;
@@ -248,3 +250,4 @@ pfglMultiTexCoord4iARB          glMultiTexCoord4iARB;
 pfglMultiTexCoord4ivARB         glMultiTexCoord4ivARB;
 pfglMultiTexCoord4sARB          glMultiTexCoord4sARB;
 pfglMultiTexCoord4svARB         glMultiTexCoord4svARB;
+}

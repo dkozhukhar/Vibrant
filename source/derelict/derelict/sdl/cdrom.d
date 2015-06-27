@@ -93,7 +93,7 @@ int MSF_TO_FRAMES(int M, int S, int F)
 }
 
 
-extern(C)
+extern(C) __gshared
 {
     int function() SDL_CDNumDrives;
     char* function(int) SDL_CDName;

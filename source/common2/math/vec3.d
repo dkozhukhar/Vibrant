@@ -58,7 +58,7 @@ struct vec3(T)
 
         static vec3[3] AXIS;
 
-        static this()
+        shared static this()
         {
             ZEROS = vec3(cast(T)0);
             ONES = vec3(cast(T)1);

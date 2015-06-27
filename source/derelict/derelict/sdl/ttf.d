@@ -79,7 +79,7 @@ private void load(SharedLib lib)
 
 
 GenericLoader DerelictSDLttf;
-static this() {
+shared static this() {
     DerelictSDLttf.setup(
         "SDL_ttf.dll",
         "libSDL_ttf.so, libSDL_ttf-2.0.so, libSDL_ttf-2.0.so.0",
@@ -123,7 +123,7 @@ void SDL_TTF_VERSION(SDL_version* X)
 
 void TTF_VERSION(SDL_version* X) { SDL_TTF_VERSION(X); }
 
-extern (C)
+extern (C) __gshared
 {
     SDL_version* function() TTF_Linked_Version;
     void function(int) TTF_ByteSwappedUNICODE;

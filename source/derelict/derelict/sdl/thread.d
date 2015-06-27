@@ -36,6 +36,7 @@ private import derelict.sdl.types;
 struct SDL_Thread {}
 
 extern(C)
+__gshared nothrow @nogc
 {
     SDL_Thread* function(int function(void*) fm, void*) SDL_CreateThread;
     Uint32 function() SDL_ThreadID;

@@ -39,7 +39,7 @@ private
     import derelict.util.wrapper;
 }
 
-private bool enabled = false;
+private __gshared bool enabled = false;
 
 struct ARBColorBufferFloat
 {
@@ -65,7 +65,7 @@ version(DerelictGL_NoExtensionLoaders)
 }
 else
 {
-    static this()
+    shared static this()
     {
         DerelictGL.registerExtensionLoader(&ARBColorBufferFloat.load);
     }
@@ -84,4 +84,4 @@ extern(System):
 
 alias void function(GLenum,GLenum) pfglClampColorARB;
 
-pfglClampColorARB       glClampColorARB;
+__gshared pfglClampColorARB       glClampColorARB;

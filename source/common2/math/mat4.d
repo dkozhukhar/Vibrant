@@ -70,7 +70,7 @@ struct mat4(T)
 
         static mat4 IDENTITY, ZERO;
 
-        static this()
+        shared static this()
         {
             ZERO = mat4(0);
             IDENTITY = mat4(1, 0, 0, 0,

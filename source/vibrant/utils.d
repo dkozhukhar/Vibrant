@@ -2,9 +2,9 @@ module utils;
 
 import math.all;
 
-Random random;
+__gshared Random random;
 
-static this()
+shared static this()
 {
     random = Random();
 }

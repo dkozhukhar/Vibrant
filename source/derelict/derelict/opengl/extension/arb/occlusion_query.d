@@ -39,7 +39,7 @@ private
     import derelict.util.wrapper;
 }
 
-private bool enabled = false;
+private __gshared bool enabled = false;
 
 struct ARBOcclusionQuery
 {
@@ -79,7 +79,7 @@ version(DerelictGL_NoExtensionLoaders)
 }
 else
 {
-    static this()
+    shared static this()
     {
         DerelictGL.registerExtensionLoader(&ARBOcclusionQuery.load);
     }
@@ -105,6 +105,8 @@ alias void function(GLenum, GLenum, GLint*) pfglGetQueryivARB;
 alias void function(GLuint, GLenum, GLint*) pfglGetQueryObjectivARB;
 alias void function(GLuint, GLenum, GLuint*) pfglGetQueryObjectuivARB;
 
+__gshared nothrow @nogc
+{
 pfglGenQueriesARB           glGenQueriesARB;
 pfglDeleteQueriesARB        glDeleteQueriesARB;
 pfglIsQueryARB              glIsQueryARB;
@@ -113,3 +115,4 @@ pfglEndQueryARB             glEndQueryARB;
 pfglGetQueryivARB           glGetQueryivARB;
 pfglGetQueryObjectivARB     glGetQueryObjectivARB;
 pfglGetQueryObjectuivARB    glGetQueryObjectuivARB;
+}

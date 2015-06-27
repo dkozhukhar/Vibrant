@@ -33,7 +33,7 @@ module derelict.sdl.cpuinfo;
 
 private import derelict.sdl.types;
 
-extern(C)
+extern(C) __gshared
 {
 	SDL_bool function() SDL_HasRDTSC;
 	SDL_bool function() SDL_HasMMX;

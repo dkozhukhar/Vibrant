@@ -49,6 +49,7 @@ enum : Uint8
 }
 
 extern(C)
+__gshared nothrow @nogc
 {
     int function() SDL_NumJoysticks;
     char* function(int) SDL_JoystickName;

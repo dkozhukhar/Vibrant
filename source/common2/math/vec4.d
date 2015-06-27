@@ -61,7 +61,7 @@ struct vec4(T)
         ///////////////
 
         static vec4 ZEROS, ONES;
-        static this()
+        shared static this()
         {
             ZEROS = vec4(cast(T)0);
             ONES = vec4(cast(T)1);

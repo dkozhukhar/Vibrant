@@ -31,7 +31,7 @@
  */
 module derelict.sdl.loadso;
 
-extern(C)
+extern(C) __gshared
 {
     void* function(char*) SDL_LoadObject;
     void* function(void*,char*) SDL_LoadFunction;

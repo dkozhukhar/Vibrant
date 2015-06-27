@@ -71,8 +71,8 @@ private void load(SharedLib lib)
 }
 
 
-GenericLoader DerelictSDLImage;
-static this() {
+__gshared GenericLoader DerelictSDLImage;
+shared static this() {
     DerelictSDLImage.setup(
         "SDL_image.dll",
         "libSDL_image.so, libSDL_image-1.2.so, libSDL_image-1.2.so.0",
@@ -99,6 +99,7 @@ void SDL_IMAGE_VERSION(SDL_version* X)
 }
 
 extern(C)
+__gshared nothrow @nogc
 {
     SDL_version* function() IMG_Linked_Version;
     SDL_Surface* function(SDL_RWops*, int, char*) IMG_LoadTyped_RW;

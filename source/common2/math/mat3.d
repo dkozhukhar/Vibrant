@@ -263,27 +263,20 @@ struct mat3(T)
                           c00, c01, c02, c10, c11, c12, c20, c21, c22);
         }
 
-        static mat3 IDENTITY, ZERO;
-
-        static this()
-        {
-            ZERO = mat3(0);
-            IDENTITY = mat3(1, 0, 0,
-                            0, 1, 0,
-                            0, 0, 1);
-        }
-
-
         static {
 
             mat3 zero()
             {
-                return ZERO;
+                return mat3(0, 0, 0,
+                            0, 0, 0,
+                            0, 0, 1);
             }
 
             mat3 identity()
             {
-                return IDENTITY;
+                return mat3(1, 0, 0,
+                            0, 1, 0,
+                            0, 0, 1);
             }
 
             mat3 scale(T f)

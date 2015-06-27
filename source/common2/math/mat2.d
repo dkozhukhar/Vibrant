@@ -166,7 +166,7 @@ struct mat2(T)
 
         static mat2 IDENTITY, ZERO;
 
-        static this()
+        shared static this()
         {
             ZERO = mat2(0);
             IDENTITY = mat2(1, 0,

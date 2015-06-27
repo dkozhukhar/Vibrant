@@ -39,7 +39,7 @@ private
     import derelict.util.wrapper;
 }
 
-private bool enabled = false;
+private __gshared bool enabled = false;
 
 struct ARBPointParameters
 {
@@ -67,7 +67,7 @@ version(DerelictGL_NoExtensionLoaders)
 }
 else
 {
-    static this()
+    shared static this()
     {
         DerelictGL.registerExtensionLoader(&ARBPointParameters.load);
     }
@@ -86,5 +86,8 @@ extern(System):
 alias void function(GLenum, GLfloat) pfglPointParameterfARB;
 alias void function(GLenum, GLfloat*) pfglPointParameterfvARB;
 
+__gshared nothrow @nogc
+{
 pfglPointParameterfARB          glPointParameterfARB;
 pfglPointParameterfvARB         glPointParameterfvARB;
+}

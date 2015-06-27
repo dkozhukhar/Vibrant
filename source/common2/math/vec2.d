@@ -49,14 +49,15 @@ struct vec2(T)
         // constants //
         ///////////////
 
-        static vec2 ZEROS, ONES;
-
-        static this()
+        static vec2 ZEROS()
         {
-            ZEROS = vec2(cast(T)0);
-            ONES = vec2(cast(T)1);
+            return vec2(cast(T)0);
         }
 
+        static vec2 ONES()
+        {
+            return vec2(cast(T)1);
+        }
 
         ///////////////////////////
         // GLSL style properties //

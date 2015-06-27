@@ -77,6 +77,7 @@ enum : Uint32
 }
 
 extern(C)
+__gshared nothrow @nogc
 {
     int function(Uint32) SDL_Init;
     int function(Uint32) SDL_InitSubSystem;
@@ -300,7 +301,7 @@ private void load(SharedLib lib)
 }
 
 GenericLoader DerelictSDL;
-static this() {
+shared static this() {
     DerelictSDL.setup(
         "sdl.dll",
         "libSDL.so, libSDL.so.0, libSDL-1.2.so, libSDL-1.2.so.0",

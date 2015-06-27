@@ -111,8 +111,8 @@ private void load(SharedLib lib)
     bindFunc(Mix_CloseAudio)("Mix_CloseAudio", lib);
 }
 
-GenericLoader DerelictSDLMixer;
-static this() {
+__gshared GenericLoader DerelictSDLMixer;
+shared static this() {
     DerelictSDLMixer.setup(
         "SDL_mixer.dll",
         "libSDL_mixer.so, libSDL_mixer-1.2.so, libSDL_mixer-1.2.so.0",
@@ -212,6 +212,7 @@ int Mix_FadeInChannel(int channel, Mix_Chunk* chunk, int loops, int ms)
 }
 
 extern (C)
+__gshared nothrow @nogc
 {
     SDL_version* function() Mix_Linked_Version;
     int function (int, Uint16, int, int) Mix_OpenAudio;

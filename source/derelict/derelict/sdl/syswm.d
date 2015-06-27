@@ -73,7 +73,7 @@ version(Nix)
     struct SDL_SysWMinfo;
 }
 
-extern(C)
+extern(C) __gshared nothrow @nogc
 {
 	int function(SDL_SysWMinfo*) SDL_GetWMInfo;
 }

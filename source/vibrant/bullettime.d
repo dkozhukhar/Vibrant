@@ -55,7 +55,7 @@ class BulletTime
             }
         }
 
-        private float bullettimeTime = 0.0f;
-        private bool enabled = false;
+        __gshared private float bullettimeTime = 0.0f;
+        private __gshared bool enabled = false;
     }
 }

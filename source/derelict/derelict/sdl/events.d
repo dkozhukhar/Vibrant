@@ -241,7 +241,7 @@ int SDL_QuitRequested()
     return SDL_PeepEvents(null, 0, SDL_PEEKEVENT, SDL_QUITMASK);
 }
 
-extern(C)
+extern(C) __gshared
 {
     void function() SDL_PumpEvents;
     int function(SDL_Event*,int,SDL_eventaction,Uint32) SDL_PeepEvents;

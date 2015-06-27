@@ -39,7 +39,7 @@ private
     import derelict.util.wrapper;
 }
 
-private bool enabled = false;
+private __gshared bool enabled = false;
 
 struct ARBMatrixPalette
 {
@@ -73,7 +73,7 @@ version(DerelictGL_NoExtensionLoaders)
 }
 else
 {
-    static this()
+    shared static this()
     {
         DerelictGL.registerExtensionLoader(&ARBMatrixPalette.load);
     }
@@ -101,8 +101,8 @@ alias void function(GLint, GLushort*) pfglMatrixIndexusvARB;
 alias void function(GLint, GLuint*) pfglMatrixIndexuivARB;
 alias void function(GLint, GLenum, GLsizei, GLvoid*) pfglMatrixIndexPointerARB;
 
-pfglCurrentPaletteMatrixARB         glCurrentPaletteMatrixARB;
-pfglMatrixIndexubvARB               glMatrixIndexubvARB;
-pfglMatrixIndexusvARB               glMatrixIndexusvARB;
-pfglMatrixIndexuivARB               glMatrixIndexuivARB;
-pfglMatrixIndexPointerARB           glMatrixIndexPointerARB;
+__gshared pfglCurrentPaletteMatrixARB         glCurrentPaletteMatrixARB;
+__gshared pfglMatrixIndexubvARB               glMatrixIndexubvARB;
+__gshared pfglMatrixIndexusvARB               glMatrixIndexusvARB;
+__gshared pfglMatrixIndexuivARB               glMatrixIndexuivARB;
+__gshared pfglMatrixIndexPointerARB           glMatrixIndexPointerARB;

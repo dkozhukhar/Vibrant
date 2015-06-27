@@ -48,6 +48,7 @@ extern(C)
 alias void *SDL_TimerID;
 
 extern(C)
+__gshared nothrow @nogc
 {
     Uint32 function() SDL_GetTicks;
     void function(Uint32) SDL_Delay;

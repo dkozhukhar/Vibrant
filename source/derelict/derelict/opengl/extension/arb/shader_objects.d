@@ -39,7 +39,7 @@ private
     import derelict.util.wrapper;
 }
 
-private bool enabled = false;
+private __gshared bool enabled = false;
 
 struct ARBShaderObjects
 {
@@ -141,7 +141,7 @@ version(DerelictGL_NoExtensionLoaders)
 }
 else
 {
-    static this()
+    shared static this()
     {
         DerelictGL.registerExtensionLoader(&ARBShaderObjects.load);
     }
@@ -230,6 +230,8 @@ alias void function(GLhandleARB, GLint, GLfloat*) pfglGetUniformfvARB;
 alias void function(GLhandleARB, GLint, GLint*) pfglGetUniformivARB;
 alias void function(GLhandleARB, GLsizei, GLsizei*, GLcharARB*) pfglGetShaderSourceARB;
 
+__gshared nothrow @nogc
+{
 pfglDeleteObjectARB                     glDeleteObjectARB;
 pfglGetHandleARB                        glGetHandleARB;
 pfglDetachObjectARB                     glDetachObjectARB;
@@ -269,3 +271,4 @@ pfglGetActiveUniformARB                 glGetActiveUniformARB;
 pfglGetUniformfvARB                     glGetUniformfvARB;
 pfglGetUniformivARB                     glGetUniformivARB;
 pfglGetShaderSourceARB                  glGetShaderSourceARB;
+}

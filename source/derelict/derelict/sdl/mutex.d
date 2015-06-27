@@ -54,6 +54,7 @@ int SDL_UnlockMutex(SDL_mutex *mutex)
 }
 
 extern(C)
+__gshared nothrow @nogc
 {
     SDL_mutex* function() SDL_CreateMutex;
     int function(SDL_mutex*) SDL_mutexP;

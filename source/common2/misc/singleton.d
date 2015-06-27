@@ -70,7 +70,7 @@ template ThreadSafeSingleton() // object creation is synchronized
 
 template StartupSingleton() // object is created at startup
 {
-    static this()
+    shared static this()
     {
         _instance = new typeof(this)();
     }

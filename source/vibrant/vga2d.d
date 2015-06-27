@@ -28,7 +28,7 @@ void translate(vec2f v)
 
 void rotate(float theta)
 {
-    static float c = -180.0f / PI_F;
+    static immutable float c = -180.0f / PI_F;
     GL.rotate(theta * c, 0, 0, 1);
 }
 

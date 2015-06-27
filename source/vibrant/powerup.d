@@ -16,9 +16,9 @@ const POWERUP_WIDTH = 1.0,
 
 enum PowerupType { LIFE, ENERGY_CELL, IMPROVE_WEAPON, ENERGY_GAIN, HIROSHIMA, IMPROVE_SIZE, MADNESS, TRAP, IMPROVE_ENGINE, BULLET_TIME, INVINCIBILITY };
 
-private int[PowerupType.max + 1] DRAG_SPEED = [ 24, 24, 24, 24, 24, 24, 24, 5, 24, 24, 24 ];
+private static immutable int[PowerupType.max + 1] DRAG_SPEED = [ 24, 24, 24, 24, 24, 24, 24, 5, 24, 24, 24 ];
 
-string[PowerupType.max + 1] POWERUP_NAMES = ["life", "cell", "weapon+", "energy+", "blast", "size+", "madness", "trap", "engine+", "bullet time", "invincibility"];
+static immutable string[PowerupType.max + 1] POWERUP_NAMES = ["life", "cell", "weapon+", "energy+", "blast", "size+", "madness", "trap", "engine+", "bullet time", "invincibility"];
 
 
 final class Powerup
@@ -454,10 +454,10 @@ void showPowerups(TextRenderer text)
 const MAX_POWERUPS = 200;
 
 
-Powerup[] powerupPool;
-int powerupIndex = 0;
+__gshared Powerup[] powerupPool;
+__gshared int powerupIndex = 0;
 
-static this()
+shared static this()
 {
     powerupPool.length = MAX_POWERUPS;
 }

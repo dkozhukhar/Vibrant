@@ -96,7 +96,7 @@ private void load(SharedLib lib)
 
 
 GenericLoader DerelictGLU;
-static this() {
+shared static this() {
     DerelictGLU.setup(
         "glu32.dll",
         "libGLU.so,libGLU.so.1",

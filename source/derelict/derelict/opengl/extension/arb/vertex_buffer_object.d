@@ -39,7 +39,7 @@ private
     import derelict.util.wrapper;
 }
 
-private bool enabled = false;
+private __gshared bool enabled = false;
 
 struct ARBVertexBufferObject
 {
@@ -85,7 +85,7 @@ version(DerelictGL_NoExtensionLoaders)
 }
 else
 {
-    static this()
+    shared static this()
     {
         DerelictGL.registerExtensionLoader(&ARBVertexBufferObject.load);
     }
@@ -143,6 +143,8 @@ alias GLboolean function(GLenum) pfglUnmapBufferARB;
 alias void function(GLenum, GLenum, GLint*) pfglGetBufferParameterivARB;
 alias void function(GLenum, GLenum, GLvoid*) pfglGetBufferPointervARB;
 
+__gshared
+{
 pfglBindBufferARB               glBindBufferARB;
 pfglDeleteBuffersARB            glDeleteBuffersARB;
 pfglGenBuffersARB               glGenBuffersARB;
@@ -154,3 +156,4 @@ pfglMapBufferARB                glMapBufferARB;
 pfglUnmapBufferARB              glUnmapBufferARB;
 pfglGetBufferParameterivARB     glGetBufferParameterivARB;
 pfglGetBufferPointervARB        glGetBufferPointervARB;
+}

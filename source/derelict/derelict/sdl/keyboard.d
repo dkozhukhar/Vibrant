@@ -54,6 +54,7 @@ enum
 }
 
 extern(C)
+__gshared nothrow @nogc
 {
     int function(int) SDL_EnableUNICODE;
     int function(int,int) SDL_EnableKeyRepeat;

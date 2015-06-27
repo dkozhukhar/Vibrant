@@ -70,7 +70,7 @@ Uint8 SDL_BUTTON(Uint8 x)
     return cast(Uint8)(1 << (x - 1));
 }
 
-extern(C)
+extern(C) __gshared
 {
     Uint8 function(int*,int*) SDL_GetMouseState;
     Uint8 function(int*,int*) SDL_GetRelativeMouseState;

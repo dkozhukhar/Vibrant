@@ -125,6 +125,7 @@ int SDL_RWclose(SDL_RWops *context)
 }
 
 extern(C)
+__gshared nothrow @nogc
 {
     SDL_RWops* function(const(char)*,const(char)*) SDL_RWFromFile;
     SDL_RWops* function(FILE*,int) SDL_RWFromFP;

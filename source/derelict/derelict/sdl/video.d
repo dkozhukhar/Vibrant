@@ -207,7 +207,7 @@ int SDL_SaveBMP(SDL_Surface *surfave, const(char) *file)
     return SDL_SaveBMP_RW(surfave, SDL_RWFromFile(file,"wb"), 1);
 }
 
-extern(C)
+extern(C) __gshared nothrow @nogc
 {
     int function(char*,Uint32) SDL_VideoInit;
     void function() SDL_VideoQuit;

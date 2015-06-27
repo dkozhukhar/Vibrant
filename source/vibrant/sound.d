@@ -15,7 +15,7 @@ import bullettime;
 enum SOUND { SHOT, EXPLODE, BLAST, CATCH_POWERUP, DAMAGED, BORDER, BORDER2, COLLISION,
              POWERUP1, POWERUP2, POWERUP3, POWERUP4, PSCHIT, FAIL };
 
-float[SOUND.max + 1] TIME_TO_WAIT = [0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0];
+static immutable float[SOUND.max + 1] TIME_TO_WAIT = [0, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 0];
 
 static const BUF_LENGTH = 0x4000;
 
