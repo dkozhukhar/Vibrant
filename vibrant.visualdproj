@@ -1,5 +1,5 @@
 <DProject>
-  <ProjectGuid>{D2AAC3DE-5C5B-4362-AF29-FA50D5121799}</ProjectGuid>
+  <ProjectGuid>{EED8CC75-99E5-4D44-BFBD-11C285838A47}</ProjectGuid>
   <Config name="debug" platform="x64">
     <symdebug>1</symdebug>
     <optimize>0</optimize>
@@ -97,17 +97,6 @@
     <Folder name="source">
     <Folder name="common2">
     <Folder name="derelict">
-    <Folder name="devil">
-      <File path="source\common2\derelict\devil\il.d" />
-      <File path="source\common2\derelict\devil\ilfuncs.d" />
-      <File path="source\common2\derelict\devil\iltypes.d" />
-      <File path="source\common2\derelict\devil\ilu.d" />
-      <File path="source\common2\derelict\devil\ilufuncs.d" />
-      <File path="source\common2\derelict\devil\ilut.d" />
-      <File path="source\common2\derelict\devil\ilutfuncs.d" />
-      <File path="source\common2\derelict\devil\iluttypes.d" />
-      <File path="source\common2\derelict\devil\ilutypes.d" />
-    </Folder>
     <Folder name="opengl">
     <Folder name="extension">
     <Folder name="arb">
@@ -267,7 +256,6 @@
     <Folder name="misc">
       <File path="source\common2\misc\all.d" />
       <File path="source\common2\misc\colors.d" />
-      <File path="source\common2\misc\devilimage.d" />
       <File path="source\common2\misc\framecounter.d" />
       <File path="source\common2\misc\image.d" />
       <File path="source\common2\misc\inifile.d" />
