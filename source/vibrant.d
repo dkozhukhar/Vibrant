@@ -3,12 +3,12 @@ module vibrant;
 
 import std.stdio;
 import std.file;
+import std.string;
 import std.path;
 import sdl.all;
 import std.conv;
 import misc.all;
 import vibrantprogram;
-import std.gc;
 
 import std.c.stdlib;
 
@@ -24,39 +24,22 @@ class InvalidCommandLine : object.Exception
 }
 
 T safeConvert(T)(string src, string errorMsg)
-{
-    static if(is(T : int))
-    {
-        alias std.conv.toInt conv;
-    } else static if(is(T : float))
-    {
-        alias std.conv.toFloat conv;
-    } else
-    {
-        static assert(false);
-    }
-
+{   
     try
     {
-        T res = conv(src);
+        T res = to!T(src);
         return res;
-    } catch(ConvError)
+    } catch(ConvException e)
     {
         throw new InvalidCommandLine(format(errorMsg, src));
     }
 }
 
 
-int mainProcedure(char[][] args)
+int main(string[]args)
 {
-    chdir(getDirName(args[0]));
+    chdir(dirName(args[0]));
 
-    info("Command-line :");
-
-    foreach(string s; args)
-    {
-        info(s);
-    }
 
 //    int fsaa = 4;
 
@@ -64,7 +47,7 @@ int mainProcedure(char[][] args)
     auto height = SDLApp.AUTO_DETECT;
     string sratio = "auto"; // auto-detect ratio from width and height
     bool fullscreen = true; // by default, fullscreen
-    float gamma = 1.f;
+    float gamma = 1.0f;
     bool music = true;
     bool vsync = true;
     int fsaa = 4;
@@ -158,78 +141,9 @@ int mainProcedure(char[][] args)
 
     {
         scope auto app = new VibrantProgram(width, height, ratio, fullscreen, fsaa, music, gamma, vsync, blur);
-        std.gc.fullCollect();
-        std.gc.minimize();
         app.run();
         app.close();
     }
 
     return 0;
-}
-
-version(Windows)
-{
-    debug
-    {
-        int main(char[][] args)
-        {
-            try
-            {
-                return mainProcedure(args);
-            }
-            catch(InvalidCommandLine e)
-            {
-                return 1;
-            }
-        }
-    }
-    else
-    {
-        import std.string;
-        import std.stream;
-        import std.math;
-        import std.c.stdlib;
-        import std.c.windows.windows;
-          import std.string;
-
-        extern (C)
-        {
-            void gc_init();
-            void gc_term();
-            void _minit();
-            void _moduleCtor();
-        }
-
-
-        extern (Windows) public int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-        {
-            int result;
-            gc_init();
-            _minit();
-            try
-            {
-                _moduleCtor();
-                char exe[4096];
-                GetModuleFileNameA(null, exe.ptr, 4096);
-                char[][1] prog;
-                prog[0] = std.string.toString(exe.ptr);
-                result = mainProcedure(prog ~ std.string.split(std.string.toString(lpCmdLine)));
-            }
-            catch (Object o)
-            {
-                result = EXIT_FAILURE;
-            }
-            gc_term();
-            return result;
-        }
-    }
-
-}
-else
-{
-
-    int main(char[][] args)
-    {
-        return mainProcedure(args);
-    }
 }

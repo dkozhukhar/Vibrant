@@ -17,13 +17,13 @@ final class CheatcodeManager
 
     private
     {
-        const char[][Cheat.max + 1] cheatcodeString =
+        const string[Cheat.max + 1] cheatcodeString =
         [
             "next",
             "levelmax",
         ];
 
-        char[] m_current;
+        string m_current;
         Game m_game;
 
         void executeCheat(Cheat cheat)
@@ -63,7 +63,7 @@ final class CheatcodeManager
             bool stillPossible = false;
             for (Cheat i = Cheat.min; i <= Cheat.max; ++i)
             {
-                int pos = ifind(cheatcodeString[i], m_current);
+                int pos = cast(int)( indexOf(cheatcodeString[i], m_current) );
                 if (pos == 0)
                 {
                     if (icmp(m_current, cheatcodeString[i]) == 0)

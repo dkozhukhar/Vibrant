@@ -10,7 +10,6 @@ import sdl.all;
 import mousex;
 import math.all;
 import std.stdio;
-import misc.logger;
 import joy, sound;
 import game;
 import particles;
@@ -60,9 +59,9 @@ class Player
     private int _numDraggedPowerups;
     float engineExcitation;
 
-    static const float SHIELD_SIZE_FACTOR = 2.f;
-    static const float INVICIBILITY_SIZE_FACTOR = 2.f;
-    static const float LIVING_TIME_CYCLE = 256.f;
+    static const float SHIELD_SIZE_FACTOR = 2.0f;
+    static const float INVICIBILITY_SIZE_FACTOR = 2.0f;
+    static const float LIVING_TIME_CYCLE = 256.0f;
 
     this(Game game, bool isHuman_, vec2f pos, float angle)
     {
@@ -72,24 +71,24 @@ class Player
         this.lastPos = pos;
         this.game = game;
         this.random = Random();
-        this.mapEnergyGain = 0.f;
+        this.mapEnergyGain = 0.0f;
         _camera = game.camera();
-        vangle = 0.f;
-        mov = vec2f(0.f);
+        vangle = 0.0f;
+        mov = vec2f(0.0f);
         dead = false;
-        destroy = 0.f;
+        destroy = 0.0f;
         life = 1;
         engineExcitation = 0;
         
 
         turbo = false;
-        shipSize = 7.f + sqr(random.nextFloat) * 7;
+        shipSize = 7.0f + sqr(random.nextFloat) * 7;
         weaponclass = 1 + cast(int)round(sqr(random.nextFloat)*2);
         energygain = BASE_ENERGY_GAIN;
         shieldAngle = random.nextFloat;
         armsPhase = random.nextAngle;
 
-        livingTime = 0.f;
+        livingTime = 0.0f;
 
         _draggedPowerups[] = null;
         _numDraggedPowerups = 0;
@@ -103,15 +102,15 @@ class Player
             shipSize = 7.0;
             color = vec3f(1, 0, 0);
             baseVelocity = PLAYER_BASE_VELOCITY;
-            waitforshootTime = 0.f;
-            invincibility = level > 0 ? 2.f : 0.f;
+            waitforshootTime = 0.0f;
+            invincibility = level > 0 ? 2.0f : 0.0f;
             energy = 0;
         }
         else
         {
             energy = ENERGYMAX;
             waitforshootTime = random.nextFloat;
-            invincibility = 0.f;
+            invincibility = 0.0f;
 
             vec3f colorchoose()
             {
@@ -122,7 +121,7 @@ class Player
                     r = random.nextFloat;
                     g = random.nextFloat;
                     b = random.nextFloat;
-                    ok = (r+g+b > 1.f) && (r*g*b < 0.5);
+                    ok = (r+g+b > 1.0f) && (r*g*b < 0.5f);
                 } while(!ok);
                 return vec3f(r, g, b);
             }
@@ -130,7 +129,7 @@ class Player
             angle = random.nextFloat * TAU_F;
 
             // AI have slightly different velocities
-            baseVelocity = PLAYER_BASE_VELOCITY * (1.f + (random.nextFloat - 0.5f) * 0.1f);
+            baseVelocity = PLAYER_BASE_VELOCITY * (1.0f + (random.nextFloat - 0.5f) * 0.1f);
 
             attitude = (random.nextRange(2) == 0) ? Attitude.OCCUPIED : Attitude.FEARFUL;
         }
@@ -214,12 +213,12 @@ class Player
 
     float invMass()
     {
-        return 7.f / shipSize;
+        return 7.0f / shipSize;
     }
 
     float mass()
     {
-        return shipSize / 7.f;
+        return shipSize / 7.0f;
     }
 
     bool isInvincible()
@@ -255,7 +254,7 @@ class Player
 
     bool isReallyReallyVulnerable() // will explode at next hit
     {
-        return life * 8.f < DAMAGE_MULTIPLIER * BULLET_DAMAGE * damageMultiplier();
+        return life * 8.0f < DAMAGE_MULTIPLIER * BULLET_DAMAGE * damageMultiplier();
     }
 
     vec3f maincolor()
@@ -263,9 +262,9 @@ class Player
         vec3f r = void;
         float expo = shipSize - 6.0;
 
-        if (isVulnerable() && (cos(TAU_F * 6.f * livingTime) >= 0))
+        if (isVulnerable() && (cos(TAU_F * 6.0f * livingTime) >= 0))
         {
-            r = vec3f(1.f) - color;
+            r = vec3f(1.0f) - color;
         }
         else
         {
@@ -274,15 +273,15 @@ class Player
 
         if (attitude == Attitude.KAMIKAZE)
         {
-            r = vec3f(1.f, r.y, r.z);
+            r = vec3f(1.0f, r.y, r.z);
         }
 
         if (invincibility > 0)
         {
-            r = vec3f(r.x, r.y, mixf(r.z, 1.f, minf(1.f, invincibility)));
+            r = vec3f(r.x, r.y, mixf(r.z, 1.0f, minf(1.0f, invincibility)));
         }
 
-        r.z = min(1.f, r.z + mapEnergyGain * 0.1f);
+        r.z = min(1.0f, r.z + mapEnergyGain * 0.1f);
 
         return r;
     }
@@ -334,7 +333,7 @@ class Player
             const SIZE = 2;
             for (int i = 0; i < 32; ++i)
             {
-                float fi = i / 32.f;
+                float fi = i / 32.0f;
                 float angle = TAU_F * fi;
                 float sina = void, cosa = void;
                 sincos(angle, sina, cosa);
@@ -356,7 +355,7 @@ class Player
             GL.color = vec4f(0.0f,1.0f,1.0f,0.0f);
             for (int i = 0; i < 9; ++i)
             {
-                float fi = i / 9.f;
+                float fi = i / 9.0f;
                 float angle = TAU_F * fi;
                 float sina = void, cosa = void;
                 sincos(angle, sina, cosa);
@@ -370,13 +369,13 @@ class Player
         {
             GL.begin(GL.TRIANGLE_FAN);
 
-            float alpha = 0.7f * (0.3f + 0.7f * min(3.f, player.invincibility) / 3.f);
+            float alpha = 0.7f * (0.3f + 0.7f * min(3.0f, player.invincibility) / 3.0f);
 
             GL.color = vec4f(0.0f,0.0f,0.1f, alpha);
             vertexf(0,0);
             for (int i = 0; i < 32; ++i)
             {
-                float fi = i / 32.f;
+                float fi = i / 32.0f;
                 float angle = TAU_F * fi;
                 float sina = void, cosa = void;
                 sincos(angle, sina, cosa);
@@ -392,9 +391,9 @@ class Player
 
             for (int i = 0; i <= 32; ++i)
             {
-                float fi = i / 32.f;
+                float fi = i / 32.0f;
                 float angle = TAU_F * fi;
-                vec3f c = mix(mix(vec3f(0,0,1), color, fi), vec3f(0), (i+1) / 32.f);
+                vec3f c = mix(mix(vec3f(0,0,1), color, fi), vec3f(0), (i+1) / 32.0f);
                 GL.color = vec4f(c, alpha);
                 float sina = void, cosa = void;
                 sincos(angle, sina, cosa);
@@ -416,9 +415,9 @@ class Player
 
             for (int i = 0; i <= 32; ++i)
             {
-                float fi = i / 32.f;
+                float fi = i / 32.0f;
                 float angle = TAU_F * fi;
-                vec3f c = mix(  mix(vec3f(1,1,0), color, fi), vec3f(0), (i+1) / 32.f);
+                vec3f c = mix(  mix(vec3f(1,1,0), color, fi), vec3f(0), (i+1) / 32.0f);
                 GL.color = vec4f(c, (life - 1) * 0.7f );
                 float cosa = void, sina = void;
                 sincos(angle, sina, cosa);
@@ -433,13 +432,13 @@ class Player
         {
             pushmatrix;
 
-            vga2d.translate(0.f,1.f);
+            vga2d.translate(0.0f,1.0f);
 
-            vec3f hcolor = 0.5f * color + 0.5f * vec3f(1.f, 0.f, 1.f);
+            vec3f hcolor = 0.5f * color + 0.5f * vec3f(1.0f, 0.0f, 1.0f);
 
 
 
-            rotate( armsPhase + PI_F * 20.f * energy / cast(float)(ENERGYMAX));
+            rotate( armsPhase + PI_F * 20.0f * energy / cast(float)(ENERGYMAX));
 
             for (int j = 0; j < ENGINE_ARMS; ++j)
             {
@@ -450,7 +449,7 @@ class Player
                 float px = 0.01;
                 float py = 0.01;
 
-                float baseangle = j * 6.2831853f / 3.f;
+                float baseangle = j * 6.2831853f / 3.0f;
                 float dist = ((energygain - BASE_ENERGY_GAIN) / BASE_ENERGY_GAIN) * 0.03f + 0.18f;
 
                 for (int i = 0; i < 4; ++i)
@@ -474,7 +473,7 @@ class Player
 
             // draw arms
             {
-                vec3f armsColor = mix(color, RGBF(ColorROL(Frgb(color), 12 + weaponclass)), 0.5f);
+                vec3f armsColor = mix(color, RGBF(ColorROL(Frgb(color), cast(byte)(12 + weaponclass))), 0.5f);
                 vec3f armsColorDark = mix(armsColor, vec3f(0.3f, 0.3f, 0.4f), 0.5f);// * 0.4f;
                 float wingswidth = min(3, weaponclass);
                 pushmatrix;
@@ -581,7 +580,7 @@ class Player
                 {
                     GL.color = vec4f(0,0,0,1);
                 }
-                float d = random.nextFloat * destroy / 7.f;
+                float d = random.nextFloat * destroy / 7.0f;
                 vertexf(0.0,0.0);
                 float angle = random.nextAngle;
                 float cosa = void, sina = void;
@@ -628,7 +627,7 @@ class Player
     uint particleColor()
     {
         vec3f r = color;      
-        r.z = min(1.f, r.z + mapEnergyGain * 0.02f);
+        r.z = min(1.0f, r.z + mapEnergyGain * 0.02f);
         return Frgb(r);
     }
 
@@ -638,12 +637,12 @@ class Player
         {
             game.soundManager.playSound(pos, 0.5f + 0.3f * random.nextFloat, SOUND.EXPLODE);
 
-            explode_power = clamp(explode_power, 0.f, 1.f);
+            explode_power = clamp(explode_power, 0.0f, 1.0f);
             destroy = 0.0001f;
             cleanup();
             angle = PI_F + normalizeAngle(angle - PI_F);
 
-            int nParticul = cast(int)round((100 + random.nextRange(60)) * PARTICUL_FACTOR * (shipSize / 7.f));
+            int nParticul = cast(int)round((100 + random.nextRange(60)) * PARTICUL_FACTOR * (shipSize / 7.0f));
             auto cc = particleColor();
             for (int i = 0; i <= nParticul; ++i)            
             {
@@ -659,7 +658,7 @@ class Player
                 Powerup m = powerupPool[i];
                 assert(m.getDragger() !is this);
                 float d = pos.squaredDistanceTo(m.pos);
-                m.mov += 100 * (m.pos - pos) / (d + 1.f);
+                m.mov += 100 * (m.pos - pos) / (d + 1.0f);
             }
 
             // move nearby players
@@ -669,7 +668,7 @@ class Player
                 if (p is this) return;
                 if (p.dead) return;
                 float d = pos.squaredDistanceTo(p.pos);
-                p.mov += ((random.nextFloat + random.nextFloat) * 0.5f) * sqr(mass()) * 100 * (p.pos - pos) / (d + 100.f);
+                p.mov += ((random.nextFloat + random.nextFloat) * 0.5f) * sqr(mass()) * 100 * (p.pos - pos) / (d + 100.0f);
             }
 
             for (int i = 0; i < NUMBER_OF_IA; ++i)
@@ -699,7 +698,7 @@ class Player
     void shoot()
     {
         if (weaponclass == 0) return;
-        if (waitforshootTime > 0.f) return;
+        if (waitforshootTime > 0.0f) return;
 
 
         if (!buyWithEnergy(BULLET_COST))
@@ -722,7 +721,7 @@ class Player
                     mspeed *= 1.25;
 
                 vec2f vel = mov;
-                vec2f dir = polarOld(mangle, 1.f);
+                vec2f dir = polarOld(mangle, 1.0f);
                 vec2f v = mspeed * dir + vel;
 
 
@@ -733,10 +732,10 @@ class Player
                 game.addBullet(mpos, v, mcolor, mangle, mguided, owner);
             }
 
-            mov -= polarOld(baseangle, 1.f) * 0.5f; // recul
+            mov -= polarOld(baseangle, 1.0f) * 0.5f; // recul
 
             waitforshootTime = RELOADTIME;
-            game.soundManager.playSound(pos, 1.f, SOUND.SHOT);
+            game.soundManager.playSound(pos, 1.0f, SOUND.SHOT);
         }
     }
 
@@ -759,13 +758,13 @@ class Player
         {
             armsPhase += dt * 0.6 * PI_F;
 
-            while (armsPhase > 32.f * TAU_F)
+            while (armsPhase > 32.0f * TAU_F)
             {
-                armsPhase -= 64.f * TAU_F;
+                armsPhase -= 64.0f * TAU_F;
             }
         }
 
-        angle = normalizeAngle(angle + (vangle * invMass()) * 60.f * dt);
+        angle = normalizeAngle(angle + (vangle * invMass()) * 60.0f * dt);
 
         vangle = vangle * exp(-dt * 0.955f);
 
@@ -777,21 +776,21 @@ class Player
         }
 
         waitforshootTime -= dt;
-        if (waitforshootTime < 0.f) waitforshootTime = 0.f;
+        if (waitforshootTime < 0.0f) waitforshootTime = 0.0f;
 
         if (invincibility > 0)
         {
-             invincibility = maxf(0.f, invincibility - dt);
+             invincibility = maxf(0.0f, invincibility - dt);
         }
 
         if (energy < ENERGYMAX)
         {
-            energy = energy + energygain * 60.f * dt;
+            energy = energy + energygain * 60.0f * dt;
         }
 
         if (life < 1)
         {
-            life = life + LIFEREGEN * 60.f * dt;
+            life = life + LIFEREGEN * 60.0f * dt;
             if (life > 1) life = 0.999;
         }
 
@@ -801,22 +800,22 @@ class Player
             float d = _catchedPlayer.pos.squaredDistanceTo(pos);
             if (d > 1e-3f)
             {
-                _catchedPlayerDistance -= dt * 5f; // like TRAP
-                if (_catchedPlayerDistance < 1.f) _catchedPlayerDistance = 1.f;
+                _catchedPlayerDistance -= dt * 5.0f; // like TRAP
+                if (_catchedPlayerDistance < 1.0f) _catchedPlayerDistance = 1.0f;
                 _catchedPlayer._catchedPlayerDistance = _catchedPlayerDistance;
 
                 d = sqrt(d);
                 vec2f middle = (_catchedPlayer.pos + pos) * 0.5f;
                 vec2f idealPosThis = middle + (pos - middle) * _catchedPlayerDistance / d;
                 vec2f idealPosOther = middle - (pos - middle) * _catchedPlayerDistance / d;
-                pos += (idealPosThis - pos) * min!(float)(1.f, 2.f * dt);
-                _catchedPlayer.pos += (idealPosOther - _catchedPlayer.pos) * min!(float)(1.f, 2.f * dt);
-                mov += (idealPosThis - pos) * min!(float)(1.f, 0.25f * dt);
-                _catchedPlayer.mov += (idealPosOther - _catchedPlayer.pos) * min!(float)(1.f, 0.25f * dt);
+                pos += (idealPosThis - pos) * min!(float)(1.0f, 2.0f * dt);
+                _catchedPlayer.pos += (idealPosOther - _catchedPlayer.pos) * min!(float)(1.0f, 2.0f * dt);
+                mov += (idealPosThis - pos) * min!(float)(1.0f, 0.25f * dt);
+                _catchedPlayer.mov += (idealPosOther - _catchedPlayer.pos) * min!(float)(1.0f, 0.25f * dt);
             }
         }
 
-        pos = pos + mov * invMass * 60.f * dt;
+        pos = pos + mov * invMass * 60.0f * dt;
 
         // damping
         {
@@ -830,21 +829,21 @@ class Player
                 //double movL = mov.length();
                 //double speedAtten = clamp(1 - SPEEDATENUATOR * movL * movL * movL, 1e-5, 1.0);
 
-                float vFact = expd(dt * logd(speedAtten) * 60.f);
+                float vFact = expd(dt * logd(speedAtten) * 60.0f);
                 mov *= vFact;
             }
 
             {
                 double spF = clampd(1.0 - mov.squaredLength / sqr(SPEED_MAX), 1e-10, 1.0);
                 double speedAtten2 = sqrt(spF);
-                float vFact2 = expd(dt * logd(speedAtten2) * 60.f);
+                float vFact2 = expd(dt * logd(speedAtten2) * 60.0f);
                 mov *= vFact2;
             }
         }
 
         // gain energy from map borders (yes, like in the real world, just go the the edge of the World :)
         {
-            mapEnergyGain = 0.f;
+            mapEnergyGain = 0.0f;
 
             float fx = map.distanceToBorder(pos);
    
@@ -853,7 +852,7 @@ class Player
                 mapEnergyGain += 0.4f * dt * (100 - fx) * mov.squaredLength;
             }
 
-            energy = clampf(energy + mapEnergyGain, 0.f, 2 * ENERGYMAX);
+            energy = clampf(energy + mapEnergyGain, 0.0f, 2 * ENERGYMAX);
         }
 
         //  borders
@@ -871,14 +870,14 @@ class Player
             {
                 energy = 0;
                 invincibility = 0.0f;
-                game.soundManager.playSound(pos, 1.f, SOUND.BORDER);
+                game.soundManager.playSound(pos, 1.0f, SOUND.BORDER);
             }
         }
 
-        if (destroy > 0.f)
+        if (destroy > 0.0f)
         {
             destroy += dt;
-            if (destroy >= 16 / 60.f)
+            if (destroy >= 16 / 60.0f)
             {                
                 dead = true;
             }
@@ -886,10 +885,10 @@ class Player
 
         if (attitude != Attitude.HUMAN)
         {
-            if (random.nextFloat < 0.0025 * 60.f * dt) attitude = Attitude.AGGRESSIVE;
-            if (random.nextFloat < 0.002 * 60.f * dt) attitude = Attitude.OCCUPIED;
-            if ((life < 0.42) && (random.nextFloat < 0.0025 * 60.f * dt)) attitude = Attitude.FEARFUL;
-            if ((life < 0.21) && (random.nextFloat < 0.01 * 60.f * dt)) attitude = Attitude.KAMIKAZE;
+            if (random.nextFloat < 0.0025 * 60.0f * dt) attitude = Attitude.AGGRESSIVE;
+            if (random.nextFloat < 0.002 * 60.0f * dt) attitude = Attitude.OCCUPIED;
+            if ((life < 0.42) && (random.nextFloat < 0.0025 * 60.0f * dt)) attitude = Attitude.FEARFUL;
+            if ((life < 0.21) && (random.nextFloat < 0.01 * 60.0f * dt)) attitude = Attitude.KAMIKAZE;
 
             if (!player.isValidTarget()) attitude = Attitude.OCCUPIED;
         }
@@ -951,12 +950,12 @@ class Player
 
                 if (isLeft && (!isAlt))
                 {
-                    angle += dt * 60.f * TURNSPEED * invMass();
+                    angle += dt * 60.0f * TURNSPEED * invMass();
                 }
 
                 if (isRight && (!isAlt))
                 {
-                    angle -= dt * 60.f * TURNSPEED * invMass();
+                    angle -= dt * 60.0f * TURNSPEED * invMass();
                 }
 
                 if (turbo || isUp)
@@ -972,7 +971,7 @@ class Player
                 if (isRight && isAlt) { progress(velocity(), - PI_2_F, dt); }
 
 
-                angle -= axisx * dt * 60.f * TURNSPEED * invMass();
+                angle -= axisx * dt * 60.0f * TURNSPEED * invMass();
                 progress(-velocity() * axisy, 0, dt);
                 break;
             }
@@ -981,9 +980,9 @@ class Player
             {
                 vec2f targetPos()
                 {
-                    if (player is null) return vec2f(0.f);
+                    if (player is null) return vec2f(0.0f);
 
-                    float intelligence = min(1.f, level / 30.f);
+                    float intelligence = min(1.0f, level / 30.0f);
 
                     if (attitude == Attitude.KAMIKAZE)
                         return player.pos + intelligence * player.mov * 60;
@@ -1017,7 +1016,7 @@ class Player
                 {
                     case Attitude.AGGRESSIVE:
                         {
-                            if (abs(dangle) < 1.f)
+                            if (abs(dangle) < 1.0f)
                             {
                                 angle += dangle * TURNSPEED;
                                 if ((d > 150) && (random.nextFloat < 0.01f)) turbo = true;
@@ -1026,7 +1025,7 @@ class Player
                             {
                                 angle += dangle * TURNSPEED * 0.5f;
                             }
-                            progress(velocity() * (min(0.4f, 1.f -(abs(dangle) / PI_F))), 0, dt);
+                            progress(velocity() * (min(0.4f, 1.0f -(abs(dangle) / PI_F))), 0, dt);
                             if (abs(dangle) < 0.2f)
                             {
                                 shoot();
@@ -1054,7 +1053,7 @@ class Player
                             {
                                 if (random.nextFloat < 3 * dt) turbo = true;
                             }
-                            float advance = clamp(1 - sqr(abs(dangle)/PI_F), 0.f, 1.f);
+                            float advance = clamp(1 - sqr(abs(dangle)/PI_F), 0.0f, 1.0f);
                             progress(velocity() * advance, 0, dt);
                         }
                         break;
@@ -1086,7 +1085,7 @@ class Player
 
         if ((turbo) && (r > 0))
         {
-            if (!buyWithEnergy(TURBO_COST * dt * 60.f))
+            if (!buyWithEnergy(TURBO_COST * dt * 60.0f))
             {                
                 turbo = false;
             }
@@ -1098,11 +1097,11 @@ class Player
 
         engineExcitation = min(1.0f, engineExcitation + abs(r));
 
-        vec2f thrust = polarOld(angle + theta, 1.f) * r;
+        vec2f thrust = polarOld(angle + theta, 1.0f) * r;
 
         vec2f dec = polarOld(angle, shipSize * 0.75f);
 
-        mov += thrust * 60.f * dt;
+        mov += thrust * 60.0f * dt;
 
         int nParticul = cast(int)(0.4f + (1 + round(r * r * 2)) * PARTICUL_FACTOR * 85 * dt);
         uint pcolor = particleColor();
@@ -1239,8 +1238,8 @@ class Player
                 {
                     if ((p1.isInvincible) && (p2.isInvincible))
                     {
-                        p1.mov *= 2.f;
-                        p2.mov *= 2.f;
+                        p1.mov *= 2.0f;
+                        p2.mov *= 2.0f;
                         p1.invincibility = 0.0f;
                         p2.invincibility = 0.0f;
                     }                    
@@ -1270,7 +1269,7 @@ void playerkillia()
     {
         if (ia[i] !is null)
         {
-            ia[i].damage(100.f);
+            ia[i].damage(100.0f);
         }
     }
 }

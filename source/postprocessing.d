@@ -2,7 +2,6 @@ module postprocessing;
 
 import math.all;
 import gl.all;
-import misc.logger;
 import sdl.all;
 import globals;
 import camera;

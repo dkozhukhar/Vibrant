@@ -2,7 +2,6 @@ module vga2d;
 
 import utils, palettes;
 import math.all;
-import misc.logger;
 import std.stdio;
 import globals;
 import camera;
@@ -14,22 +13,22 @@ public
 
 void scale( float fx, float fy)
 {
-    GL.scale(vec3f(fx, fy, 1.f));
+    GL.scale(vec3f(fx, fy, 1.0f));
 }
 
 void translate(float vx, float vy)
 {
-    GL.translate(vec3f(vx, vy, 0.f));
+    GL.translate(vec3f(vx, vy, 0.0f));
 }
 
 void translate(vec2f v)
 {
-    GL.translate(vec3f(v.x, v.y, 0.f));
+    GL.translate(vec3f(v.x, v.y, 0.0f));
 }
 
 void rotate(float theta)
 {
-    static float c = -180.f / PI_F;
+    static float c = -180.0f / PI_F;
     GL.rotate(theta * c, 0, 0, 1);
 }
 
@@ -61,7 +60,7 @@ vec2f transform(vec2f pt)
 
         return res;
     }
-    vec3d tr = projectSub(vec3d(pt.x, pt.y, 0.f), vec4i(0,0,SCREENX, SCREENY));
+    vec3d tr = projectSub(vec3d(pt.x, pt.y, 0.0f), vec4i(0,0,SCREENX, SCREENY));
 
     vec2f res = vec2f(tr.x, SCREENY - 1 - tr.y);
     return res;

@@ -63,19 +63,19 @@ class TextRenderer
             }
         }
 
-        void outputChar(char c)
+        void outputChar(dchar c)
         {
             drawChar(_cursorX, _cursorY, c, _textColor);
             _cursorX += 8;
         }
 
-        void outputString(char[] s)
+        void outputString(string s)
         {
             foreach(char c; s)
                 outputChar(c);
         }
 
-        void drawString(int cursorX, int cursorY, char[] s)
+        void drawString(int cursorX, int cursorY, string s)
         {
             setCursorPosition(cursorX, cursorY);
             outputString(s);
@@ -110,7 +110,7 @@ class TextRenderer
             }
         }
 
-        void drawChar(int x, int y, char ch, uint color)
+        void drawChar(int x, int y, dchar ch, uint color)
         {
             ubyte c = cast(ubyte)ch;
             ubyte * p = _selectedFont + (_charHeight * c);

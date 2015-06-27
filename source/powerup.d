@@ -18,7 +18,7 @@ enum PowerupType { LIFE, ENERGY_CELL, IMPROVE_WEAPON, ENERGY_GAIN, HIROSHIMA, IM
 
 private int[PowerupType.max + 1] DRAG_SPEED = [ 24, 24, 24, 24, 24, 24, 24, 5, 24, 24, 24 ];
 
-char[][PowerupType.max + 1] POWERUP_NAMES = ["life", "cell", "weapon+", "energy+", "blast", "size+", "madness", "trap", "engine+", "bullet time", "invincibility"];
+string[PowerupType.max + 1] POWERUP_NAMES = ["life", "cell", "weapon+", "energy+", "blast", "size+", "madness", "trap", "engine+", "bullet time", "invincibility"];
 
 
 final class Powerup
@@ -74,10 +74,10 @@ final class Powerup
         this.finalcolor2 = RGBF(colors2[this.type]);
         this.finalcolor3 = RGBF(colors3[this.type]);
 
-        this.color1 = vec3f(0.f);
-        this.color2 = vec3f(0.f);
-        this.color3 = vec3f(0.f);
-        this.counter = 0.f;
+        this.color1 = vec3f(0.0f);
+        this.color2 = vec3f(0.0f);
+        this.color3 = vec3f(0.0f);
+        this.counter = 0.0f;
 
         this.dead = false;
         this._dragger = null;
@@ -139,9 +139,9 @@ final class Powerup
 
         if (_dragger is null)
         {
-            float f = 60.f / (sqrde + 0.01);
-            float P = clamp(f, 0.f, 1.f);
-            pos = pos - (s.pos - pos) * P * dt * 85.f; // could be better
+            float f = 60.0f / (sqrde + 0.01);
+            float P = clamp(f, 0.0f, 1.0f);
+            pos = pos - (s.pos - pos) * P * dt * 85.0f; // could be better
         }
     }
 
@@ -182,7 +182,7 @@ final class Powerup
         {
             case PowerupType.LIFE:
             {
-                s.life = min(2.f, s.life + 0.5f);
+                s.life = min(2.0f, s.life + 0.5f);
                 makePowerupSound(game.soundManager, pos);                
                 break;
             }
@@ -195,13 +195,13 @@ final class Powerup
             case PowerupType.ENERGY_GAIN:
             {
                 s.energy = 2 * ENERGYMAX;
-                s.energygain = min(BASE_ENERGY_GAIN * 2.f, s.energygain + BASE_ENERGY_GAIN * 0.5f);
+                s.energygain = min(BASE_ENERGY_GAIN * 2.0f, s.energygain + BASE_ENERGY_GAIN * 0.5f);
                 makePowerupSound(game.soundManager, pos);
                 break;
             }
             case PowerupType.IMPROVE_SIZE:
             {
-                s.shipSize = min(14.f, s.shipSize + 1.f);
+                s.shipSize = min(14.0f, s.shipSize + 1.0f);
                 makePowerupSound(game.soundManager, pos);
                 break;
             }
@@ -246,7 +246,7 @@ final class Powerup
                 {
                     vec3f color = s.color;
                     float angle = s.angle + TWO_PI_F * i / cast(float)count;
-                    float d = 0.3f * (8.f - (i & 1) * 2.f);
+                    float d = 0.3f * (8.0f - (i & 1) * 2.0f);
 
                     if (!s.isHuman) 
                         d /= 1.25f;
@@ -255,13 +255,13 @@ final class Powerup
                     int mguided = s.isHuman ? 200 : 100;
                     game.addBullet(pos, mov, color, angle, mguided, s);
                 }
-                game.soundManager.playSound(pos, 1.f, SOUND.BLAST);
+                game.soundManager.playSound(pos, 1.0f, SOUND.BLAST);
                 break;
             }
 
             case PowerupType.INVINCIBILITY:
             {
-                s.invincibility = minf(s.invincibility + 8.f, MAX_INVINCIBILITY);
+                s.invincibility = minf(s.invincibility + 8.0f, MAX_INVINCIBILITY);
                 makePowerupSound(game.soundManager, pos);
                 break;
             }
@@ -293,9 +293,9 @@ final class Powerup
     void move(Map map, float dt)
     {
         if (dead) return;
-        const BUMP_FACTOR = 1.f;
-        const BUMP = 3.f;
-        float dt2 = 60.f * dt;
+        const BUMP_FACTOR = 1.0f;
+        const BUMP = 3.0f;
+        float dt2 = 60.0f * dt;
 
         lastPos = pos;
 
@@ -319,15 +319,15 @@ final class Powerup
                 if (d < DRAG_DISTANCE * DRAG_DISTANCE)
                 {
                     float oldfromdragger = fromdragger;
-                    float a = 2.f - (fromdragger - 100.f) * 0.01f;
-                    if (a > 2.f) a = 2.f;
-                    if (a < 0.f) a = 0.f;
+                    float a = 2.0f - (fromdragger - 100.0f) * 0.01f;
+                    if (a > 2.0f) a = 2.0f;
+                    if (a < 0.0f) a = 0.0f;
 
                     d = sqrt(d);                    
 
                     fromdragger = fromdragger - a * DRAG_SPEED[type] * dt;
 
-                    if (fromdragger < 1.f) fromdragger = 1.f;
+                    if (fromdragger < 1.0f) fromdragger = 1.0f;
 
                     if (d > 1e-3f)
                     {
@@ -341,16 +341,16 @@ final class Powerup
             }
         }
 
-        map.enforceBounds(pos, mov, 0.f, BUMP_FACTOR, BUMP);
+        map.enforceBounds(pos, mov, 0.0f, BUMP_FACTOR, BUMP);
 
         float fact = 1.0 - expd(-dt * 3.0);
         color1 += (finalcolor1 - color1) * fact;
         color2 += (finalcolor2 - color2) * fact;
         color3 += (finalcolor3 - color3) * fact;
 
-        if (random.nextFloat < dt * 2.f) swap(finalcolor1,finalcolor3);
-        if (random.nextFloat < dt * 2.f) swap(finalcolor2,finalcolor1);
-        if (random.nextFloat < dt * 2.f) swap(finalcolor3,finalcolor2);
+        if (random.nextFloat < dt * 2.0f) swap(finalcolor1,finalcolor3);
+        if (random.nextFloat < dt * 2.0f) swap(finalcolor2,finalcolor1);
+        if (random.nextFloat < dt * 2.0f) swap(finalcolor3,finalcolor2);
 
         counter += dt * 0.75f;
     }
@@ -373,7 +373,7 @@ final class Powerup
             mat2f m = mat2f.scale(1.45f);
 
             mat2f m2 = m * mat2f.rotate(counter * 6);
-            mat2f m3 = mat2f.rotate(TAU_F / 3.f);
+            mat2f m3 = mat2f.rotate(TAU_F / 3.0f);
             float sina = void, cosa = void;
             sincos(counter * 0.6f, sina, cosa);
             m2 *= mat2f.scale(0.7+0.3*cosa, 0.7+0.3*sina);
@@ -403,7 +403,7 @@ final class Powerup
             for (int i = 0; i <= 2; ++i)
             {
                 m2 = m * mat2f.rotate(-counter * 3.0 * (i+1) + i);
-                vec2f p2 = vec2f(8.f * cos(counter * 3 * (i + 1)+i), 0);
+                vec2f p2 = vec2f(8.0f * cos(counter * 3 * (i + 1)+i), 0);
 
                 GL.color = colors[i];
 

@@ -156,7 +156,7 @@ class Map
         void enforceBounds(ref vec2f pos, float radius)
         {
             float m = SIZE_OF_MAP - radius;
-            if (m < 0.f) m = 0.f;
+            if (m < 0.0f) m = 0.0f;
             int res = 0;
             if (pos.x < -m)
             {
@@ -185,7 +185,7 @@ class Map
         int enforceBounds(ref vec2f pos, ref vec2f mov, float radius, float bounce, float constantBounce)
         {
             float m = SIZE_OF_MAP - radius;
-            if (m < 0.f) m = 0.f;
+            if (m < 0.0f) m = 0.0f;
 
             int res = 0;
             if (pos.x < -m)
@@ -221,7 +221,7 @@ class Map
                           float radius, float bounce, float constantBounce)
         {
             float m = SIZE_OF_MAP - radius;
-            if (m < 0.f) m = 0.f;
+            if (m < 0.0f) m = 0.0f;
 
             int res = 0;
 
@@ -259,7 +259,7 @@ class Map
             return res;
         }
 
-        void generateMapLines(inout MapLine[] outLines)
+        void generateMapLines(ref MapLine[] outLines)
         {
             int nline = 0;            
 
@@ -313,14 +313,14 @@ class Map
                 GL.color = colE;
 
                 vertexf(a);
-                while (t < 1.f)
+                while (t < 1.0f)
                 {
                     vec2f pt = t * b + (1 - t) * a;
-                    vec2f p = pt + vec2f(random.nextFloat2 * random.nextFloat2 , random.nextFloat2 * random.nextFloat2) * 5.f;
+                    vec2f p = pt + vec2f(random.nextFloat2 * random.nextFloat2 , random.nextFloat2 * random.nextFloat2) * 5.0f;
 
                     vertexf(p);
 
-                    t = t + 5.f / d;
+                    t = t + 5.0f / d;
                 }
                 vertexf(b);
                 GL.end();

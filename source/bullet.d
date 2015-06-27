@@ -1,7 +1,6 @@
 module bullet;
 
 import gl.all;
-import misc.logger;
 import math.all;
 import sound;
 import particles, palettes, globals, utils, vga2d, players, game;
@@ -40,7 +39,7 @@ final struct Bullet
         res.color = color;
         res.angle = angle;
         res.guided = guided;
-        res.remainingtime = 500 / 60.f;
+        res.remainingtime = 500 / 60.0f;
         res.owner = owner;
         res._damage = damage;
         res.dead = false;
@@ -93,12 +92,12 @@ final struct Bullet
 
         // apply attraction
         {
-            float mul = s.isInvincible() ? 2.f : 1.f;
+            float mul = s.isInvincible() ? 2.0f : 1.0f;
             float f = mul * guided / (sqrdist + 0.01f);
-            //float force = s.isInvincible ? -1.f : 1.f;
-            auto P = clamp(f, 0.f, 1.f) * ((bullettimeTime > 0.f) ? 2.f : 1.f);
-            P = min!(float)(1.f, P);
-            pos[0] += (s.pos - pos[0]) * P * dt * 85.f;
+            //float force = s.isInvincible ? -1.0f : 1.0f;
+            auto P = clamp(f, 0.0f, 1.0f) * ((bullettimeTime > 0.0f) ? 2.0f : 1.0f);
+            P = min!(float)(1.0f, P);
+            pos[0] += (s.pos - pos[0]) * P * dt * 85.0f;
         }
     }
 
@@ -156,7 +155,7 @@ final struct Bullet
             if (p.destroy == 0)
             {
                 {
-                    float power = p.isInvincible ? 0.125f : 1.f;
+                    float power = p.isInvincible ? 0.125f : 1.0f;
                     vec2f vel = pos[0] - pos[1];
                     vec2f pvel = p.pos - p.lastPos;
                     vec2f diffVel = pvel - vel;
@@ -201,15 +200,15 @@ final struct Bullet
             pos[i] = pos[i - 1];
         }
 
-        const BULLET_CONSTANT_ROTATION = -0.08 * 60.f;
+        const BULLET_CONSTANT_ROTATION = -0.08 * 60.0f;
 
         angle = angle + BULLET_CONSTANT_ROTATION * dt;
         vec2f anc = pos[0];
-        pos[0] = pos[0] + mov * dt * 60.f;
+        pos[0] = pos[0] + mov * dt * 60.0f;
 
         if (_camera.canSee(pos[0]))
         {
-            float nParticles = 85.f * dt * 1.f * PARTICUL_FACTOR;
+            float nParticles = 85.0f * dt * 1.0f * PARTICUL_FACTOR;
             for (int i = 0; i < nParticles; ++i)
             {
                 float a = random.nextFloat;
@@ -219,19 +218,19 @@ final struct Bullet
             }
         }
 
-        int bc = map.enforceBounds(pos[0], mov, BULLET_SIZE, 1.f, 0.f);
+        int bc = map.enforceBounds(pos[0], mov, BULLET_SIZE, 1.0f, 0.0f);
 
         if (bc > 0)
         {
-            game.soundManager.playSound(pos[0], 1.f, SOUND.BORDER2);
+            game.soundManager.playSound(pos[0], 1.0f, SOUND.BORDER2);
         }
 
         remainingtime -= dt;
         if (remainingtime <= 0) dead = true;
 
-        if (remainingtime < 16.f / 60.f)
+        if (remainingtime < 16.0f / 60.0f)
         {
-            liveliness = remainingtime / (16.f / 60.f);
+            liveliness = remainingtime / (16.0f / 60.0f);
         }
         else
             liveliness = 1.0f;
@@ -244,7 +243,7 @@ final struct Bullet
             return;
 
         vec3f colorBase = color;
-        float scale = 1.f;
+        float scale = 1.0f;
         if (_damage > 1.5f)
         {
             colorBase += vec3f(-0.5f, -0.5f, +0.7f);
@@ -253,7 +252,7 @@ final struct Bullet
 
 
         mat2f m = mat2f.rotate(angle) * scale;
-        vec3f c2 = colorBase + vec3f(2.f / 255.f, 20.f / 255.f, 20.f / 255.f);
+        vec3f c2 = colorBase + vec3f(2.0f / 255.0f, 20.0f / 255.0f, 20.0f / 255.0f);
 
         colorBase *= liveliness;
         c2 *= liveliness;
@@ -276,7 +275,7 @@ final struct Bullet
             return;
 
         vec3f colorBase = color;
-        float scale = 1.f;
+        float scale = 1.0f;
         if (_damage > 1.5f)
         {
             colorBase += vec3f(-0.5f, -0.5f, +0.7f);
@@ -298,7 +297,7 @@ final struct Bullet
             if (dl < 1e-3f)
                 break;
 
-            float expectedWidthN = 1.f * (1 - df);
+            float expectedWidthN = 1.0f * (1 - df);
             expectedWidthN = minf(expectedWidthN, dl);
             diff.normalize();
 
@@ -327,7 +326,7 @@ class BulletPool
             if (_bulletIndex >= MAX_BULLETS)
                 return;
 
-            float damage = owner.isInvincible() ? 2.f : 1.f;            
+            float damage = owner.isInvincible() ? 2.0f : 1.0f;            
             _bulletPool[_bulletIndex++] = Bullet(game, pos, mov, color, angle, guided, owner, damage);
         }
 

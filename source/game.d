@@ -3,7 +3,6 @@ import globals;
 
 import misc.image;
 import math.all;
-import misc.logger;
 import math.all;;
 import gl.all;
 import vga2d;
@@ -61,11 +60,11 @@ final class Game
         Camera _camera;
 
         bool _paused;
-        float _timeBeforeReborn = 0.f;
+        float _timeBeforeReborn = 0.0f;
 
         void renewTipIndex()
         {
-            _tipIndex = abs(_random.nextRange(TIPS.length));
+            _tipIndex = abs(_random.nextRange(cast(int)(TIPS.length)));
         }
 
         void setZoomfactor(float zoom)
@@ -95,7 +94,7 @@ final class Game
             _mainPlayerMustReborn = true;
             _random = Random();
             renewTipIndex();
-            setZoomfactor(1.f);
+            setZoomfactor(1.0f);
             _paused = false;
             _localTime = 0.0;
 
@@ -105,16 +104,13 @@ final class Game
             m_usePostProcessing = usePostProcessing;
             _overlay = new Overlay();
 
-            info(">create m_fbTex");
             m_fbTex = new Texture2D(SCREENX, SCREENY, Texture.IFormat.RGBA8, false, false, false);
             m_fbTex.minFilter = Texture.Filter.NEAREST;
             m_fbTex.magFilter = Texture.Filter.NEAREST;
             m_fbTex.wrapS = Texture.Wrap.CLAMP_TO_EDGE;
             m_fbTex.wrapT = Texture.Wrap.CLAMP_TO_EDGE;
-            info("<create m_fbTex");
             if (m_usePostProcessing)
             {
-                info(">create main texture");
                 m_mainTexture = new Texture2D(viewport.width, viewport.height, Texture.IFormat.RGBA8, true, false, false);
                 m_mainTexture.minFilter = Texture.Filter.LINEAR_MIPMAP_LINEAR;
                 m_mainTexture.magFilter = Texture.Filter.LINEAR;
@@ -123,25 +119,20 @@ final class Game
                 m_mainTexture.generateMipmaps();
 
                 GL.check;
-                info("<create main texture");
             }            
 
             if (m_usePostProcessing)
             {
-                info(">create m_mainFBO");
                 m_mainFBO = new FBO();
                 m_mainFBO.color[0].setTarget(m_mainTexture, 0);                
                 m_mainFBO.setWrite(FBO.Component.COLORS);
-                int drawBuffer[1];
+                int[1] drawBuffer;
                 drawBuffer[0] = 0;
                 m_mainFBO.setDrawBuffers(drawBuffer[]);
                 m_mainFBO.check();
                 //m_mainFBO.use();
-                info("<create m_mainFBO");
 
-                info(">create default FBO");
                 m_defaultFBO = new FBO(true);
-                info("<create default FBO");
             }
 
             GL.clear();
@@ -150,21 +141,15 @@ final class Game
 
             if (m_usePostProcessing)
             {
-                info(">create postProcessing");
                 m_postProcessing = new PostProcessing(m_defaultFBO, m_mainTexture, viewport, m_fbTex);
-                info("<create postProcessing");
-
-                info(">m_blit");
+             
                 m_blit = new Shader("data/blit.vs", "data/blit.fs");
-                info("<m_blit");
             }
             
             m_viewport = viewport;
 
             // sound
-            info(">create m_soundManager");
             m_soundManager = new SoundManager(_camera);
-            info("<create m_soundManager");
             m_cheatcodeManager = new CheatcodeManager(this);
             m_particleManager = new ParticleManager(this, _camera);
             m_bulletPool = new BulletPool();
@@ -199,7 +184,7 @@ final class Game
         {
             if (player !is null)
             {
-                player.damage(10.f);
+                player.damage(10.0f);
             }
         }
 
@@ -235,7 +220,7 @@ final class Game
 
             if (joyButton(1)) newGame();
 
-            _timeBeforeReborn = max!(float)(_timeBeforeReborn - dt, 0.f);
+            _timeBeforeReborn = max!(float)(_timeBeforeReborn - dt, 0.0f);
 
             BulletTime.progress(dt);
 
@@ -314,11 +299,11 @@ final class Game
 
             if ((player !is null) && (!player.dead))
             {
-                float advance = isRotateViewNow ? 7.f : 5.f;
-                float constantAdvance = isRotateViewNow ? 75.f : 0.f;
+                float advance = isRotateViewNow ? 7.0f : 5.0f;
+                float constantAdvance = isRotateViewNow ? 75.0f : 0.0f;
 
-                vec2f targetPos = player.pos + player.mov * advance + polarOld(player.angle, 1.f) * constantAdvance;
-                float targetAngle = isRotateViewNow ? normalizeAngle(player.angle - PI_2_F) : 0.f;
+                vec2f targetPos = player.pos + player.mov * advance + polarOld(player.angle, 1.0f) * constantAdvance;
+                float targetAngle = isRotateViewNow ? normalizeAngle(player.angle - PI_2_F) : 0.0f;
                 _camera.setTarget(targetPos, targetAngle);
             }
 
@@ -339,7 +324,7 @@ final class Game
                 int s = (SCREENY / 2) - 14;
 
                 // bullet time bar
-                float bu = 2.f * BulletTime.fraction;
+                float bu = 2.0f * BulletTime.fraction;
 
                 _overlay.drawBar(SCREENX - 29, SCREENY - 14,max(s, cast(int)round(s * bu)), bu, rgb(160,24,160));
 
@@ -350,7 +335,7 @@ final class Game
                 _overlay.drawBar(SCREENX - 7, SCREENY - 14, max(s, cast(int)round(player.life*s)),player.life, rgb(42, 6, 245));
 
                 // invicibility bar
-                _overlay.drawBar(SCREENX - 7, SCREENY - 14, max(s,cast(int)round(player.life*s)),player.life * min(3.f, player.invincibility) / 3.f, rgb(252, 26, 15));
+                _overlay.drawBar(SCREENX - 7, SCREENY - 14, max(s,cast(int)round(player.life*s)),player.life * min(3.0f, player.invincibility) / 3.0f, rgb(252, 26, 15));
 
                 if (player.isInvincible)
                 {
@@ -382,7 +367,7 @@ final class Game
             
             if ((player !is null) && (player.dead) && (!_paused))
             {
-                _overlay.drawHelpScreen(TIPS[_tipIndex], _timeBeforeReborn == 0.f);
+                _overlay.drawHelpScreen(TIPS[_tipIndex], _timeBeforeReborn == 0.0f);
             }
             else if (_paused)
             {
@@ -396,11 +381,11 @@ final class Game
             GL.disable(GL.BLEND);
             GL.disable(GL.ALPHA_TEST);
 
-            mat4f projectionMatrix = mat4f.scale(1 / ratio, 1.f, 1.f);
-            float viewScale = 2.f * (1.0f / _zoomFactor) /  SCREENY;
-            mat4f modelViewMatrix = mat4f.scale(vec3f(viewScale, viewScale,1.f))
+            mat4f projectionMatrix = mat4f.scale(1 / ratio, 1.0f, 1.0f);
+            float viewScale = 2.0f * (1.0f / _zoomFactor) /  SCREENY;
+            mat4f modelViewMatrix = mat4f.scale(vec3f(viewScale, viewScale,1.0f))
                                     * mat4f.rotateZ(-_camera.angle())
-                                    * mat4f.translate(vec3f(-_camera.position(), 0.f));
+                                    * mat4f.translate(vec3f(-_camera.position(), 0.0f));
 
             setProjectionMatrix(projectionMatrix);
             setModelViewMatrix(modelViewMatrix);
@@ -448,7 +433,7 @@ final class Game
 
                 setProjectionMatrix(mat4f.identity);
                 setModelViewMatrix(mat4f.identity);
-                GL.color(vec4f(1.f,1.f,1.f, 1.f));
+                GL.color(vec4f(1.0f,1.0f,1.0f, 1.0f));
 
                 GL.begin(GL.QUADS);
                     GL.texCoord(texUnit, m_fbTex.smin, m_fbTex.tmax); GL.vertex(-1,-1);
@@ -461,7 +446,7 @@ final class Game
             }
             if (m_usePostProcessing)
             {
-                vec3f globalColor = _paused ?  vec3f(0.7f,0.7f,1.1f) : vec3f(1.f,1.f,1.f);
+                vec3f globalColor = _paused ?  vec3f(0.7f,0.7f,1.1f) : vec3f(1.0f,1.0f,1.0f);
                 m_postProcessing.render(projectionMatrix *  modelViewMatrix, globalColor);
             }
         }
@@ -479,14 +464,14 @@ final class Game
         {
             if (powerupIndex >= MAX_POWERUPS) 
                 return;
-            powerupPool[powerupIndex++] = new Powerup(this, pos, mov + polarOld(angle, 1.f) * v);
+            powerupPool[powerupIndex++] = new Powerup(this, pos, mov + polarOld(angle, 1.0f) * v);
         }
 
         void initenemies()
         {
             level++;
             if (level > 1) 
-                soundManager.playSound(_camera.position() + vec2f(0.001f), 1.f, SOUND.PSCHIT);
+                soundManager.playSound(_camera.position() + vec2f(0.001f), 1.0f, SOUND.PSCHIT);
             
             int realLevel = min(NUMBER_OF_IA, level);
 
@@ -495,7 +480,7 @@ final class Game
                 float a = i * 6.2831 / cast(float)(realLevel);
                 assert(!isNaN(a));
 
-                vec2f p = polarOld(a, 1.f) * (10 + 5.0 * realLevel);
+                vec2f p = polarOld(a, 1.0f) * (10 + 5.0 * realLevel);
 
                 ia[i] = new Player(this, false, p, a);
             }

@@ -11,7 +11,7 @@ const int SCREENX = 640,
       TURBO_COST = 5,
       BULLET_COST = 150;
 
-const float RELOADTIME = 12 / 60.f;
+const float RELOADTIME = 12 / 60.0f;
 const float TURBO_FACTOR = 3.5f;
 
 const BASE_ENERGY_GAIN = 1.92f;
@@ -26,14 +26,14 @@ const SPEED_MAX = 100;
 const PARTICUL_FACTOR = 15;
 const PLAYER_BASE_VELOCITY = 0.13;
 const MAX_INVINCIBILITY = 16;
-const BULLET_BASE_SPEED = 1.f;
+const BULLET_BASE_SPEED = 1.0f;
 const DAMAGE_MULTIPLIER = 1.6f;
 
 const OUT_OF_SIGHT = 240000;
-const OUT_OF_SIGHT_SQUARED = 240000.f * 240000.f;
+const OUT_OF_SIGHT_SQUARED = 240000.0f * 240000.0f;
 
 
-const char[][] TIPS =
+const string[] TIPS =
 [
   "Hit SPACE to capture a powerup.",
   "Hit SPACE to capture ennemies.",

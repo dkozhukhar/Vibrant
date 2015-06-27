@@ -4,7 +4,6 @@ import sdl.all;
 import misc.all;
 import math.all;
 import gl.all;
-import std.gc;
 import globals;
 import game;
 import vutils;
@@ -20,7 +19,7 @@ class VibrantProgram : SDLApp
         Game m_game;
         box2i m_view;
 
-        wchar[] cheatString;
+        string cheatString;
         Texture2D m_blurTex;
         MouseState _mouse;
 
@@ -33,7 +32,6 @@ class VibrantProgram : SDLApp
     {
         this(int asked_width, int asked_height, double ratio, bool fullscreen, int fsaa, bool playMusic, float gamma, bool vsync, bool doBlur)
         {
-            info(">VibrantProgram.this");
             FSAA aa = void;
             if (fsaa == 2) aa = FSAA.FSAA2X;
             else if (fsaa == 4) aa = FSAA.FSAA4X;
@@ -53,8 +51,7 @@ class VibrantProgram : SDLApp
             }
             catch(SharedLibProcLoadException e)
             {
-                warn(e.msg);
-                warn("Fallback to ugly mode, upgrade your gfx card!");
+                // fallback to ugly mode
                 doPostProcessing = false;
             }
         //    doPostProcessing = false;
@@ -73,19 +70,14 @@ class VibrantProgram : SDLApp
             // adjust viewport according to ratio
             m_view = box2i(0, 0, width, height).subRectWithRatio(ratio);
             GL.check();
-            info(">OpenGL settings");
             GL.disable(GL.DEPTH_TEST);
             GL.disable(GL.BLEND, GL.FOG, GL.LIGHTING, GL.NORMALIZE, GL.STENCIL_TEST, GL.CULL_FACE);
             GL.disable(GL.AUTO_NORMAL, GL.DITHER, GL.FOG, GL.LIGHTING, GL.NORMALIZE);        
             GL.disable(GL.POLYGON_SMOOTH, GL.LINE_SMOOTH, GL.POINT_SMOOTH);
 
-            info("<OpenGL settings");
-            info(">new Game");
             m_game = new Game(m_view, doPostProcessing);
-            info("<new Game");
 
             cheatString = "";
-            info("<VibrantProgram.this");
         }
 
         void close()

@@ -1,455 +1,319 @@
 <DProject>
- <ProjectGuid>{F4072FC9-B7F7-4211-9EE9-C02181932830}</ProjectGuid>
- <Config name="Debug" platform="Win32">
-  <obj>0</obj>
-  <link>0</link>
-  <lib>0</lib>
-  <subsystem>0</subsystem>
-  <multiobj>0</multiobj>
-  <singleFileCompilation>0</singleFileCompilation>
-  <oneobj>0</oneobj>
-  <trace>0</trace>
-  <quiet>0</quiet>
-  <verbose>0</verbose>
-  <vtls>0</vtls>
-  <symdebug>1</symdebug>
-  <optimize>0</optimize>
-  <cpu>0</cpu>
-  <isX86_64>0</isX86_64>
-  <isLinux>0</isLinux>
-  <isOSX>0</isOSX>
-  <isWindows>0</isWindows>
-  <isFreeBSD>0</isFreeBSD>
-  <isSolaris>0</isSolaris>
-  <scheduler>0</scheduler>
-  <useDeprecated>0</useDeprecated>
-  <useAssert>0</useAssert>
-  <useInvariants>0</useInvariants>
-  <useIn>0</useIn>
-  <useOut>0</useOut>
-  <useArrayBounds>0</useArrayBounds>
-  <noboundscheck>0</noboundscheck>
-  <useSwitchError>0</useSwitchError>
-  <useUnitTests>0</useUnitTests>
-  <useInline>0</useInline>
-  <release>0</release>
-  <preservePaths>0</preservePaths>
-  <warnings>1</warnings>
-  <infowarnings>1</infowarnings>
-  <checkProperty>0</checkProperty>
-  <genStackFrame>0</genStackFrame>
-  <pic>0</pic>
-  <cov>0</cov>
-  <nofloat>0</nofloat>
-  <Dversion>1</Dversion>
-  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
-  <compiler>0</compiler>
-  <otherDMD>0</otherDMD>
-  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
-  <imppath>../common2</imppath>
-  <fileImppath />
-  <outdir>.</outdir>
-  <objdir>$(OutDir)</objdir>
-  <objname />
-  <libname />
-  <doDocComments>0</doDocComments>
-  <docdir />
-  <docname />
-  <modules_ddoc />
-  <ddocfiles />
-  <doHdrGeneration>0</doHdrGeneration>
-  <hdrdir />
-  <hdrname />
-  <doXGeneration>0</doXGeneration>
-  <xfilename>$(IntDir)\$(ProjectName).json</xfilename>
-  <debuglevel>0</debuglevel>
-  <debugids />
-  <versionlevel>0</versionlevel>
-  <versionids />
-  <dump_source>0</dump_source>
-  <mapverbosity>0</mapverbosity>
-  <createImplib>0</createImplib>
-  <defaultlibname />
-  <debuglibname />
-  <moduleDepsFile />
-  <run>0</run>
-  <runargs />
-  <runCv2pdb>1</runCv2pdb>
-  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
-  <cv2pdbPre2043>0</cv2pdbPre2043>
-  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
-  <cv2pdbEnumType>0</cv2pdbEnumType>
-  <cv2pdbOptions />
-  <objfiles />
-  <linkswitches />
-  <libfiles />
-  <libpaths />
-  <deffile />
-  <resfile />
-  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
-  <useStdLibPath>1</useStdLibPath>
-  <additionalOptions />
-  <preBuildCommand />
-  <postBuildCommand />
-  <filesToClean>*.obj</filesToClean>
- </Config>
- <Config name="Release" platform="Win32">
-  <obj>0</obj>
-  <link>0</link>
-  <lib>0</lib>
-  <subsystem>2</subsystem>
-  <multiobj>0</multiobj>
-  <singleFileCompilation>0</singleFileCompilation>
-  <oneobj>0</oneobj>
-  <trace>0</trace>
-  <quiet>0</quiet>
-  <verbose>0</verbose>
-  <vtls>0</vtls>
-  <symdebug>0</symdebug>
-  <optimize>1</optimize>
-  <cpu>0</cpu>
-  <isX86_64>0</isX86_64>
-  <isLinux>0</isLinux>
-  <isOSX>0</isOSX>
-  <isWindows>0</isWindows>
-  <isFreeBSD>0</isFreeBSD>
-  <isSolaris>0</isSolaris>
-  <scheduler>0</scheduler>
-  <useDeprecated>0</useDeprecated>
-  <useAssert>0</useAssert>
-  <useInvariants>0</useInvariants>
-  <useIn>0</useIn>
-  <useOut>0</useOut>
-  <useArrayBounds>0</useArrayBounds>
-  <noboundscheck>0</noboundscheck>
-  <useSwitchError>0</useSwitchError>
-  <useUnitTests>0</useUnitTests>
-  <useInline>1</useInline>
-  <release>1</release>
-  <preservePaths>0</preservePaths>
-  <warnings>1</warnings>
-  <infowarnings>1</infowarnings>
-  <checkProperty>0</checkProperty>
-  <genStackFrame>0</genStackFrame>
-  <pic>0</pic>
-  <cov>0</cov>
-  <nofloat>1</nofloat>
-  <Dversion>2</Dversion>
-  <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
-  <compiler>0</compiler>
-  <otherDMD>0</otherDMD>
-  <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
-  <imppath />
-  <fileImppath />
-  <outdir>.</outdir>
-  <objdir>$(OutDir)</objdir>
-  <objname />
-  <libname />
-  <doDocComments>0</doDocComments>
-  <docdir />
-  <docname />
-  <modules_ddoc />
-  <ddocfiles />
-  <doHdrGeneration>0</doHdrGeneration>
-  <hdrdir />
-  <hdrname />
-  <doXGeneration>0</doXGeneration>
-  <xfilename>$(IntDir)\$(ProjectName).json</xfilename>
-  <debuglevel>0</debuglevel>
-  <debugids />
-  <versionlevel>0</versionlevel>
-  <versionids />
-  <dump_source>0</dump_source>
-  <mapverbosity>0</mapverbosity>
-  <createImplib>0</createImplib>
-  <defaultlibname />
-  <debuglibname />
-  <moduleDepsFile />
-  <run>0</run>
-  <runargs />
-  <runCv2pdb>0</runCv2pdb>
-  <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
-  <cv2pdbPre2043>0</cv2pdbPre2043>
-  <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
-  <cv2pdbEnumType>0</cv2pdbEnumType>
-  <cv2pdbOptions />
-  <objfiles />
-  <linkswitches />
-  <libfiles />
-  <libpaths />
-  <deffile />
-  <resfile />
-  <exefile>$(OutDir)\$(ProjectName).exe</exefile>
-  <useStdLibPath>1</useStdLibPath>
-  <additionalOptions>-L/exet:nt/su:windows</additionalOptions>
-  <preBuildCommand />
-  <postBuildCommand />
-  <filesToClean>*.obj</filesToClean>
- </Config>
- <Folder name="vibrant">
-  <Folder name="common2">
-   <Folder name="derelict">
+  <ProjectGuid>{D2AAC3DE-5C5B-4362-AF29-FA50D5121799}</ProjectGuid>
+  <Config name="debug" platform="x64">
+    <symdebug>1</symdebug>
+    <optimize>0</optimize>
+    <useInline>0</useInline>
+    <release>0</release>
+    <lib>0</lib>
+    <exefile>C:\Users\ponce\Desktop\Vibrant\vibrant_d.exe</exefile>
+    <imppath>"source"</imppath>
+    <fileImppath></fileImppath>
+    <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
+    <additionalOptions>-m64</additionalOptions>
+    <versionids>Have_vibrant</versionids>
+    <libfiles> </libfiles>
+    <useUnitTests>0</useUnitTests>
+    <obj>0</obj>
+    <link>0</link>
+    <subsystem>0</subsystem>
+    <multiobj>0</multiobj>
+    <singleFileCompilation>2</singleFileCompilation>
+    <oneobj>0</oneobj>
+    <trace>0</trace>
+    <quiet>0</quiet>
+    <verbose>0</verbose>
+    <vtls>0</vtls>
+    <cpu>0</cpu>
+    <isX86_64>1</isX86_64>
+    <isLinux>0</isLinux>
+    <isOSX>0</isOSX>
+    <isWindows>0</isWindows>
+    <isFreeBSD>0</isFreeBSD>
+    <isSolaris>0</isSolaris>
+    <scheduler>0</scheduler>
+    <useDeprecated>0</useDeprecated>
+    <useAssert>0</useAssert>
+    <useInvariants>0</useInvariants>
+    <useIn>0</useIn>
+    <useOut>0</useOut>
+    <useArrayBounds>0</useArrayBounds>
+    <noboundscheck>0</noboundscheck>
+    <useSwitchError>0</useSwitchError>
+    <preservePaths>1</preservePaths>
+    <warnings>1</warnings>
+    <infowarnings>0</infowarnings>
+    <checkProperty>0</checkProperty>
+    <genStackFrame>0</genStackFrame>
+    <pic>0</pic>
+    <cov>0</cov>
+    <nofloat>0</nofloat>
+    <Dversion>2</Dversion>
+    <ignoreUnsupportedPragmas>0</ignoreUnsupportedPragmas>
+    <compiler>0</compiler>
+    <otherDMD>0</otherDMD>
+    <outdir>C:\Users\ponce\Desktop\Vibrant\</outdir>
+    <objdir>.dub/obj/debug/vibrant</objdir>
+    <objname />
+    <libname />
+    <doDocComments>0</doDocComments>
+    <docdir />
+    <docname />
+    <modules_ddoc />
+    <ddocfiles />
+    <doHdrGeneration>0</doHdrGeneration>
+    <hdrdir />
+    <hdrname />
+    <doXGeneration>1</doXGeneration>
+    <xfilename>$(IntDir)\$(TargetName).json</xfilename>
+    <debuglevel>0</debuglevel>
+    <versionlevel>0</versionlevel>
+    <debugids />
+    <dump_source>0</dump_source>
+    <mapverbosity>0</mapverbosity>
+    <createImplib>0</createImplib>
+    <defaultlibname />
+    <debuglibname />
+    <moduleDepsFile />
+    <run>0</run>
+    <runargs />
+    <runCv2pdb>1</runCv2pdb>
+    <pathCv2pdb>$(VisualDInstallDir)cv2pdb\cv2pdb.exe</pathCv2pdb>
+    <cv2pdbPre2043>0</cv2pdbPre2043>
+    <cv2pdbNoDemangle>0</cv2pdbNoDemangle>
+    <cv2pdbEnumType>0</cv2pdbEnumType>
+    <cv2pdbOptions />
+    <objfiles />
+    <linkswitches />
+    <libpaths />
+    <deffile />
+    <resfile />
+    <preBuildCommand />
+    <postBuildCommand />
+    <filesToClean>*.obj;*.cmd;*.build;*.dep</filesToClean>
+  </Config>
+  <Folder name="vibrant">
+    <Folder name="vibrant">
+    <Folder name="source">
+    <Folder name="common2">
+    <Folder name="derelict">
+    <Folder name="devil">
+      <File path="source\common2\derelict\devil\il.d" />
+      <File path="source\common2\derelict\devil\ilfuncs.d" />
+      <File path="source\common2\derelict\devil\iltypes.d" />
+      <File path="source\common2\derelict\devil\ilu.d" />
+      <File path="source\common2\derelict\devil\ilufuncs.d" />
+      <File path="source\common2\derelict\devil\ilut.d" />
+      <File path="source\common2\derelict\devil\ilutfuncs.d" />
+      <File path="source\common2\derelict\devil\iluttypes.d" />
+      <File path="source\common2\derelict\devil\ilutypes.d" />
+    </Folder>
     <Folder name="opengl">
-     <Folder name="extension">
-      <Folder name="arb">
-       <File path="..\common2\derelict\opengl\extension\arb\color_buffer_float.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\depth_texture.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\draw_buffers.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\fragment_program.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\fragment_program_shadow.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\fragment_shader.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\half_float_pixel.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\matrix_palette.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\multisample.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\multitexture.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\occlusion_query.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\pixel_buffer_object.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\point_parameters.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\point_sprite.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\shader_objects.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\shading_language_100.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\shadow.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\shadow_ambient.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\texture_border_clamp.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\texture_compression.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\texture_cube_map.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\texture_env_add.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\texture_env_combine.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\texture_env_crossbar.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\texture_env_dot3.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\texture_float.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\texture_mirrored_repeat.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\texture_non_power_of_two.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\texture_rectangle.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\transpose_matrix.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\vertex_blend.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\vertex_buffer_object.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\vertex_program.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\vertex_shader.d" />
-       <File path="..\common2\derelict\opengl\extension\arb\window_pos.d" />
-      </Folder>
-      <Folder name="ext">
-       <File path="..\common2\derelict\opengl\extension\ext\abgr.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\bgra.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\bindable_uniform.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\blend_color.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\blend_equation_separate.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\blend_func_separate.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\blend_minmax.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\blend_subtract.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\Cg_shader.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\clip_volume_hint.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\cmyka.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\color_subtable.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\compiled_vertex_array.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\convolution.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\coordinate_frame.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\cull_vertex.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\depth_bounds_test.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\draw_buffers2.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\draw_instanced.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\draw_range_elements.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\fog_coord.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\four22_pixels.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\fragment_lighting.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\framebuffer_blit.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\framebuffer_multisample.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\framebuffer_object.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\framebuffer_sRGB.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\geometry_shader4.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\gpu_program_parameters.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\gpu_shader4.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\histogram.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\light_texture.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\misc_attribute.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\multi_draw_arrays.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\multisample.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\packed_depth_stencil.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\packed_float.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\packed_pixels.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\paletted_texture.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\pixel_buffer_object.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\pixel_transform.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\pixel_transform_color_table.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\point_parameters.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\rescale_normal.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\scene_marker.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\secondary_color.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\separate_specular_color.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\shadow_funcs.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\shared_texture_palette.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\stencil_clear_tag.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\stencil_two_side.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\stencil_wrap.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture3D.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_array.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_buffer_object.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_compression_dxt1.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_compression_latc.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_compression_rgtc.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_compression_s3tc.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_cube_map.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_edge_clamp.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_env_add.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_env_combine.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_env_dot3.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_filter_anisotropic.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_integer.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_lod_bias.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_mirror_clamp.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_perturb_normal.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_rectangle.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\texture_sRGB.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\timer_query.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\vertex_shader.d" />
-       <File path="..\common2\derelict\opengl\extension\ext\vertex_weighting.d" />
-      </Folder>
-      <Folder name="sgis">
-       <File path="..\common2\derelict\opengl\extension\sgis\generate_mipmap.d" />
-      </Folder>
-      <File path="..\common2\derelict\opengl\extension\loader.d" />
-     </Folder>
-     <File path="..\common2\derelict\opengl\cgl.d" />
-     <File path="..\common2\derelict\opengl\gl.d" />
-     <File path="..\common2\derelict\opengl\gl12.d" />
-     <File path="..\common2\derelict\opengl\gl13.d" />
-     <File path="..\common2\derelict\opengl\gl14.d" />
-     <File path="..\common2\derelict\opengl\gl15.d" />
-     <File path="..\common2\derelict\opengl\gl20.d" />
-     <File path="..\common2\derelict\opengl\gl21.d" />
-     <File path="..\common2\derelict\opengl\glext.d" />
-     <File path="..\common2\derelict\opengl\glfuncs.d" />
-     <File path="..\common2\derelict\opengl\gltypes.d" />
-     <File path="..\common2\derelict\opengl\glu.d" />
-     <File path="..\common2\derelict\opengl\glx.d" />
-     <File path="..\common2\derelict\opengl\wgl.d" />
+    <Folder name="extension">
+    <Folder name="arb">
+      <File path="source\common2\derelict\opengl\extension\arb\color_buffer_float.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\depth_texture.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\draw_buffers.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\fragment_program.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\fragment_shader.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\half_float_pixel.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\matrix_palette.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\multitexture.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\occlusion_query.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\pixel_buffer_object.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\point_parameters.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\point_sprite.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\shader_objects.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\shading_language_100.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\texture_border_clamp.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\texture_compression.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\texture_cube_map.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\texture_float.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\texture_mirrored_repeat.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\texture_non_power_of_two.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\texture_rectangle.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\transpose_matrix.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\vertex_buffer_object.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\vertex_program.d" />
+      <File path="source\common2\derelict\opengl\extension\arb\vertex_shader.d" />
+    </Folder>
+    <Folder name="ext">
+      <File path="source\common2\derelict\opengl\extension\ext\abgr.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\bgra.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\bindable_uniform.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\blend_color.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\blend_equation_separate.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\blend_func_separate.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\blend_minmax.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\blend_subtract.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\draw_range_elements.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\framebuffer_object.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\framebuffer_sRGB.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\geometry_shader4.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\gpu_shader4.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\pixel_buffer_object.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\point_parameters.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\rescale_normal.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture3D.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_buffer_object.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_compression_dxt1.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_compression_latc.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_compression_rgtc.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_compression_s3tc.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_cube_map.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_edge_clamp.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_filter_anisotropic.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_integer.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_lod_bias.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_mirror_clamp.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_rectangle.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\texture_sRGB.d" />
+      <File path="source\common2\derelict\opengl\extension\ext\vertex_shader.d" />
+    </Folder>
+    <Folder name="sgis">
+      <File path="source\common2\derelict\opengl\extension\sgis\generate_mipmap.d" />
+    </Folder>
+      <File path="source\common2\derelict\opengl\extension\loader.d" />
+    </Folder>
+      <File path="source\common2\derelict\opengl\cgl.d" />
+      <File path="source\common2\derelict\opengl\gl.d" />
+      <File path="source\common2\derelict\opengl\gl12.d" />
+      <File path="source\common2\derelict\opengl\gl13.d" />
+      <File path="source\common2\derelict\opengl\gl14.d" />
+      <File path="source\common2\derelict\opengl\gl15.d" />
+      <File path="source\common2\derelict\opengl\gl20.d" />
+      <File path="source\common2\derelict\opengl\gl21.d" />
+      <File path="source\common2\derelict\opengl\glext.d" />
+      <File path="source\common2\derelict\opengl\glfuncs.d" />
+      <File path="source\common2\derelict\opengl\gltypes.d" />
+      <File path="source\common2\derelict\opengl\glu.d" />
+      <File path="source\common2\derelict\opengl\glx.d" />
+      <File path="source\common2\derelict\opengl\wgl.d" />
     </Folder>
     <Folder name="sdl">
-     <File path="..\common2\derelict\sdl\active.d" />
-     <File path="..\common2\derelict\sdl\audio.d" />
-     <File path="..\common2\derelict\sdl\byteorder.d" />
-     <File path="..\common2\derelict\sdl\cdrom.d" />
-     <File path="..\common2\derelict\sdl\cpuinfo.d" />
-     <File path="..\common2\derelict\sdl\endian.d" />
-     <File path="..\common2\derelict\sdl\error.d" />
-     <File path="..\common2\derelict\sdl\events.d" />
-     <File path="..\common2\derelict\sdl\image.d" />
-     <File path="..\common2\derelict\sdl\joystick.d" />
-     <File path="..\common2\derelict\sdl\keyboard.d" />
-     <File path="..\common2\derelict\sdl\keysym.d" />
-     <File path="..\common2\derelict\sdl\loadso.d" />
-     <File path="..\common2\derelict\sdl\mixer.d" />
-     <File path="..\common2\derelict\sdl\mouse.d" />
-     <File path="..\common2\derelict\sdl\mutex.d" />
-     <File path="..\common2\derelict\sdl\net.d" />
-     <File path="..\common2\derelict\sdl\rwops.d" />
-     <File path="..\common2\derelict\sdl\sdl.d" />
-     <File path="..\common2\derelict\sdl\sdlversion.d" />
-     <File path="..\common2\derelict\sdl\syswm.d" />
-     <File path="..\common2\derelict\sdl\thread.d" />
-     <File path="..\common2\derelict\sdl\timer.d" />
-     <File path="..\common2\derelict\sdl\ttf.d" />
-     <File path="..\common2\derelict\sdl\types.d" />
-     <File path="..\common2\derelict\sdl\video.d" />
+      <File path="source\common2\derelict\sdl\active.d" />
+      <File path="source\common2\derelict\sdl\audio.d" />
+      <File path="source\common2\derelict\sdl\byteorder.d" />
+      <File path="source\common2\derelict\sdl\cdrom.d" />
+      <File path="source\common2\derelict\sdl\cpuinfo.d" />
+      <File path="source\common2\derelict\sdl\endian.d" />
+      <File path="source\common2\derelict\sdl\error.d" />
+      <File path="source\common2\derelict\sdl\events.d" />
+      <File path="source\common2\derelict\sdl\image.d" />
+      <File path="source\common2\derelict\sdl\joystick.d" />
+      <File path="source\common2\derelict\sdl\keyboard.d" />
+      <File path="source\common2\derelict\sdl\keysym.d" />
+      <File path="source\common2\derelict\sdl\loadso.d" />
+      <File path="source\common2\derelict\sdl\mixer.d" />
+      <File path="source\common2\derelict\sdl\mouse.d" />
+      <File path="source\common2\derelict\sdl\mutex.d" />
+      <File path="source\common2\derelict\sdl\net.d" />
+      <File path="source\common2\derelict\sdl\rwops.d" />
+      <File path="source\common2\derelict\sdl\sdl.d" />
+      <File path="source\common2\derelict\sdl\sdlversion.d" />
+      <File path="source\common2\derelict\sdl\syswm.d" />
+      <File path="source\common2\derelict\sdl\thread.d" />
+      <File path="source\common2\derelict\sdl\timer.d" />
+      <File path="source\common2\derelict\sdl\ttf.d" />
+      <File path="source\common2\derelict\sdl\types.d" />
+      <File path="source\common2\derelict\sdl\video.d" />
     </Folder>
     <Folder name="util">
-     <File path="..\common2\derelict\util\exception.d" />
-     <File path="..\common2\derelict\util\loader.d" />
-     <File path="..\common2\derelict\util\wintypes.d" />
-     <File path="..\common2\derelict\util\wrapper.d" />
-     <File path="..\common2\derelict\util\xtypes.d" />
+      <File path="source\common2\derelict\util\exception.d" />
+      <File path="source\common2\derelict\util\loader.d" />
+      <File path="source\common2\derelict\util\wintypes.d" />
+      <File path="source\common2\derelict\util\wrapper.d" />
+      <File path="source\common2\derelict\util\xtypes.d" />
     </Folder>
-   </Folder>
-   <Folder name="gl">
-    <File path="..\common2\gl\all.d" />
-    <File path="..\common2\gl\bench.d" />
-    <File path="..\common2\gl\buffer.d" />
-    <File path="..\common2\gl\cubemap.d" />
-    <File path="..\common2\gl\error.d" />
-    <File path="..\common2\gl\fbo.d" />
-    <File path="..\common2\gl\mesh.d" />
-    <File path="..\common2\gl\renderbuffer.d" />
-    <File path="..\common2\gl\shaders.d" />
-    <File path="..\common2\gl\state.d" />
-    <File path="..\common2\gl\texture.d" />
-    <File path="..\common2\gl\texture1d.d" />
-    <File path="..\common2\gl\texture2d.d" />
-    <File path="..\common2\gl\texture3d.d" />
-    <File path="..\common2\gl\textureunit.d" />
-    <File path="..\common2\gl\vbo.d" />
-   </Folder>
-   <Folder name="math">
-    <File path="..\common2\math\all.d" />
-    <File path="..\common2\math\box2.d" />
-    <File path="..\common2\math\box3.d" />
-    <File path="..\common2\math\common.d" />
-    <File path="..\common2\math\half.d" />
-    <File path="..\common2\math\mat2.d" />
-    <File path="..\common2\math\mat3.d" />
-    <File path="..\common2\math\mat4.d" />
-    <File path="..\common2\math\math2d.d" />
-    <File path="..\common2\math\quat.d" />
-    <File path="..\common2\math\random.d" />
-    <File path="..\common2\math\ray.d" />
-    <File path="..\common2\math\rootsolver.d" />
-    <File path="..\common2\math\sphere.d" />
-    <File path="..\common2\math\torus3.d" />
-    <File path="..\common2\math\triangle3.d" />
-    <File path="..\common2\math\vec2.d" />
-    <File path="..\common2\math\vec3.d" />
-    <File path="..\common2\math\vec4.d" />
-    <File path="..\common2\math\vectorop.d" />
-   </Folder>
-   <Folder name="misc">
-    <File path="..\common2\misc\all.d" />
-    <File path="..\common2\misc\colors.d" />
-    <File path="..\common2\misc\framecounter.d" />
-    <File path="..\common2\misc\image.d" />
-    <File path="..\common2\misc\inifile.d" />
-    <File path="..\common2\misc\logger.d" />
-    <File path="..\common2\misc\perf.d" />
-    <File path="..\common2\misc\random.d" />
-    <File path="..\common2\misc\singleton.d" />
-    <File path="..\common2\misc\spinlock.d" />
-    <File path="..\common2\misc\textfile.d" />
-   </Folder>
-   <Folder name="sdl">
-    <File path="..\common2\sdl\all.d" />
-    <File path="..\common2\sdl\app.d" />
-    <File path="..\common2\sdl\joystick.d" />
-    <File path="..\common2\sdl\keyboard.d" />
-    <File path="..\common2\sdl\mixer.d" />
-    <File path="..\common2\sdl\mutex.d" />
-    <File path="..\common2\sdl\sdlimage.d" />
-    <File path="..\common2\sdl\semaphore.d" />
-    <File path="..\common2\sdl\state.d" />
-    <File path="..\common2\sdl\thread.d" />
-   </Folder>
+    </Folder>
+    <Folder name="gl">
+      <File path="source\common2\gl\all.d" />
+      <File path="source\common2\gl\buffer.d" />
+      <File path="source\common2\gl\error.d" />
+      <File path="source\common2\gl\fbo.d" />
+      <File path="source\common2\gl\ibo.d" />
+      <File path="source\common2\gl\mesh.d" />
+      <File path="source\common2\gl\renderbuffer.d" />
+      <File path="source\common2\gl\shaders.d" />
+      <File path="source\common2\gl\state.d" />
+      <File path="source\common2\gl\texture.d" />
+      <File path="source\common2\gl\texture1d.d" />
+      <File path="source\common2\gl\texture2d.d" />
+      <File path="source\common2\gl\texture3d.d" />
+      <File path="source\common2\gl\textureunit.d" />
+      <File path="source\common2\gl\vbo.d" />
+    </Folder>
+    <Folder name="math">
+      <File path="source\common2\math\all.d" />
+      <File path="source\common2\math\box2.d" />
+      <File path="source\common2\math\box3.d" />
+      <File path="source\common2\math\common.d" />
+      <File path="source\common2\math\half.d" />
+      <File path="source\common2\math\mat2.d" />
+      <File path="source\common2\math\mat3.d" />
+      <File path="source\common2\math\mat4.d" />
+      <File path="source\common2\math\math2d.d" />
+      <File path="source\common2\math\quat.d" />
+      <File path="source\common2\math\random.d" />
+      <File path="source\common2\math\ray.d" />
+      <File path="source\common2\math\rootsolver.d" />
+      <File path="source\common2\math\sphere.d" />
+      <File path="source\common2\math\triangle3.d" />
+      <File path="source\common2\math\vec2.d" />
+      <File path="source\common2\math\vec3.d" />
+      <File path="source\common2\math\vec4.d" />
+      <File path="source\common2\math\vectorop.d" />
+    </Folder>
+    <Folder name="misc">
+      <File path="source\common2\misc\all.d" />
+      <File path="source\common2\misc\colors.d" />
+      <File path="source\common2\misc\devilimage.d" />
+      <File path="source\common2\misc\framecounter.d" />
+      <File path="source\common2\misc\image.d" />
+      <File path="source\common2\misc\inifile.d" />
+      <File path="source\common2\misc\perf.d" />
+      <File path="source\common2\misc\random.d" />
+      <File path="source\common2\misc\singleton.d" />
+      <File path="source\common2\misc\textfile.d" />
+    </Folder>
+    <Folder name="sdl">
+      <File path="source\common2\sdl\all.d" />
+      <File path="source\common2\sdl\app.d" />
+      <File path="source\common2\sdl\joystick.d" />
+      <File path="source\common2\sdl\keyboard.d" />
+      <File path="source\common2\sdl\mixer.d" />
+      <File path="source\common2\sdl\mutex.d" />
+      <File path="source\common2\sdl\sdlimage.d" />
+      <File path="source\common2\sdl\semaphore.d" />
+      <File path="source\common2\sdl\state.d" />
+    </Folder>
+    </Folder>
+      <File path="source\bullet.d" />
+      <File path="source\bullettime.d" />
+      <File path="source\camera.d" />
+      <File path="source\cheatcode.d" />
+      <File path="source\futils.d" />
+      <File path="source\game.d" />
+      <File path="source\globals.d" />
+      <File path="source\joy.d" />
+      <File path="source\lfo.d" />
+      <File path="source\map.d" />
+      <File path="source\minimap.d" />
+      <File path="source\mousex.d" />
+      <File path="source\oldfonts.d" />
+      <File path="source\overlay.d" />
+      <File path="source\palettes.d" />
+      <File path="source\particles.d" />
+      <File path="source\players.d" />
+      <File path="source\postprocessing.d" />
+      <File path="source\powerup.d" />
+      <File path="source\sound.d" />
+      <File path="source\utils.d" />
+      <File path="source\vga2d.d" />
+      <File path="source\vibrant.d" />
+      <File path="source\vibrantprogram.d" />
+    </Folder>
+      <File tool="None" path="dub.json" />
+    </Folder>
   </Folder>
-  <File path="bullet.d" />
-  <File path="bullettime.d" />
-  <File path="camera.d" />
-  <File path="cheatcode.d" />
-  <File path="game.d" />
-  <File path="globals.d" />
-  <File path="joy.d" />
-  <File path="lfo.d" />
-  <File path="map.d" />
-  <File path="minimap.d" />
-  <File path="mousex.d" />
-  <File path="oldfonts.d" />
-  <File path="overlay.d" />
-  <File path="palettes.d" />
-  <File path="particles.d" />
-  <File path="players.d" />
-  <File path="postprocessing.d" />
-  <File path="powerup.d" />
-  <File path="sound.d" />
-  <File path="TODO.txt" />
-  <File path="utils.d" />
-  <File path="vga2d.d" />
-  <File path="vibrant.d" />
-  <File path="vibrant.rc" />
-  <File path="vibrantprogram.d" />
- </Folder>
 </DProject>

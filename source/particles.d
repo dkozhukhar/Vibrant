@@ -1,7 +1,7 @@
 module particles;
 
 
-import globals, vga2d, utils, palettes, misc.logger, std.string, camera;
+import globals, vga2d, utils, palettes, std.string, camera;
 import math.all;
 import game, map;
 
@@ -49,7 +49,7 @@ final class ParticleManager
             n.mov = polarOld(angle, speed) + polarOld(mainangle, mainspeed) + baseVel;
 
             n.color = rgba(Rvalue(color), Gvalue(color), Bvalue(color), Avalue(color) >> 4);
-            n.life = life / 60.f;
+            n.life = life / 60.0f;
         }
 
         void move(Map map, float dt) // also delete dead particles
@@ -57,16 +57,16 @@ final class ParticleManager
             int i = 0;
             const uint DECAY = 0x10000000;
 
-            float dt2 = dt * 60.f;
+            float dt2 = dt * 60.0f;
             while (i < particleIndex)
             {
                 with(particulstack[i])
                 {
                     life -= dt;
-                    if (life < 16 / 60.f) color = colorsub(color,DECAY);
+                    if (life < 16 / 60.0f) color = colorsub(color,DECAY);
                     pos += mov * dt2;
 
-                    map.enforceBounds(pos, mov, 0.f, 0.35f, 0.f);
+                    map.enforceBounds(pos, mov, 0.0f, 0.35f, 0.0f);
                 }
 
                 if (particulstack[i].life <= 0)
@@ -85,7 +85,7 @@ final class ParticleManager
             GL.blend(GL.BlendMode.ADD, GL.BlendFactor.SRC_ALPHA, GL.BlendFactor.ONE_MINUS_SRC_ALPHA);
             
             {
-                GL.pointSize(10.f);
+                GL.pointSize(10.0f);
                 GL.begin(GL.POINTS);
                 for (int i = 0; i < particleIndex; ++i)
                 with(particulstack[i])
@@ -96,7 +96,7 @@ final class ParticleManager
                 }
                 GL.end();
 
-                GL.pointSize(5.f);
+                GL.pointSize(5.0f);
                 GL.begin(GL.POINTS);
                 for (int i = 0; i < particleIndex; ++i)
                 with(particulstack[i])
@@ -110,7 +110,7 @@ final class ParticleManager
                 }
                 GL.end();
 
-                GL.pointSize(2.f);
+                GL.pointSize(2.0f);
                 GL.begin(GL.POINTS);
                 for (int i = 0; i < particleIndex; ++i)
                 with(particulstack[i])

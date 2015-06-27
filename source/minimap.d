@@ -32,7 +32,7 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
 
     pushmatrix;
     loadIdentity;
-    scale(2.f / SCREENY, 2.f / SCREENY);
+    scale(2.0f / SCREENY, 2.0f / SCREENY);
 
     // clear the minimap zone
     {
@@ -41,7 +41,7 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
         vertexf(MAP_TRANSLATE_X, MAP_TRANSLATE_Y);
         for (int i = 0; i <= 64; ++i)
         {
-            float angle = TAU_F * i / 64.f;
+            float angle = TAU_F * i / 64.0f;
             vertexf(MAP_TRANSLATE_X + MAP_RADIUS * cos(angle), MAP_TRANSLATE_Y + MAP_RADIUS * sin(angle));
         }
         GL.end();
@@ -73,8 +73,8 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
             vec2f at = vec2f(MAP_TRANSLATE_X + distA * sA, MAP_TRANSLATE_Y + distA * cA);
             vec2f bt = vec2f(MAP_TRANSLATE_X + distB * sB, MAP_TRANSLATE_Y + distB * cB);
 
-            float alpha_a = max!(float)(0.f, 0.5f - 2.f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(at) / (MAP_RADIUS * MAP_RADIUS));
-            float alpha_b = max!(float)(0.f, 0.5f - 2.f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(bt) / (MAP_RADIUS * MAP_RADIUS));
+            float alpha_a = max!(float)(0.0f, 0.5f - 2.0f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(at) / (MAP_RADIUS * MAP_RADIUS));
+            float alpha_b = max!(float)(0.0f, 0.5f - 2.0f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(bt) / (MAP_RADIUS * MAP_RADIUS));
             if (alpha_a <= 0.001 && alpha_b <= 0.001)
                 return;
 

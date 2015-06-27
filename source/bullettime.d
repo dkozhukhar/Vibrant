@@ -4,7 +4,7 @@ import players;
 
 class BulletTime
 {
-    const MAX_BULLET_TIME = 20.f;
+    enum float MAX_BULLET_TIME = 20.0f;
 
     static
     {
@@ -55,7 +55,7 @@ class BulletTime
             }
         }
 
-        private float bullettimeTime = 0.f;
+        private float bullettimeTime = 0.0f;
         private bool enabled = false;
     }
 }

@@ -33,7 +33,7 @@ class Overlay
         void drawBar(int x, int y, int height, float status, uint c)
         {
             _mb.drawBox(x-4,y-height-1,x+4,y+2, clwhite);
-            int up = y - cast(int)round((height - 1.f) * clamp(status, 0.f, 1.f));
+            int up = y - cast(int)round((height - 1.0f) * clamp(status, 0.0f, 1.0f));
             if (up >= y) return;
             _mb.drawLine(x-2,y,x-2,up, average(c,clblack));
             _mb.drawLine(x-1,y,x-1,up, average(average(c,clwhite),clwhite));
@@ -65,7 +65,7 @@ class Overlay
 
             drawWindowBox(BX - 16, BY - 28 + cast(int)(0.5 + h), BX + 30 * 8 + 16, BY + 116 - cast(int)(0.5 + h), 0x8F8080FF);
 
-            const char[][] test = 
+            const string[] test = 
             [
                 "      The Homeric wars.       ",
                 "  In these times of trouble,  ",
@@ -94,7 +94,7 @@ class Overlay
             _text.outputString("Paused");
         }
 
-        void drawHelpScreen(char[] tipOfTheMinute, bool showContinue)
+        void drawHelpScreen(string tipOfTheMinute, bool showContinue)
         {
             // help screen
 
@@ -115,16 +115,16 @@ class Overlay
             {
                 BY = 100 + 16 * 13;
 
-                char[] tip = "Tip: " ~ tipOfTheMinute;
+                string tip = "Tip: " ~ tipOfTheMinute;
 
-                _text.setCursorPosition(320 - 4 * tip.length, BY);
+                _text.setCursorPosition(320 - 4 * cast(int)(tip.length), BY);
                 _text.setColor(0xff7477ff);
                 _text.outputString(tip);
 
                 if (showContinue)
                 {
-                    char[] msg = "Now press FIRE to continue";
-                    _text.setCursorPosition(320 - 4 * msg.length, BY + 20);
+                    string msg = "Now press FIRE to continue";
+                    _text.setCursorPosition(320 - 4 * cast(int)(msg.length), BY + 20);
                     _text.setColor(clwhite);
                     _text.outputString(msg);
                 }

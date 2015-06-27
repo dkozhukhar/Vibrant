@@ -217,9 +217,9 @@ uint rgba(int r, int g, int b, int a)
 
 uint Frgb(float r, float g, float b)
 {
-    return rgb(cast(int)round(clamp(r, 0.f, 1.f)*255.f), 
-               cast(int)round(clamp(g, 0.f, 1.f)*255.f), 
-               cast(int)round(clamp(b, 0.f, 1.f)*255.f));
+    return rgb(cast(int)round(clamp(r, 0.0f, 1.0f)*255.0f), 
+               cast(int)round(clamp(g, 0.0f, 1.0f)*255.0f), 
+               cast(int)round(clamp(b, 0.0f, 1.0f)*255.0f));
 }
 
 uint Frgb(vec3f c)
@@ -230,10 +230,10 @@ uint Frgb(vec3f c)
 
 uint Frgba(float r, float g, float b, float a)
 {
-    return rgba(cast(int)round(clamp(r, 0.f, 1.f)*255.f), 
-                cast(int)round(clamp(g, 0.f, 1.f)*255.f), 
-                cast(int)round(clamp(b, 0.f, 1.f)*255.f), 
-                cast(int)round(clamp(a, 0.f, 1.f)*255.f));
+    return rgba(cast(int)round(clamp(r, 0.0f, 1.0f)*255.0f), 
+                cast(int)round(clamp(g, 0.0f, 1.0f)*255.0f), 
+                cast(int)round(clamp(b, 0.0f, 1.0f)*255.0f), 
+                cast(int)round(clamp(a, 0.0f, 1.0f)*255.0f));
 }
 
 uint Frgba(vec4f c)
@@ -243,10 +243,10 @@ uint Frgba(vec4f c)
 
 vec4f RGBAF(uint c)
 {
-    return vec4f(Rvalue(c), Gvalue(c), Bvalue(c), Avalue(c)) / 255.f;
+    return vec4f(Rvalue(c), Gvalue(c), Bvalue(c), Avalue(c)) / 255.0f;
 }
 
 vec3f RGBF(uint c)
 {
-    return vec3f(Rvalue(c), Gvalue(c), Bvalue(c)) / 255.f;
+    return vec3f(Rvalue(c), Gvalue(c), Bvalue(c)) / 255.0f;
 }

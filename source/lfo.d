@@ -19,9 +19,9 @@ struct LFO
         static LFO opCall(float frequency)
         {
             LFO lfo = void;
-            lfo.s = 0.f;
-            lfo.c = 1.f;
-            lfo.a = 2.f * sin(frequency * PI_F / 44100.f);
+            lfo.s = 0.0f;
+            lfo.c = 1.0f;
+            lfo.a = 2.0f * sin(frequency * PI_F / 44100.0f);
             return lfo;
         }
 
