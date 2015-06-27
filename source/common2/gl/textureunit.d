@@ -334,23 +334,6 @@ final class TextureUnits
         {
             return -1 != find(texture);
         }
-
-        string statusString()
-        {
-            string tu = "TU: [ ";
-            for (int i = 0; i < usedSince.length; ++i)
-            {
-                if (binded[i] is null)
-                {
-                    tu = tu ~ "null ";
-                } else
-                {
-                    tu ~= format("%s ", binded[i].handle);
-                }
-            }
-            tu ~= "]";
-            return tu;
-        }
     }
 }
 

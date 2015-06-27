@@ -165,7 +165,11 @@ final class Music
 		this(string filename)
 		{
 			m_handle = Mix_LoadMUS(toStringz(filename));
-			if (m_handle is null) throw new SDLError(format("Unable to load the music %s", filename));			
+			if (m_handle is null) 
+            {
+                string msg = format("Unable to load the music %s", filename);
+                throw new SDLError(msg);			
+            }
 		}
 
 		~this()

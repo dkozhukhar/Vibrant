@@ -15,7 +15,7 @@ import std.c.stdlib;
 import game;
 
 
-class InvalidCommandLine : object.Exception
+class InvalidCommandLine : Exception
 {
     this(string msg)
     {

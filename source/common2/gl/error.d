@@ -2,7 +2,7 @@ module gl.error;
 
 import std.string;
 
-class OpenGLError : object.Exception
+class OpenGLError : Exception
 {
     this(string s)
     {

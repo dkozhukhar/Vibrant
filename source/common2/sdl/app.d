@@ -95,7 +95,8 @@ class SDLApp
 
                 if (m_screen is null) // mega fail, cannot change screen
                 {
-                    string msg = format("Unable to create screen surface : %s", to!string(SDL_GetError()));
+                    string err = to!string(SDL_GetError());
+                    string msg = format("Unable to create screen surface : %s", err);
                     throw new SDLError(msg);
                 }
             }

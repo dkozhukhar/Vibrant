@@ -8,7 +8,7 @@ import sdl.joystick, sdl.keyboard;
 import std.string, std.stdio;
 import std.math;
 
-public class SDLError : object.Exception
+public class SDLError : Exception
 {
     this(string message)
     {

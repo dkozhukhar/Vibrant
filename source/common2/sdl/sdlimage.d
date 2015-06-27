@@ -46,7 +46,8 @@ final class SDLImage
                 char* errorStringz = IMG_GetError();
 
                 string errorString = fromStringz(errorStringz).idup;
-                throw new SDLError(format("Unable to load image %s, SDL says \"%s\"", filename, errorString));
+                string msg = format("Unable to load image %s, SDL says \"%s\"", filename, errorString);
+                throw new SDLError(msg);
             }
 
             SDL_PixelFormat RGBAformat;
