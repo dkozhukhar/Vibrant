@@ -1,14 +1,14 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{58583CF3-3C93-4314-AB88-865E1B933339}") = "vibrant", "vibrant.visualdproj", "{EED8CC75-99E5-4D44-BFBD-11C285838A47}"
+Project("{58392B2A-8508-4761-BB46-DD2C50AED966}") = "vibrant", "vibrant.visualdproj", "{95F1350D-2B99-4465-A719-217A9A5EC6AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		debug|x64 = debug|x64
+		debug|Win32 = debug|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EED8CC75-99E5-4D44-BFBD-11C285838A47}.debug|x64.ActiveCfg = debug|x64
-		{EED8CC75-99E5-4D44-BFBD-11C285838A47}.debug|x64.Build.0 = debug|x64
+		{95F1350D-2B99-4465-A719-217A9A5EC6AA}.debug|Win32.ActiveCfg = debug|Win32
+		{95F1350D-2B99-4465-A719-217A9A5EC6AA}.debug|Win32.Build.0 = debug|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

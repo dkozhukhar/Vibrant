@@ -1,7 +1,33 @@
 {
 	"name": "vibrant",
+	"description": "Abstract ballistic shooter game.",
 	"targetType": "executable",
 
-	"sourcePaths": ["source"],
-	"importPaths": ["source"]
+	"sourcePaths": ["source/vibrant"],
+	"importPaths": ["source/vibrant"],
+
+	"dependencies": {
+        "vibrant:derelict": "*",
+        "vibrant:common2": "*"
+    },
+
+
+    "subPackages": [
+        {
+            "name": "derelict",
+            "sourcePaths": [ "source/derelict" ],
+            "importPaths": [ "source/derelict" ],
+            "targetType": "library"
+        },
+        {
+            "name": "common2",
+            "sourcePaths": [ "source/common2" ],
+            "importPaths": [ "source/common2" ],
+            "targetType": "library",
+
+            "dependencies": {
+                "vibrant:derelict": "*"
+            }
+        }
+    ]
 }

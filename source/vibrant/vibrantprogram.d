@@ -136,10 +136,6 @@ class VibrantProgram : SDLApp
 
         override void onFrameRateChanged(float frameRate)
         {
-            debug
-            {
-                title = format("Vibrant FPS=%s", frameRate);
-            }
         }
 
         override void onKeyDown(int key, int mod, wchar ch)

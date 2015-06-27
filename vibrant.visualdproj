@@ -1,6 +1,6 @@
 <DProject>
-  <ProjectGuid>{EED8CC75-99E5-4D44-BFBD-11C285838A47}</ProjectGuid>
-  <Config name="debug" platform="x64">
+  <ProjectGuid>{95F1350D-2B99-4465-A719-217A9A5EC6AA}</ProjectGuid>
+  <Config name="debug" platform="Win32">
     <symdebug>1</symdebug>
     <optimize>0</optimize>
     <useInline>0</useInline>
@@ -10,7 +10,7 @@
     <imppath>"source"</imppath>
     <fileImppath></fileImppath>
     <program>$(DMDInstallDir)windows\bin\dmd.exe</program>
-    <additionalOptions>-m64</additionalOptions>
+    <additionalOptions></additionalOptions>
     <versionids>Have_vibrant</versionids>
     <libfiles> </libfiles>
     <useUnitTests>0</useUnitTests>
@@ -25,7 +25,7 @@
     <verbose>0</verbose>
     <vtls>0</vtls>
     <cpu>0</cpu>
-    <isX86_64>1</isX86_64>
+    <isX86_64>0</isX86_64>
     <isLinux>0</isLinux>
     <isOSX>0</isOSX>
     <isWindows>0</isWindows>
