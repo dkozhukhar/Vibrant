@@ -291,6 +291,8 @@ alias GLvoid function(GLenum, GLint, GLint, GLint, GLsizei, GLsizei, GLenum, GLs
 alias GLvoid function(GLenum, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei, GLenum, GLsizei, GLvoid*) pfglCompressedTexSubImage3D;
 alias GLvoid function(GLenum, GLint, GLvoid*) pfglGetCompressedTexImage;
 
+__gshared
+{
 pfglActiveTexture           glActiveTexture;
 pfglClientActiveTexture     glClientActiveTexture;
 pfglMultiTexCoord1d         glMultiTexCoord1d;
@@ -337,3 +339,4 @@ pfglCompressedTexSubImage1D glCompressedTexSubImage1D;
 pfglCompressedTexSubImage2D glCompressedTexSubImage2D;
 pfglCompressedTexSubImage3D glCompressedTexSubImage3D;
 pfglGetCompressedTexImage   glGetCompressedTexImage;
+}

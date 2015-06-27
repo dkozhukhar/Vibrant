@@ -84,5 +84,5 @@ enum : GLenum
 extern(System):
 
 alias void function(GLenum,GLenum,GLuint) pfglTexBufferEXT;
-
+__gshared :
 pfglTexBufferEXT    glTexBufferEXT;

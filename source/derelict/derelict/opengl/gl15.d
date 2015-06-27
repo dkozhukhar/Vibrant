@@ -165,7 +165,8 @@ alias GLvoid* function(GLenum, GLenum) pfglMapBuffer;
 alias GLboolean function(GLenum) pfglUnmapBuffer;
 alias GLvoid function(GLenum, GLenum, GLint*) pfglGetBufferParameteriv;
 alias GLvoid function(GLenum, GLenum, GLvoid**) pfglGetBufferPointerv;
-
+__gshared
+{
 pfglGenQueries              glGenQueries;
 pfglDeleteQueries           glDeleteQueries;
 pfglIsQuery                 glIsQuery;
@@ -185,3 +186,4 @@ pfglMapBuffer               glMapBuffer;
 pfglUnmapBuffer             glUnmapBuffer;
 pfglGetBufferParameteriv    glGetBufferParameteriv;
 pfglGetBufferPointerv       glGetBufferPointerv;
+}

@@ -97,7 +97,7 @@ extern(System):
 alias void function (GLhandleARB, GLuint, GLcharARB*) pfglBindAttribLocationARB;
 alias void function (GLhandleARB, GLuint, GLsizei, GLsizei*, GLint*, GLenum*, GLcharARB*) pfglGetActiveAttribARB;
 alias GLint function (GLhandleARB, GLcharARB* name) pfglGetAttribLocationARB;
-
+__gshared :
 pfglBindAttribLocationARB           glBindAttribLocationARB;
 pfglGetActiveAttribARB              glGetActiveAttribARB;
 pfglGetAttribLocationARB            glGetAttribLocationARB;

@@ -340,7 +340,7 @@ alias void function(GLuint, GLenum, GLfloat*) pfglGetVertexAttribfvARB;
 alias void function(GLuint, GLenum, GLint*) pfglGetVertexAttribivARB;
 alias void function(GLuint, GLenum, GLvoid*) pfglGetVertexAttribPointervARB;
 alias GLboolean function(GLuint) pfglIsProgramARB;
-
+__gshared :
 pfglVertexAttrib1dARB               glVertexAttrib1dARB;
 pfglVertexAttrib1dvARB              glVertexAttrib1dvARB;
 pfglVertexAttrib1fARB               glVertexAttrib1fARB;

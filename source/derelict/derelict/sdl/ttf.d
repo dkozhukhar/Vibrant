@@ -78,7 +78,7 @@ private void load(SharedLib lib)
 }
 
 
-GenericLoader DerelictSDLttf;
+__gshared GenericLoader DerelictSDLttf;
 shared static this() {
     DerelictSDLttf.setup(
         "SDL_ttf.dll",

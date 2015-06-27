@@ -40,7 +40,7 @@ template Singleton() // object is created on demand
         delete _instance;
     }
 
-    private static typeof(this) _instance = null;
+    private __gshared static typeof(this) _instance = null;
 }
 
 template ThreadSafeSingleton() // object creation is synchronized
@@ -65,7 +65,7 @@ template ThreadSafeSingleton() // object creation is synchronized
         delete _instance;
     }
 
-    private static T _instance = null;
+    private __gshared static T _instance = null;
 }
 
 template StartupSingleton() // object is created at startup
@@ -85,5 +85,5 @@ template StartupSingleton() // object is created at startup
         delete _instance;
     }
 
-    private static typeof(this) _instance = null;
+    private __gshared static typeof(this) _instance = null;
 }

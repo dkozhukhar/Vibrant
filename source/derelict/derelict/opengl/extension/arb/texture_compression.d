@@ -108,6 +108,7 @@ alias void function(GLenum, GLint, GLint, GLint, GLsizei, GLsizei, GLenum, GLsiz
 alias void function(GLenum, GLint, GLint, GLsizei, GLenum, GLsizei, GLvoid*) pfglCompressedTexSubImage1DARB;
 alias void function(GLenum, GLint, GLvoid*) pfglGetCompressedTexImageARB;
 
+__gshared:
 pfglCompressedTexImage3DARB         glCompressedTexImage3DARB;
 pfglCompressedTexImage2DARB         glCompressedTexImage2DARB;
 pfglCompressedTexImage1DARB         glCompressedTexImage1DARB;

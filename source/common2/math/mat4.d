@@ -68,7 +68,7 @@ struct mat4(T)
                  0        , 0        , 0        , 1);
         }
 
-        static mat4 IDENTITY, ZERO;
+        __gshared static mat4 IDENTITY, ZERO;
 
         shared static this()
         {

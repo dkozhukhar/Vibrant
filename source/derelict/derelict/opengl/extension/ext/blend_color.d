@@ -84,5 +84,5 @@ enum : GLenum
 extern(System):
 
 alias void function(GLclampf, GLclampf, GLclampf, GLclampf) pfglBlendColorEXT;
-
+__gshared :
 pfglBlendColorEXT       glBlendColorEXT;

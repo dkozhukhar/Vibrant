@@ -40,7 +40,7 @@ enum : Uint8
     SDL_APPACTIVE       = 0x04,
 }
 
-extern(C)
+extern(C) __gshared 
 {
     Uint8 function() SDL_GetAppState;
 }

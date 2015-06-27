@@ -164,7 +164,7 @@ struct mat2(T)
                           c00, c01, c10, c11);
         }
 
-        static mat2 IDENTITY, ZERO;
+        __gshared static mat2 IDENTITY, ZERO;
 
         shared static this()
         {

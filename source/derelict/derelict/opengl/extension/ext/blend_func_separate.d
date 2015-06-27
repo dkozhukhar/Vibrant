@@ -83,5 +83,5 @@ enum : GLenum
 extern(System):
 
 alias void function(GLenum, GLenum, GLenum, GLenum) pfglBlendFuncSeparateEXT;
-
+__gshared :
 pfglBlendFuncSeparateEXT    glBlendFuncSeparateEXT;

@@ -106,7 +106,7 @@ SDL_AudioSpec* SDL_LoadWAV(char *file, SDL_AudioSpec *spec, Uint8 **buf, Uint32 
     return SDL_LoadWAV_RW(SDL_RWFromFile(file, "rb".ptr), 1, spec, buf, len);
 }
 
-extern(C)
+extern(C) __gshared
 {
     int function(char*) SDL_AudioInit;
     void function() SDL_AudioQuit;

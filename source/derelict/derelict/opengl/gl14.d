@@ -248,6 +248,8 @@ alias GLvoid function(GLshort*) pfglWindowPos3sv;
 alias GLvoid function(GLclampf, GLclampf, GLclampf, GLclampf) pfglBlendColor;
 alias GLvoid function(GLenum) pfglBlendEquation;
 
+__gshared
+{
 pfglBlendFuncSeparate       glBlendFuncSeparate;
 pfglFogCoordf               glFogCoordf;
 pfglFogCoordfv              glFogCoordfv;
@@ -295,3 +297,4 @@ pfglWindowPos3s             glWindowPos3s;
 pfglWindowPos3sv            glWindowPos3sv;
 pfglBlendColor              glBlendColor;
 pfglBlendEquation           glBlendEquation;
+}

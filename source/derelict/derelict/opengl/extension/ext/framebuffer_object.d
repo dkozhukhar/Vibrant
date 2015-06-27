@@ -178,6 +178,8 @@ alias GLvoid function(GLenum, GLenum, GLenum, GLuint) pfglFramebufferRenderbuffe
 alias GLvoid function(GLenum, GLenum, GLenum, GLint*) pfglGetFramebufferAttachmentParameterivEXT;
 alias GLvoid function(GLenum) pfglGenerateMipmapEXT;
 
+__gshared
+{
 pfglIsRenderbufferEXT                       glIsRenderbufferEXT;
 pfglBindRenderbufferEXT                     glBindRenderbufferEXT;
 pfglDeleteRenderbuffersEXT                  glDeleteRenderbuffersEXT;
@@ -195,3 +197,4 @@ pfglFramebufferTexture3DEXT                 glFramebufferTexture3DEXT;
 pfglFramebufferRenderbufferEXT              glFramebufferRenderbufferEXT;
 pfglGetFramebufferAttachmentParameterivEXT  glGetFramebufferAttachmentParameterivEXT;
 pfglGenerateMipmapEXT                       glGenerateMipmapEXT;
+}

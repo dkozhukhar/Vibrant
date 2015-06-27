@@ -300,7 +300,7 @@ private void load(SharedLib lib)
         macInit();
 }
 
-GenericLoader DerelictSDL;
+__gshared  GenericLoader DerelictSDL;
 shared static this() {
     DerelictSDL.setup(
         "sdl.dll",

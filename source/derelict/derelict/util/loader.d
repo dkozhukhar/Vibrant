@@ -338,7 +338,7 @@ struct GenericLoader {
     }
 
     private {
-        static GenericLoader[] registeredLoaders;
+        static __gshared GenericLoader[] registeredLoaders;
 
         SharedLib myLib;
         string winLibs;

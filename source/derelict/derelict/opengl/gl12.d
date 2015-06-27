@@ -110,7 +110,10 @@ alias GLvoid function(GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GL
 alias GLvoid function(GLenum, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei, GLenum, GLenum, GLvoid*) pfglTexSubImage3D;
 alias GLvoid function(GLenum, GLint, GLint, GLint, GLint, GLint, GLint, GLsizei, GLsizei) pfglCopyTexSubImage3D;
 
+__gshared
+{
 pfglDrawRangeElements       glDrawRangeElements;
 pfglTexImage3D              glTexImage3D;
 pfglTexSubImage3D           glTexSubImage3D;
 pfglCopyTexSubImage3D       glCopyTexSubImage3D;
+}

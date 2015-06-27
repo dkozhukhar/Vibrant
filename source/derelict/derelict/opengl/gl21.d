@@ -98,9 +98,12 @@ alias void function(GLint, GLsizei, GLboolean, GLfloat*) pfglUniformMatrix4x2fv;
 alias void function(GLint, GLsizei, GLboolean, GLfloat*) pfglUniformMatrix3x4fv;
 alias void function(GLint, GLsizei, GLboolean, GLfloat*) pfglUniformMatrix4x3fv;
 
+__gshared
+{
 pfglUniformMatrix2x3fv              glUniformMatrix2x3fv;
 pfglUniformMatrix3x2fv              glUniformMatrix3x2fv;
 pfglUniformMatrix2x4fv              glUniformMatrix2x4fv;
 pfglUniformMatrix4x2fv              glUniformMatrix4x2fv;
 pfglUniformMatrix3x4fv              glUniformMatrix3x4fv;
 pfglUniformMatrix4x3fv              glUniformMatrix4x3fv;
+}

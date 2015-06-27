@@ -105,7 +105,7 @@ class Texture
     {
         GLint chooseCompressionScheme(IFormat fmt)
         {
-            static GLint[] s_supportedCompressedFormats = null;
+            static __gshared GLint[] s_supportedCompressedFormats = null;
 
             static bool hasCompressionFormat(GLint fmt)
             {

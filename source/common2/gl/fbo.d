@@ -150,8 +150,8 @@ final class FBO
         GLState m_state;
 
 
-        static FBO binded = null;
-        static FBO current = null;
+        __gshared static FBO binded = null;
+        __gshared static FBO current = null;
 
         bool m_main;
         Component m_toWrite;

@@ -79,6 +79,6 @@ extern(System):
 
 alias void function(GLenum, GLfloat) pfglPointParameterfEXT;
 alias void function(GLenum, GLfloat*) pfglPointParameterfvEXT;
-
+__gshared :
 pfglPointParameterfEXT    glPointParameterfEXT;
 pfglPointParameterfvEXT   glPointParameterfvEXT;

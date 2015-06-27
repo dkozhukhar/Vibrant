@@ -95,7 +95,7 @@ private void load(SharedLib lib)
 }
 
 
-GenericLoader DerelictGLU;
+__gshared  GenericLoader DerelictGLU;
 shared static this() {
     DerelictGLU.setup(
         "glu32.dll",
@@ -297,7 +297,8 @@ extern(System) alias void function() _GLUfuncptr;
 // DLL FUNCTIONS
 //==============================================================================
 extern(System):
-
+__gshared
+{
 void function(GLUnurbs*) gluBeginCurve;
 void function(GLUtesselator*) gluBeginPolygon;
 void function(GLUnurbs*) gluBeginSurface;
@@ -351,3 +352,4 @@ void function(GLUtesselator*,GLenum,GLdouble) gluTessProperty;
 void function(GLUtesselator*,GLdouble*,GLvoid*) gluTessVertex;
 GLint function(GLdouble,GLdouble,GLdouble,GLdouble*,GLdouble*,GLint*,GLdouble*,GLdouble*,GLdouble*) gluUnProject;
 // GLint function(GLdouble,GLdouble,GLdouble,GLdouble,GLdouble*,GLdouble*,GLint*,GLdouble,GLdouble,GLdouble*,GLdouble*,GLdouble*,GLdouble*) gluUnProject4;
+}

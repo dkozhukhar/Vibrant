@@ -135,7 +135,7 @@ struct Random
 
 private
 {
-    uint randSeed = 0;
+    __gshared uint randSeed = 0;
 }
 /+
 // initialize the random seed

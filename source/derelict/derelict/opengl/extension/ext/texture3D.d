@@ -91,6 +91,6 @@ extern(System):
 
 alias void function(GLenum, GLint, GLenum, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, GLvoid*) pfglTexImage3DEXT;
 alias void function(GLenum, GLint, GLint, GLint, GLint, GLsizei, GLsizei, GLsizei, GLenum, GLenum, GLvoid*) pfglTexSubImage3DEXT;
-
+__gshared :
 pfglTexImage3DEXT       glTexImage3DEXT;
 pfglTexSubImage3DEXT    glTexSubImage3DEXT;

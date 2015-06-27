@@ -67,7 +67,7 @@ bool SDL_VERSION_ATLEAST(Uint8 major, Uint8 minor, Uint8 patch)
     return cast(bool)(SDL_COMPILEDVERSION >= SDL_VERSIONNUM(major,minor,patch));
 }
 
-extern(C)
+extern(C) __gshared 
 {
     SDL_version* function() SDL_Linked_Version;
 }

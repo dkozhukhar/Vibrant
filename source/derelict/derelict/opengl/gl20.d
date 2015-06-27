@@ -421,6 +421,8 @@ alias GLvoid function(GLuint, GLuint*) pfglVertexAttrib4uiv;
 alias GLvoid function(GLuint, GLushort*) pfglVertexAttrib4usv;
 alias GLvoid function(GLuint, GLint, GLenum, GLboolean, GLsizei, GLvoid*) pfglVertexAttribPointer;
 
+__gshared
+{
 pfglBlendEquationSeparate       glBlendEquationSeparate;
 pfglDrawBuffers                 glDrawBuffers;
 pfglStencilOpSeparate           glStencilOpSeparate;
@@ -514,3 +516,4 @@ pfglVertexAttrib4ubv            glVertexAttrib4ubv;
 pfglVertexAttrib4uiv            glVertexAttrib4uiv;
 pfglVertexAttrib4usv            glVertexAttrib4usv;
 pfglVertexAttribPointer         glVertexAttribPointer;
+}

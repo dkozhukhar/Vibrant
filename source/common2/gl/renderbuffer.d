@@ -11,7 +11,7 @@ final class RenderBuffer
     private
     {
         GLuint m_handle;
-        static RenderBuffer current = null;
+        static __gshared RenderBuffer current = null;
         GLState m_state;
         int m_width, m_height;
         bool m_wrapInPOT;

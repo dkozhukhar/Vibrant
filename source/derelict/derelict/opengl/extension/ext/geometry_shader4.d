@@ -108,7 +108,7 @@ alias void function(GLenum,GLenum,GLuint,GLint) pfglFramebufferTextureEXT;
 alias void function(GLenum,GLenum,GLuint,GLint,GLenum) pfglFramebufferTextureFaceEXT;
 alias void function(GLenum,GLenum,GLuint,GLint,GLint) pfglFramebufferTextureLayerEXT;
 alias void function(GLuint,GLenum,GLint) pfglProgramParameteriEXT;
-
+__gshared:
 pfglFramebufferTextureEXT           glFramebufferTextureEXT;
 pfglFramebufferTextureFaceEXT       glFramebufferTextureFaceEXT;
 pfglFramebufferTextureLayerEXT      glFramebufferTextureLayerEXT;

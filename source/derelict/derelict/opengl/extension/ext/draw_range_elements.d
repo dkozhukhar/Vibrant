@@ -81,5 +81,5 @@ enum : GLenum
 extern(System):
 
 alias void function(GLenum, GLuint, GLuint, GLsizei, GLenum, GLvoid*) pfglDrawRangeElementsEXT;
-
+__gshared :
 pfglDrawRangeElementsEXT        glDrawRangeElementsEXT;

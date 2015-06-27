@@ -119,8 +119,8 @@ final class Shader
         GLuint handle = 0;
         Subshader fragmentShader, vertexShader;
 
-        static Shader binded = null;
-        static Shader used = null;
+        static __gshared Shader binded = null;
+        static __gshared Shader used = null;
 
         final void attach(Subshader s)
         {
@@ -168,7 +168,7 @@ final class Shader
             return log.idup;
         }
 
-        static Shader fixedPipelineShader;
+        static __gshared Shader fixedPipelineShader;
 
     }
 

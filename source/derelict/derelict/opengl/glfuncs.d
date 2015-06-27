@@ -37,7 +37,7 @@ private
     import derelict.util.loader;
 }
 
-package SharedLib glLib;
+package __gshared SharedLib glLib;
 
 package void loadGL(SharedLib lib)
 {
@@ -733,6 +733,8 @@ alias void function(GLenum,GLint,GLsizei) pfglDrawArrays;
 alias void function(GLenum,GLsizei,GLenum,GLvoid*) pfglDrawElements;
 alias void function(GLenum,GLsizei,GLvoid*) pfglInterleavedArrays;
 
+__gshared
+{
 pfglClearIndex          glClearIndex;
 pfglClearColor          glClearColor;
 pfglClear               glClear;
@@ -1085,3 +1087,4 @@ pfglArrayElement        glArrayElement;
 pfglDrawArrays          glDrawArrays;
 pfglDrawElements        glDrawElements;
 pfglInterleavedArrays   glInterleavedArrays;
+}

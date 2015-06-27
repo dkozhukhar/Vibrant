@@ -205,6 +205,7 @@ alias void function(GLuint,GLuint*) pfglVertexAttribI4uivEXT;
 alias void function(GLuint,GLushort*) pfglVertexAttribI4usvEXT;
 alias void function(GLuint,GLint,GLenum,GLenum,GLsizei,GLvoid*) pfglVertexAttribIPointerEXT;
 
+__gshared :
 pfglBindFragDataLocationEXT             glBindFragDataLocationEXT;
 pfglGetFragDataLocationEXT              glGetFragDataLocationEXT;
 pfglGetUniformuivEXT                    glGetUniformuivEXT;

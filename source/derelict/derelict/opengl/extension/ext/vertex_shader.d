@@ -313,6 +313,7 @@ alias void function(GLuint,GLenum,GLboolean*) pfglGetLocalConstantBooleanvEXT;
 alias void function(GLuint,GLenum,GLint*) pfglGetLocalConstantIntegervEXT;
 alias void function(GLuint,GLenum,GLfloat*) pfglGetLocalConstantFloatvEXT;
 
+__gshared :
 pfglBeginVertexShaderEXT            glBeginVertexShaderEXT;
 pfglEndVertexShaderEXT              glEndVertexShaderEXT;
 pfglBindVertexShaderEXT             glBindVertexShaderEXT;

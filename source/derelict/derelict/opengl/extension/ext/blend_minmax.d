@@ -84,4 +84,5 @@ extern(System):
 
 alias void function(GLenum) pfglBlendEquationEXT;
 
+__gshared :
 pfglBlendEquationEXT       glBlendEquationEXT;

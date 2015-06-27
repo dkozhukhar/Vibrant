@@ -148,7 +148,7 @@ private:
 */
 alias bool function(string libName, string procName) MissingProcCallback;
 
-private MissingProcCallback missingProcCallback;
+private __gshared  MissingProcCallback missingProcCallback;
 
 public void Derelict_HandleMissingProc(string libName, string procName)
 {

@@ -58,7 +58,7 @@ struct quat(T)
             return q;
         }
 
-        static quat ONE;
+        __gshared static quat ONE;
         shared static this()
         {
             ONE = quat(1, 0, 0, 0);

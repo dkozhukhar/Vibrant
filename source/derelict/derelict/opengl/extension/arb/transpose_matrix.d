@@ -91,7 +91,7 @@ alias void function(GLfloat*) pfglLoadTransposeMatrixfARB;
 alias void function(GLdouble*) pfglLoadTransposeMatrixdARB;
 alias void function(GLfloat*) pfglMultTransposeMatrixfARB;
 alias void function(GLdouble*) pfglMultTransposeMatrixdARB;
-
+__gshared :
 pfglLoadTransposeMatrixfARB             glLoadTransposeMatrixfARB;
 pfglLoadTransposeMatrixdARB             glLoadTransposeMatrixdARB;
 pfglMultTransposeMatrixfARB             glMultTransposeMatrixfARB;

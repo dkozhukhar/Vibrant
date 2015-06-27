@@ -91,7 +91,7 @@ extern(System):
 alias void function(GLuint, GLint, GLuint) pfglUniformBufferEXT;
 alias GLint function(GLuint, GLint) pfglGetUniformBufferSizeEXT;
 alias GLintptr function(GLuint, GLint) pfglGetUniformOffsetEXT;
-
+__gshared :
 pfglUniformBufferEXT            glUniformBufferEXT;
 pfglGetUniformBufferSizeEXT     glGetUniformBufferSizeEXT;
 pfglGetUniformOffsetEXT         glGetUniformOffsetEXT;

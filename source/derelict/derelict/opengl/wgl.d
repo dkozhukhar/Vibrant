@@ -44,7 +44,7 @@ version(Windows)
 
     //------------------------------------------------------------------------------
 
-    extern(Windows)
+    extern(Windows) __gshared
     {
         // WGL functions
         alias BOOL function(void*,void*) pfwglCopyContext;

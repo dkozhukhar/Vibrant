@@ -54,9 +54,9 @@ struct vec3(T)
         // constants //
         ///////////////
 
-        static vec3 ZEROS, ONES;
+        __gshared static vec3 ZEROS, ONES;
 
-        static vec3[3] AXIS;
+        __gshared static vec3[3] AXIS;
 
         shared static this()
         {

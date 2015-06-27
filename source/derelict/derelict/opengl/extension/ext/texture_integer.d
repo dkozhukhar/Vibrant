@@ -141,7 +141,7 @@ alias void function(GLenum,GLenum,GLint*) pfglGetTexParameterIivEXT;
 alias void function(GLenum,GLenum,GLuint*) pfglGetTexParameterIuivEXT;
 alias void function(GLenum,GLenum,GLint*) pfglTexParameterIivEXT;
 alias void function(GLenum,GLenum,GLuint*) pfglTexParameterIuivEXT;
-
+__gshared :
 pfglClearColorIiEXT         glClearColorIiEXT;
 pfglClearColorIuiEXT        glClearColorIuiEXT;
 pfglGetTexParameterIivEXT   glGetTexParameterIivEXT;

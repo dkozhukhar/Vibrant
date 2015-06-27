@@ -93,21 +93,21 @@ enum GLVersion
 version(darwin)
 {
 	// this needs to be shared with GLU on Mac
-	package GenericLoader GLLoader;
+	package __gshared GenericLoader GLLoader;
 }
 else
 {
-	private GenericLoader GLLoader;
+	private __gshared GenericLoader GLLoader;
 }
 
 
 private
 {
     alias bool function(string) ExtensionLoader;
-    ExtensionLoader[] loaders;
-    bool versionsOnce           = false;
-    bool extensionsOnce         = false;
-    int numExtensionsLoaded     = 0;
+    __gshared ExtensionLoader[] loaders;
+    __gshared bool versionsOnce           = false;
+    __gshared bool extensionsOnce         = false;
+    __gshared int numExtensionsLoaded     = 0;
 
     version(Windows)
     {
@@ -117,7 +117,7 @@ private
         }
 
         extern(Windows) export int GetPixelFormat(void* hdc);
-        int currentPixelFormat      = 0;
+        __gshared int currentPixelFormat      = 0;
     }
 
     bool isLoadRequired()
@@ -320,7 +320,7 @@ struct DerelictGL
 
     static string versionString(GLVersion glv)
     {
-        static string[GLVersion.max + 1]  vstrings = [GLVersion.VersionNone:"Unknown",
+        static immutable string[GLVersion.max + 1]  vstrings = [GLVersion.VersionNone:"Unknown",
             GLVersion.Version11:"Version 1.1", GLVersion.Version12:"Version 1.2",
             GLVersion.Version13:"Version 1.3", GLVersion.Version14:"Version 1.4",
             GLVersion.Version15:"Version 1.5", GLVersion.Version20:"Version 2.0",
@@ -334,8 +334,8 @@ struct DerelictGL
     }
 
 
-    private static GLVersion maxVersionAvail    = GLVersion.VersionNone;
-    private static GLVersion loadedVersion      = GLVersion.VersionNone;
+    private static __gshared GLVersion maxVersionAvail    = GLVersion.VersionNone;
+    private static __gshared GLVersion loadedVersion      = GLVersion.VersionNone;
 
     private static void setVersion()
     {
