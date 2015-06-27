@@ -308,11 +308,6 @@ struct mat3(T)
 
             }
 
-            mat3 scale(T x)
-            {
-                return scale(x, x);
-            }
-
             mat3 scale(vec2!(T) v)
             {
                 return mat3
