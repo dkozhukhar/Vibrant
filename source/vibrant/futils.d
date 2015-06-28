@@ -6,20 +6,6 @@ import std.string;
 import math.all;
 import misc.all;
 
-float normalizeAngle(float angle)
-{
-    double PI2 = 6.283185307179586476925286766559;
-    return angle % PI2;/*
-
-    asm
-    {
-        fld PI2;
-        fld angle;
-        fprem1;
-        fstp ST(1);
-    }*/
-}
-
 
 // polar
 vec2!(T) polarOld(T)(T angle, T radius)

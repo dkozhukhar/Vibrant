@@ -12,7 +12,12 @@ shared static this()
 float normalizeAngle(float angle)
 {
     double PI2 = 6.283185307179586476925286766559;
-    return angle % PI2;
+    float val = angle;
+    while(val > PI2 * 2)
+        val -= PI2;
+    while(val < -PI2 * 2)
+        val += PI2;
+    return val;
 }
 
 

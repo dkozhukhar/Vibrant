@@ -54,7 +54,9 @@ class VibrantProgram : SDLApp
                 // fallback to ugly mode
                 doPostProcessing = false;
             }
-        //    doPostProcessing = false;
+// TODO restore post proc
+            doPostProcessing = false;
+
 
             GL.check();
 
