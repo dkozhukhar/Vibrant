@@ -175,10 +175,6 @@ struct quat(T)
             );
         }
 
-        string toString()
-        {
-            return format("( %s , %s , %s , %s )", w, x, y, z);
-        }
     }
 }
 

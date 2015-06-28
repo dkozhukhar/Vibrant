@@ -117,11 +117,6 @@ struct box3(T)
             return box3(m_xmin - a.x, m_ymin - a.y, m_zmin - a.z, m_xmax - a.x, m_ymax - a.y, m_zmax - a.z);
         }
 
-        string toString()
-        {
-            return format("( %s , %s, %s ) - ( %s , %s, %s )", m_xmin, m_ymin, m_zmin, m_xmax, m_ymax, m_zmax);
-        }
-
         bool contains(vec3!(T) pt)
         {
             return (pt.x >= m_xmin) && (pt.x < m_xmax)

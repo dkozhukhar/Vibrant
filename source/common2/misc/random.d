@@ -1,6 +1,6 @@
 module misc.random;
 
-import misc.perf;
+import std.random : unpredictableSeed;
 import math.common;
 import math.vec2;
 import math.vec3;
@@ -20,7 +20,7 @@ struct Random
     {
         static Random opCall()
         {
-            return Random(cast(uint) rdtsc());
+            return Random(cast(uint) unpredictableSeed());
         }
 
         static Random opCall(uint seed)

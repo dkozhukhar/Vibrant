@@ -332,11 +332,6 @@ struct vec4(T)
         {
             return   vec4(-x, -y, -z, -w);
         }
-
-        string toString()
-        {
-            return format("( %s , %s , %s , %s )", x, y, z, w);
-        }
     }
 }
 

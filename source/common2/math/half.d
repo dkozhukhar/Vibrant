@@ -140,11 +140,6 @@ struct half
         {
             return createFromValue(cast(ushort)(0x8000 ^ value));
         }
-
-        string toString()
-        {
-            return format("%s, %s", toFloat(), value);
-        }
     }
 
     static private

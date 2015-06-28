@@ -180,10 +180,6 @@ struct vec2(T)
             return vec2(-x, -y);
         }
 
-        string toString()
-        {
-            return format("(%s %s)", x, y);
-        }
     }
 }
 

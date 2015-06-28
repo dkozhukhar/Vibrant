@@ -1,13 +1,14 @@
 module math.random;
 
 
+import std.random : unpredictableSeed;
+
 import math.common;
 import math.vec2;
 import math.vec3;
 import math.vec4;
 import math.mat3;
 import math.mat4;
-import misc.perf;
 
 struct Random
 {
@@ -20,7 +21,7 @@ struct Random
     {
         static Random opCall()
         {
-            return Random(cast(uint) rdtsc());
+            return Random(cast(uint) unpredictableSeed());
         }
 
         static Random opCall(uint seed)

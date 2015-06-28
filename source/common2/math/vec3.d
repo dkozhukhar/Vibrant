@@ -242,11 +242,6 @@ struct vec3(T)
             return  vec3(-x, -y, -z);
         }
 
-        string toString()
-        {
-            return format("( %s, %s, %s )", x, y, z);
-        }
-
         static vec3 cross(vec3 a, vec3 b)
         {
             return  vec3(a.y * b.z - a.z * b.y,

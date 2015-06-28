@@ -29,12 +29,6 @@ struct triangle3(T)
             return t;
         }
 
-        // construct from 2 point
-
-        string toString()
-        {
-            return format("%s - %s - %s", a, b, c);
-        }
     }
 }
 

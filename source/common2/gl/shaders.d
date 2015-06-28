@@ -25,21 +25,15 @@ private final class Subshader
     {
         this(GLenum shaderType)
         {
-            debug(2) crap(">Subshader.this()");
             m_state = GL;
             handle = glCreateShader(shaderType);
-            debug(2) crap(format("got handle %s", handle));
             GL.check();
-            debug(2) crap("<Subshader.this()");
         }
 
         ~this()
         {
-            debug(2) crap(">Subshader.~this()");
-            debug(2) crap(format("glDeleteShader(%s)", handle));
             glDeleteShader(handle);
             GL.check();
-            debug(2) crap("<Subshader.~this()");
         }
 
         final GLuint getHandle()
@@ -150,11 +144,8 @@ final class Shader
 
         this(int handle) // to create the default shader
         {
-            debug(2) crap(">Shader.this()");
             this.handle = handle;
-            m_state = GL;
-            debug(2) crap(format("got handle %s", handle));
-            debug(2) crap("<Shader.this()");
+            m_state = GL;            
         }
 
         final string getInfoLog()

@@ -1,7 +1,6 @@
 module math.mat4;
 
 import math.common;
-import std.string;// : format, toString;
 import math.vec2;
 import math.vec3;
 import math.vec4;
@@ -436,15 +435,6 @@ struct mat4(T)
         {
             auto nml = orthonormalized;
             this = nml;
-        }
-
-        string toString()
-        {
-            return format("((%s %s %s %s)\n(%s %s %s %s)\n(%s %s %s %s)\n(%s %s %s %s))",
-                          c[0][0], c[0][1], c[0][2], c[0][3],
-                          c[1][0], c[1][1], c[1][2], c[1][3],
-                          c[2][0], c[2][1], c[2][2], c[2][3],
-                          c[3][0], c[3][1], c[3][2], c[3][3]);
         }
 
         // "basic" matrices used in 3D

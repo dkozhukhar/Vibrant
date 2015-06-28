@@ -2,7 +2,6 @@ module math.mat3;
 
 
 import math.common;
-import std.string;// : format, toString;
 import math.vec2;
 import math.vec3;
 import math.box2;
@@ -255,12 +254,6 @@ struct mat3(T)
         {
             auto nml = orthonormalized;
             this = nml;
-        }
-
-        string toString()
-        {
-            return format("((%s, %s, %s)\n (%s, %s, %s)\n (%s, %s, %s))",
-                          c00, c01, c02, c10, c11, c12, c20, c21, c22);
         }
 
         static {

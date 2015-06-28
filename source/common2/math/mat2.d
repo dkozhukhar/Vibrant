@@ -2,7 +2,6 @@ module math.mat2;
 
 
 import math.common;
-import std.string;// : format, toString;
 import math.vec2;
 import math.box2;
 
@@ -156,12 +155,6 @@ struct mat2(T)
         void transpose()
         {
             swap(c[0][1],c[1][0]);
-        }
-
-        string toString()
-        {
-            return format("((%s, %s)\n" " (%s, %s))",
-                          c00, c01, c10, c11);
         }
 
         __gshared static mat2 IDENTITY, ZERO;

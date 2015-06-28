@@ -107,11 +107,6 @@ struct box2(T)
             return box2(m_xmin - a.x, m_ymin - a.y, m_xmax - a.x, m_ymax - a.y);
         }
 
-        string toString()
-        {
-            return format("( %s , %s ) - ( %s , %s )", m_xmin, m_ymin, m_xmax, m_ymax);
-        }
-
         // returns the largest box2 within with asked ratio
         box2 subRectWithRatio(double asked_ratio)
         {
