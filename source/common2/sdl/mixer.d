@@ -31,7 +31,7 @@ final class SDLMixer
 
 			int res = Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 1024);
 
-			if (res == -1) throw new SDLError("Mix_OpenAudio failed");
+			if (res == -1) throw new SDLException("Mix_OpenAudio failed");
 
 			m_initialized = true;
 
@@ -92,7 +92,7 @@ final class Chunk
 		{
 			m_SDLMixer = mixer;
 			m_handle = Mix_LoadWAV(filename);
-			if (m_handle is null) throw new SDLError(format("Unable to load the %s", filename));
+			if (m_handle is null) throw new SDLException(format("Unable to load the %s", filename));
 		}
 	}
 
@@ -168,7 +168,7 @@ final class Music
 			if (m_handle is null) 
             {
                 string msg = format("Unable to load the music %s", filename);
-                throw new SDLError(msg);			
+                throw new SDLException(msg);			
             }
 		}
 

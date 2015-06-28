@@ -93,7 +93,7 @@ final class FBO
                                 break;
 
                            default:
-                                   throw new FBOError("Trying to bind to an unknown target");
+                                   throw new FBOException("Trying to bind to an unknown target");
                         }
 
                     }
@@ -103,7 +103,7 @@ final class FBO
 
                     if (!GL.test())
                     {
-                        throw new FBOError("Can't attach a texture/renderbuffer to a FBO");
+                        throw new FBOException("Can't attach a texture/renderbuffer to a FBO");
                     }
                 }
 

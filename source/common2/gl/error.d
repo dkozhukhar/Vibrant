@@ -2,7 +2,7 @@ module gl.error;
 
 import std.string;
 
-class OpenGLError : Exception
+class OpenGLException : Exception
 {
     this(string s)
     {
@@ -11,7 +11,7 @@ class OpenGLError : Exception
 }
 
 // FBO
-class FBOError : OpenGLError
+class FBOException : OpenGLException
 {
     this(string s)
     {
@@ -21,7 +21,7 @@ class FBOError : OpenGLError
 
 // shaders
 
-class ShaderError : OpenGLError
+class ShaderException : OpenGLException
 {
     this(string s)
     {
@@ -29,7 +29,7 @@ class ShaderError : OpenGLError
     }
 }
 
-final class CompileError : ShaderError
+final class CompileException : ShaderException
 {
     this(string filename, string log)
     {
@@ -37,7 +37,7 @@ final class CompileError : ShaderError
     }
 }
 
-final class LinkError : ShaderError
+final class LinkException : ShaderException
 {
     this(string filename)
     {
@@ -45,7 +45,7 @@ final class LinkError : ShaderError
     }
 }
 
-final class NotFoundUniformError : ShaderError
+final class NotFoundUniformError : ShaderException
 {
     this(string name)
     {

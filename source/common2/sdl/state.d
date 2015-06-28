@@ -8,7 +8,7 @@ import sdl.joystick, sdl.keyboard;
 import std.string, std.stdio;
 import std.math;
 
-public class SDLError : Exception
+class SDLException : Exception
 {
     this(string message)
     {
@@ -35,7 +35,7 @@ class SDL
         {
             DerelictSDL.load();
 
-            if (0 != SDL_Init(0)) throw new SDLError("Unable to initialize SDL");
+            if (0 != SDL_Init(0)) throw new SDLException("Unable to initialize SDL");
 
             subSystemInit(SDL_INIT_TIMER);
             subSystemInit(SDL_INIT_VIDEO);
@@ -90,7 +90,7 @@ class SDL
             if (! subSystemInitialized(flag))
             {
                 int res = SDL_InitSubSystem(flag);
-                if (0 != res) throw new SDLError("Unable to initialize SDL subsystem.");
+                if (0 != res) throw new SDLException("Unable to initialize SDL subsystem.");
             }
         }
 

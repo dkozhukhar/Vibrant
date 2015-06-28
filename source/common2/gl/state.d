@@ -239,7 +239,7 @@ final class GLState
             }
             catch(DerelictException e)
             {
-                throw new OpenGLError("Cannot load OpenGL");
+                throw new OpenGLException("Cannot load OpenGL");
             }
 
             try
@@ -248,7 +248,7 @@ final class GLState
             }
             catch(DerelictException e)
             {
-                throw new OpenGLError("Cannot load the right version of OpenGL. Upgrade!");
+                throw new OpenGLException("Cannot load the right version of OpenGL. Upgrade!");
             }
 
 
@@ -532,7 +532,7 @@ final class GLState
             if (r != GL_NO_ERROR)
             {
                 string err = "GLstate.signal: " ~ errorString(r);
-                throw new OpenGLError(err);
+                throw new OpenGLException(err);
             }
         }
 

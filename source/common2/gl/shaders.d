@@ -205,7 +205,7 @@ final class Shader
 
             if (!vertexShader.compile())
             {
-                throw new CompileError(vertexFile, vertexShader.getInfoLog());
+                throw new CompileException(vertexFile, vertexShader.getInfoLog());
             }
             else
             {
@@ -217,7 +217,7 @@ final class Shader
 
             if (!fragmentShader.compile())
             {
-                throw new CompileError(fragmentFile, fragmentShader.getInfoLog());
+                throw new CompileException(fragmentFile, fragmentShader.getInfoLog());
             }
             else
             {
@@ -229,7 +229,7 @@ final class Shader
             if (!link())
             {
                 string log = getInfoLog();
-                throw new LinkError(vertexFile ~ " + " ~ fragmentFile);
+                throw new LinkException(vertexFile ~ " + " ~ fragmentFile);
             }
             else
             {

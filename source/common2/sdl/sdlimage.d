@@ -47,7 +47,7 @@ final class SDLImage
 
                 string errorString = fromStringz(errorStringz).idup;
                 string msg = format("Unable to load image %s, SDL says \"%s\"", filename, errorString);
-                throw new SDLError(msg);
+                throw new SDLException(msg);
             }
 
             SDL_PixelFormat RGBAformat;
@@ -72,7 +72,7 @@ final class SDLImage
 
             SDL_Surface * convertedSurface = SDL_ConvertSurface(m_handle, &RGBAformat, SDL_SWSURFACE);
 
-            if (convertedSurface is null) throw new SDLError(format("Cannor convert %s in proper RGBA format", filename));
+            if (convertedSurface is null) throw new SDLException(format("Cannor convert %s in proper RGBA format", filename));
 
             SDL_FreeSurface(m_handle);
 

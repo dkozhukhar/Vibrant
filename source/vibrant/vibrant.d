@@ -24,6 +24,7 @@ class InvalidCommandLine : Exception
 }
 
 T safeConvert(T)(string src, string errorMsg)
+    if (is(T == int) || is(T == float))
 {   
     try
     {
@@ -84,7 +85,7 @@ int main(string[]args)
                     }
                     else
                     {
-                        height = safeConvert!(int)(args[i+1], "integer or \"auto\" expected for height, not %s");
+                        height = safeConvert!int(args[i+1], "integer or \"auto\" expected for height, not %s");
                     }
                     i += 2;
                     break;
@@ -92,7 +93,7 @@ int main(string[]args)
                 case "-a":
                 case "-fsaa":
                     if (i + 1 == args.length) throw new InvalidCommandLine("Missing FSAA option");
-                    fsaa = safeConvert!(int)(args[i+1], "integer expected for FSAA, not %s");
+                    fsaa = safeConvert!int(args[i+1], "integer expected for FSAA, not %s");
                     i += 2;
                     break;
 
@@ -110,7 +111,7 @@ int main(string[]args)
 
                 case "-gamma":
                     if (i + 1 == args.length) throw new InvalidCommandLine("Missing gamma option");
-                    gamma = safeConvert!(float)(args[i+1], "float expected for gamma, not %s");
+                    gamma = safeConvert!float(args[i+1], "float expected for gamma, not %s");
                     i += 2;
                     break;
 
@@ -147,3 +148,4 @@ int main(string[]args)
 
     return 0;
 }
+

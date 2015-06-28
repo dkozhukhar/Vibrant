@@ -30,7 +30,7 @@ final class SoundManager
             {
                 m_SDLMixer = SDLMixer.instance;
             }
-            catch(SDLError e)
+            catch(SDLException e)
             {
                 m_SDLMixer = null; // no sound
                 return;
