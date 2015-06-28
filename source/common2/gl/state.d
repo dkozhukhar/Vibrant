@@ -507,11 +507,12 @@ final class GLState
             }
         }
 
+// Disabled for performance reasons
 
         // just a check, halt on error (dangerous !)
         void check()
         {
-            version(Release)
+       /*     version(Release)
             {
                 // do nothing in release mode !
             }
@@ -522,23 +523,25 @@ final class GLState
                 {
                     assert(false);
                 }
-            }
+            }*/
         }
 
         // ditto but affects control flow
         void signal()
         {
-            GLint r = glGetError();
+      /*      GLint r = glGetError();
             if (r != GL_NO_ERROR)
             {
                 string err = "GLstate.signal: " ~ errorString(r);
                 throw new OpenGLException(err);
-            }
+            }*/
         }
 
         // just check, but log error content
         bool test()
         {
+            return true;
+            /*
             GLint r = glGetError();
             if (r != GL_NO_ERROR)
             {
@@ -548,7 +551,7 @@ final class GLState
             else
             {
                 return true;
-            }
+            }*/
         }
 
         void cullFace(int mode)
@@ -607,14 +610,14 @@ final class GLState
 
             GLint m = blendMode_toGL[op];
 
-            if(glBlendEquation is null)
+            /*if(glBlendEquation is null)
             {
                 glBlendEquationEXT(m);
             }
             else
             {
                 glBlendEquation(m);
-            }
+            }*/
             check;
         }
 
@@ -726,14 +729,33 @@ final class GLState
         void texCoord(int n, vec2f tc)        {    glMultiTexCoord2fv(GL_TEXTURE0 + n, tc.ptr);    }
         void texCoord(int n, vec3f tc)        {    glMultiTexCoord3fv(GL_TEXTURE0 + n, tc.ptr);    }
 
-        void translate(float x, float y, float z){    glTranslatef(x, y, z); }
-        void translate(vec3f v)                    {    glTranslatef(v.x, v.y, v.z);    }
+        void translate(float x, float y, float z)
+        {
+            if (x != 0 || y != 0 || z != 0)
+                glTranslatef(x, y, z); 
+        }
+        void translate(vec3f v)
+        {
+            if (v.x != 0 || v.y != 0 || v.z != 0)
+                glTranslatef(v.x, v.y, v.z); 
+        }
 
         void scale(float x, float y, float z)    {    glScalef(x, y, z); }
         void scale(vec3f v)                        {    glScalef(v.x, v.y, v.z);    }
 
-        void rotate(float angle, float x, float y, float z)  {    glRotatef(angle, x, y, z); }
-        void rotate(vec4f v)                                    {    glRotatef(v.x, v.y, v.z, v.z);    }
+        void rotate(float angle, float x, float y, float z)  
+        {    
+            if (angle == 0)
+                return;
+            glRotatef(angle, x, y, z); 
+        }
+
+        void rotate(vec4f v)
+        {
+            if (v.x == 0)
+                return;
+            glRotatef(v.x, v.y, v.z, v.z);
+        }
 
 
         void hint(int a, int b)

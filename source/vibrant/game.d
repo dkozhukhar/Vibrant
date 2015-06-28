@@ -421,7 +421,7 @@ final class Game
             showBars();
             
             GL.enable(GL.ALPHA_TEST);
-            GL.alphaFunc(GL.GREATER, 0.001f);
+
 
             m_fbTex.setSubImage(0, 0, 0, SCREENX, SCREENY, Texture.Format.RGBA, Texture.Type.UBYTE, _overlay._mb.ptr);
             

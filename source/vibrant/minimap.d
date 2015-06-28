@@ -131,7 +131,7 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
 
     // draw bullets
     GL.enable(GL.POINT_SMOOTH);
-    GL.hint(GL.POINT_SMOOTH_HINT, GL.NICEST);
+
 
     GL.pointSize(1);
     GL.begin(GL.POINTS);

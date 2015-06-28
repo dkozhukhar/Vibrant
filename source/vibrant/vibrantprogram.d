@@ -76,6 +76,9 @@ class VibrantProgram : SDLApp
             GL.disable(GL.BLEND, GL.FOG, GL.LIGHTING, GL.NORMALIZE, GL.STENCIL_TEST, GL.CULL_FACE);
             GL.disable(GL.AUTO_NORMAL, GL.DITHER, GL.FOG, GL.LIGHTING, GL.NORMALIZE);        
             GL.disable(GL.POLYGON_SMOOTH, GL.LINE_SMOOTH, GL.POINT_SMOOTH);
+            GL.clearColor = vec4f(0, 0, 0, 1);
+            GL.alphaFunc(GL.GREATER, 0.001f);
+            GL.hint(GL.POINT_SMOOTH_HINT, GL.NICEST);
 
             m_game = new Game(m_view, doPostProcessing);
 
@@ -90,8 +93,7 @@ class VibrantProgram : SDLApp
         override void onRender(double elapsedTime)
         {
             if (m_doRender)
-            {
-                GL.clearColor = vec4f(0, 0, 0, 1);
+            {                
                 GL.clear(true, true, true);
   
                 m_game.draw();
