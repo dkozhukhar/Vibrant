@@ -111,12 +111,12 @@ private
 
     version(Windows)
     {
-        version(DigitalMars)
+        /*version(DigitalMars)
         {
            pragma(lib, "gdi32.lib");
-        }
+        }*/
 
-        extern(Windows) export int GetPixelFormat(void* hdc);
+        //extern(Windows) export int GetPixelFormat(void* hdc);
         __gshared int currentPixelFormat      = 0;
     }
 
