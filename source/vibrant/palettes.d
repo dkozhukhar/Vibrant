@@ -93,7 +93,7 @@ alias Average average;
 
 uint ColorAdd(uint c1, uint c2)
 {
-    /*
+    
     int r = Rvalue(c1) + Rvalue(c2);
     int g = Gvalue(c1) + Gvalue(c2);
     int b = Bvalue(c1) + Bvalue(c2);
@@ -104,26 +104,14 @@ uint ColorAdd(uint c1, uint c2)
     if (b > 255) b = 255;
     if (a > 255) a = 255;
 
-    return rgba(r,g,b,a);
-    */
-
-    asm
-    {
-        movd MM0, c1;
-        movd MM1, c2;
-        paddusb MM0, MM1;
-        movd c1, MM0;
-        emms;
-    }
-    return c1;
-
+    return rgba(r,g,b,a);    
 }
 
 alias ColorAdd coloradd;
 
 uint ColorSub(uint c1, uint c2)
 {
-    /*
+    
     int r = Rvalue(c1) - Rvalue(c2);
     int g = Gvalue(c1) - Gvalue(c2);
     int b = Bvalue(c1) - Bvalue(c2);
@@ -135,40 +123,20 @@ uint ColorSub(uint c1, uint c2)
     if (a < 0) a = 0;
 
     return rgba(r,g,b,a);
-    */
-
-    asm
-    {
-        movd MM0, c1;
-        movd MM1, c2;
-        psubusb MM0, MM1;
-        movd c1, MM0;
-        emms;
-    }
-    return c1;
-
 }
 
 alias ColorSub colorsub;
 
 uint ColorROL(uint c, byte bits)
 {
-    asm
-    {
-        mov EAX, c;
-        mov CL, bits;
-        rol EAX, CL;
-    }
+    bits = bits & 31;
+    return (c << bits) | (c >> (32 - bits));
 }
 
 uint ColorROR(uint c, byte bits)
 {
-    asm
-    {
-        mov EAX, c;
-        mov CL, bits;
-        ror EAX, CL;
-    }
+    bits = bits & 31;
+    return (c >> bits) | (c << (32 - bits));
 }
 
 uint MixColor(uint c1, uint c2, int t)
@@ -198,15 +166,11 @@ uint rgb(int r, int g, int b)
 
 uint swapRB(uint color)
 {
-    asm
-    {
-        mov EAX, color;
-        mov ECX, color;
-        and ECX, 0x00ff00ff;
-        and EAX, 0xff00ff00;
-        ror ECX, 16;
-        or EAX, ECX;
-    }
+    int r = Rvalue(color);
+    int g = Gvalue(color);
+    int b = Bvalue(color);
+    int a = Avalue(color);
+    return rgba(cast(ubyte)b, cast(ubyte)g, cast(ubyte)r, cast(ubyte)a);
 }
 
 uint rgba(int r, int g, int b, int a)

@@ -12,14 +12,7 @@ shared static this()
 float normalizeAngle(float angle)
 {
     double PI2 = 6.283185307179586476925286766559;
-
-    asm
-    {
-        fld PI2;
-        fld angle;
-        fprem1;
-        fstp ST(1);
-    }
+    return angle % PI2;
 }
 
 

@@ -9,6 +9,7 @@ import misc.all;
 float normalizeAngle(float angle)
 {
     double PI2 = 6.283185307179586476925286766559;
+    return angle % PI2;/*
 
     asm
     {
@@ -16,7 +17,7 @@ float normalizeAngle(float angle)
         fld angle;
         fprem1;
         fstp ST(1);
-    }
+    }*/
 }
 
 

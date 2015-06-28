@@ -63,31 +63,21 @@ final ubyte Avalue(uint c)
 // add with saturation
 final uint colorAdd(uint a, uint b)
 {
-    uint res;
-    asm
-     {
-         movd MM0, a;
-         movd MM1, b;
-         paddusb MM0, MM1;
-         movd res, MM0;
-         emms;
-     }
-     return res;
+    int re = clamp!int( Rvalue(a) + Rvalue(b), 0, 255);
+    int gr = clamp!int( Gvalue(a) + Gvalue(b), 0, 255);
+    int bl = clamp!int( Bvalue(a) + Bvalue(b), 0, 255);
+    int al = clamp!int( Avalue(a) + Avalue(b), 0, 255);
+    return rgba(cast(ubyte)re, cast(ubyte)gr, cast(ubyte)bl, cast(ubyte)al);
 }
 
 // subtract with saturation (a - b)
 final uint colorSub(uint a, uint b)
 {
-    uint res;
-    asm
-     {
-         movd MM0, a;
-         movd MM1, b;
-         psubusb MM0, MM1;
-         movd res, MM0;
-         emms;
-     }
-     return res;
+    int re = clamp!int( Rvalue(a) - Rvalue(b), 0, 255);
+    int gr = clamp!int( Gvalue(a) - Gvalue(b), 0, 255);
+    int bl = clamp!int( Bvalue(a) - Bvalue(b), 0, 255);
+    int al = clamp!int( Avalue(a) - Avalue(b), 0, 255);
+    return rgba(cast(ubyte)re, cast(ubyte)gr, cast(ubyte)bl, cast(ubyte)al);
 }
 
 // average

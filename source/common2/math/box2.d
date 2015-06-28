@@ -3,6 +3,7 @@ module math.box2;
 import math.common;
 import math.vec2;
 import std.string;
+import std.traits;
 
 // structure for box2
 // currently very rough
@@ -154,7 +155,7 @@ struct box2(T)
             return box2(na, nb);
         }
 
-        static if (is(T : float) || is(T : double)  || is(T : real) )
+        static if (isFloatingPoint!T)
         {
 
             // Euclidean squared distance from a point

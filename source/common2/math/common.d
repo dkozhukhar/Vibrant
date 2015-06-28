@@ -15,6 +15,7 @@ module math.common;
  */
 
 import std.math;
+import std.traits;
 
 alias std.math.cos cos;
 alias std.math.sin sin;
@@ -250,12 +251,7 @@ alias exp!(double) expd;
 
 T log2(T)(T x)
 {
-    asm
-    {
-        fld1;
-        fld x;
-        fyl2x;
-    }
+    return std.math.log2(x);
 }
 
 alias log2!(float) log2f;
@@ -263,25 +259,16 @@ alias log2!(double) log2d;
 
 T log10(T)(T x)
 {
-    asm
-    {
-        fldlg2;
-        fld x;
-        fyl2x;
-    }
+    return std.math.log10(x);
 }
 
 alias log10!(float) log10f;
 alias log10!(double) log10d;
 
+
 T log(T)(T x)
 {
-    asm
-    {
-        fldln2;
-        fld x;
-        fyl2x;
-    }
+    return std.math.log(x);
 }
 
 alias log!(float) logf;
@@ -312,13 +299,9 @@ alias cube!(double) cubed;
 /**
  * Square root
  */
-T sqrt(T)(T x)
+T sqrt(T)(T x) if (isFloatingPoint!T)
 {
-    asm
-    {
-        fld x;
-        fsqrt;
-    }
+    return std.math.sqrt(x);
 }
 
 alias sqrt!(float) sqrtf;

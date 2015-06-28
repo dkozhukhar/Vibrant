@@ -17,7 +17,8 @@
             "name": "derelict",
             "sourcePaths": [ "source/derelict" ],
             "importPaths": [ "source/derelict" ],
-            "targetType": "library"
+            "targetType": "library",
+            "libs-windows": ["gdi32", "user32"]
         },
         {
             "name": "common2",

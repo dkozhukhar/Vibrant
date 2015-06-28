@@ -2,6 +2,7 @@ module math.vectorop;
 
 // common code to vec2, vec3 and vec4. Used as a mixin
 
+import std.traits;
 import math.common : sqrt, abs;
 
 template VectorOp(T, alias V)
@@ -56,7 +57,7 @@ template VectorOp(T, alias V)
             return res;
         }
 
-        static if (is(T : float) || is(T : double)  || is(T : real) ) // make no sense on integers
+        static if (std.traits.isFloatingPoint!T) // make no sense on integers
         {
             T length()
             {
