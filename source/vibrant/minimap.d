@@ -84,13 +84,16 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
             vertexf(bt);            
         }
 
-        MapLine[] outLines = map._outLines;
+        AlignedBuffer!MapLine outLines = map._outLines;
 
+        int numOutlines = cast(int)(outLines.length);
         GL.begin(GL.LINES);
-        for (size_t i = 0; i < outLines.length; ++i)
+        for (int i = 0; i < numOutlines; ++i)
+        {
             with (outLines[i])
                 if (type == LINE_ELECTRIC_ARC)
                     line(a, b);
+        }
         GL.end();
     }
 

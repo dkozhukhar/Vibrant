@@ -4,6 +4,7 @@ import math.all;
 import camera, palettes;
 import vga2d;
 import utils;
+import misc.alignedbuffer;
 
 const TILE_SIZE = 200.0f;
 const TILE_OUTSIDE = 0;
@@ -26,24 +27,24 @@ class MapTile
 {
     public
     {
-        this(int type, vec2i index)
+        this(int type, vec2i index) nothrow @nogc
         {
             _type = type;
             _index = index;
         }
 
-        int type()
+        int type() nothrow @nogc
         {
             return _type;
         }
 
-        vec2f pos()
+        vec2f pos() nothrow @nogc
         {
             return vec2f((_index.x - NTILE_X / 2) * TILE_SIZE, 
                          (_index.y - NTILE_Y / 2) * TILE_SIZE); 
         }
 
-        box2f bounds()
+        box2f bounds() nothrow @nogc
         {
             vec2f p = pos();
             return box2f(p, p + vec2f(TILE_SIZE, TILE_SIZE));
@@ -61,7 +62,7 @@ class Map
 {
     public
     {
-        MapLine[] _outLines;
+        AlignedBuffer!MapLine _outLines;
 
         this()
         {
@@ -73,34 +74,36 @@ class Map
                     bool border = i <= 1 || j <= 1 || i >= NTILE_X - 2 || j >= NTILE_Y - 2;
                     _tiles[j * NTILE_X + i] = new MapTile(border ? TILE_OUTSIDE : TILE_NORMAL, vec2i(i, j));
                 }
+
+            _outLines = new AlignedBuffer!MapLine();
         }
 
-        static bool indexInMap(vec2i i)
+        static bool indexInMap(vec2i i) nothrow @nogc
         {
             return i.x >= 0 && i.x < NTILE_X && i.y >= 0 && i.y < NTILE_Y;
         }
 
-        static vec2i getIndex(vec2f pos)
+        static vec2i getIndex(vec2f pos) nothrow @nogc
         {
             return vec2i(cast(int)(floor(pos.x / TILE_SIZE)) + (NTILE_X / 2), 
                          cast(int)(floor(pos.y / TILE_SIZE) + (NTILE_Y / 2)));
         }
 
-        MapTile getTile(vec2i i)
+        MapTile getTile(vec2i i) nothrow @nogc
         {
             assert(indexInMap(i));
             return _tiles[i.y * NTILE_X + i.x];
         }
 
-        MapTile getTile(int ix, int iy)
+        MapTile getTile(int ix, int iy) nothrow @nogc
         {
             assert(indexInMap(vec2i(ix, iy)));
             return _tiles[iy * NTILE_X + ix];
         }
 
-        MapTile getTileAtPoint(vec2f pos)
+        MapTile getTileAtPoint(vec2f pos) nothrow @nogc
         {
-            vec2i i = getIndex(pos);            
+            vec2i i = getIndex(pos);
             return getTile(i);
         }
 
@@ -259,10 +262,10 @@ class Map
             return res;
         }
 
-        void generateMapLines(ref MapLine[] outLines)
+        void generateMapLines(AlignedBuffer!MapLine outLines) @nogc
         {
             int nline = 0;     
-            outLines.length = 0;
+            outLines.clear();
 
             for (int j = 0; j < NTILE_Y - 1; ++j)
                 for (int i = 0; i < NTILE_X - 1; ++i)
@@ -279,7 +282,7 @@ class Map
                     MapTile down = getTile(i, j + 1);
                     MapTile right = getTile(i + 1, j);      
 
-                    void push(vec2f p1, vec2f p2, MapTile t1, MapTile t2)
+                    void push(vec2f p1, vec2f p2, MapTile t1, MapTile t2) @nogc
                     {
                         int lineType;
                         if (t1.type() != t2.type())
@@ -289,15 +292,12 @@ class Map
                         else
                             return;
 
-                        outLines ~= MapLine(p1, p2, lineType);
+                        outLines.pushBack( MapLine(p1, p2, lineType) );
                     }
 
                     push(b, d, here, right);
                     push(c, b, here, down);
                 }
-
-            outLines.keepAtLeastThatSize();
-
         }
 
         void draw(Camera camera)

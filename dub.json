@@ -8,7 +8,7 @@
 
 	"dependencies": {
         "vibrant:derelict": "*",
-        "vibrant:common2": "*"
+        "vibrant:common2": "*"		
     },
 
     "dflags": ["-profile=gc"],
@@ -31,7 +31,8 @@
             "dflags": ["-profile=gc"],
 
             "dependencies": {
-                "vibrant:derelict": "*"
+                "vibrant:derelict": "*",
+                "gfm:core": "~>2.0"
             }
         }
     ]

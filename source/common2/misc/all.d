@@ -6,4 +6,5 @@ public
     import misc.singleton;
     import misc.textfile;
     import misc.image;
+    import misc.alignedbuffer;
 }

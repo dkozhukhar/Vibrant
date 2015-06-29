@@ -4,6 +4,8 @@ import math.common;
 import math.random;
 import misc.colors;
 
+import core.stdc.stdlib;
+
 import sdl.sdlimage;
 
 version(useDevIL)
@@ -44,7 +46,8 @@ final class Image
         {
             m_width = width;
             m_height = height;
-            m_data.length = width * height;
+            uint* pData = cast(uint*) malloc(width * height * uint.sizeof);
+            m_data = pData[0..width * height]; // never freed since Image are long-time resources and the OS will reclaim memory :)
         }
 
         version(useDevIL)
@@ -382,8 +385,8 @@ final class Image
             y = y1;
             s1 = (x1 > x2 ? -1 : 1);
             s2 = (y1 > y2 ? -1 : 1);
-            deltay = abs(y2-y1);
-            deltax = abs(x2-x1);
+            deltay = std.math.abs(y2-y1);
+            deltax = std.math.abs(x2-x1);
 
             if (deltax == 0) {
                 if (deltay == 0) {
@@ -601,8 +604,8 @@ final class Image
             int r2 = (e2 >> 24) & 255, g2 = (e2 >> 16) & 255, b2 = (e2 >> 8) & 255, a2 = e2 & 255;
             int r3 = (e3 >> 24) & 255, g3 = (e3 >> 16) & 255, b3 = (e3 >> 8) & 255, a3 = e3 & 255;
 
-            int d1 = abs(r1 - r2) + abs(g1 - g2) + abs(b1 - b2);
-            int d2 = abs(r3 - r2) + abs(g3 - g2) + abs(b3 - b2);
+            int d1 = std.math.abs(r1 - r2) + std.math.abs(g1 - g2) + std.math.abs(b1 - b2);
+            int d2 = std.math.abs(r3 - r2) + std.math.abs(g3 - g2) + std.math.abs(b3 - b2);
             if ((d1 + d2) > threshold)
             {
                     e2 = colorAvg(colorAvg(e1, e2), colorAvg(e3, e2));
