@@ -4,7 +4,7 @@ module powerup;
 import vga2d;
 import utils, bullet, palettes, oldfonts, globals, players;
 import math.all, misc.all;
-import vutils, sound;
+import sound;
 import particles;
 import game;
 import camera;
@@ -457,10 +457,6 @@ const MAX_POWERUPS = 200;
 __gshared Powerup[] powerupPool;
 __gshared int powerupIndex = 0;
 
-shared static this()
-{
-    powerupPool.length = MAX_POWERUPS;
-}
 
 
 private uint approach(uint c, uint target)

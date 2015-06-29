@@ -10,12 +10,12 @@ import mousex;
 
 import utils;
 import oldfonts;
-import vutils;
 import palettes;
 import bullettime;
 import players;
 import cheatcode;
 import postprocessing;
+import minimap;
 
 import particles, bullet, powerup;
 import std.stdio;
@@ -91,6 +91,8 @@ final class Game
 
         this(box2i viewport, bool usePostProcessing)
         {
+            powerupPool.length = MAX_POWERUPS;
+
             _mainPlayerMustReborn = true;
             _random = Random();
             renewTipIndex();

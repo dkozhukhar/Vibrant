@@ -6,7 +6,6 @@ import math.all;
 import gl.all;
 import globals;
 import game;
-import vutils;
 import mousex;
 import joy;
 import derelict.opengl.gl, derelict.opengl.glu, derelict.opengl.gl20, derelict.util.exception;

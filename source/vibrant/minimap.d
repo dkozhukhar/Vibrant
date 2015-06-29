@@ -1,4 +1,4 @@
-module vutils;
+module minimap;
 
 import vga2d;
 import sdl.all;

@@ -2,7 +2,6 @@ module cheatcode;
 
 import std.string;
 import game;
-import vutils;
 import players;
 import sound;
 import globals;

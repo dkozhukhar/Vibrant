@@ -1,6 +1,5 @@
 module players;
 
-import vutils;
 import oldfonts;
 import palettes;
 import vga2d;
