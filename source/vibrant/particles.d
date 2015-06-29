@@ -1,9 +1,12 @@
 module particles;
 
+import core.stdc.stdlib;
 
 import globals, vga2d, utils, palettes, std.string, camera;
 import math.all;
 import game, map;
+
+
 
 private struct Tparticul
 {
@@ -31,10 +34,21 @@ final class ParticleManager
 
         this(Game game, Camera camera)
         {
-            particulstack.length = MAX_PARTICUL;
+
+            Tparticul* pparticulstack = cast(Tparticul*) malloc(Tparticul.sizeof * MAX_PARTICUL);
+
+            particulstack = pparticulstack[0..MAX_PARTICUL];
+
+            // leak because memory is reclaimed by OS anyway :)
+
             particleIndex = 0;
             this.game = game;
             _camera = camera;
+        }
+
+        ~this()
+        {
+            free(particulstack.ptr);
         }
 
         void add(vec2f pos, vec2f baseVel, float mainangle, float mainspeed, float angle, float speed, uint color, int life)

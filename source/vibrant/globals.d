@@ -35,25 +35,25 @@ const OUT_OF_SIGHT_SQUARED = 240000.0f * 240000.0f;
 
 const string[] TIPS =
 [
-  "Hit SPACE to capture a powerup.",
-  "Hit SPACE to capture ennemies.",
-  "You can play with a joypad.",
-  "You can give traps away.",
-  "Blast bullets are guided.",
-  "Borders can give you energy.",
-  "Borders deplete your energy.",
-  "Borders break captures.",
-  "Borders terminate invicibility.",
-  "Don't get too fat.",
-  "No, inertia won't be removed.",
-  "Blue bullets inflict 2x damage.",
-  "Take a look at our other products!",
-  "Visit our website to get updates.",  
-  "Enemies get smarter and smarter.",
-  "WASD + mouse are alternate keys.",
-  "You get 2 safe seconds on respawn.",
-  "Press P for pausing.",
-  "It's OK to loose often."
+  "Tip: Hit SPACE to capture a powerup.",
+  "Tip: Hit SPACE to capture ennemies.",
+  "Tip: You can play with a joypad.",
+  "Tip: You can give traps away.",
+  "Tip: Blast bullets are guided.",
+  "Tip: Borders can give you energy.",
+  "Tip: Borders deplete your energy.",
+  "Tip: Borders break captures.",
+  "Tip: Borders terminate invicibility.",
+  "Tip: Don't get too fat.",
+  "Tip: No, inertia won't be removed.",
+  "Tip: Blue bullets inflict 2x damage.",
+  "Tip: Take a look at our other products!",
+  "Tip: Visit our website to get updates.",  
+  "Tip: Enemies get smarter and smarter.",
+  "Tip: WASD + mouse are alternate keys.",
+  "Tip: You get 2 safe seconds on respawn.",
+  "Tip: Press P for pausing.",
+  "Tip: It's OK to loose often."
 ];
 
 __gshared float bullettimeTime = 0;

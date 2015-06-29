@@ -115,7 +115,7 @@ class Overlay
             {
                 BY = 100 + 16 * 13;
 
-                string tip = "Tip: " ~ tipOfTheMinute;
+                string tip = tipOfTheMinute;
 
                 _text.setCursorPosition(320 - 4 * cast(int)(tip.length), BY);
                 _text.setColor(0xff7477ff);

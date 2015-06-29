@@ -1,5 +1,7 @@
 module gl.texture2d;
 
+import core.stdc.stdlib;
+
 import gl.texture;
 import gl.state;
 import derelict.opengl.gl;
@@ -32,12 +34,11 @@ final class Texture2D : Texture
             // fills with black
 
             int[] data;
-            data.length = w * h * 4;
-            for (int i = 0; i < data.length; ++i)
-            {
-                data[i] = 0;
-            }
 
+            int* pdata = cast(int*)malloc(w * h * 4 * int.sizeof);
+            scope(exit) free(pdata);
+            data = pdata[0..w*h*4];
+            data[] = 0;
 
             Type type;
             Format fmt;
