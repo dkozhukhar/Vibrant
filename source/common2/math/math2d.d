@@ -58,6 +58,10 @@ bool pointInPolygon(vec2f point, vec2f[] p)
 
 bool pointInTriangle(vec2f x, vec2f a, vec2f b, vec2f c)
 {
-    return pointInPolygon(x, [a, b, c]);
+    vec2f[3] points;
+    points[0] = a;
+    points[1] = b;
+    points[2] = c;
+    return pointInPolygon(x, points);
 }
 

@@ -52,6 +52,7 @@ final class CheatcodeManager
         this(Game game)
         {
             m_current = "";
+            m_current.reserve(128);
             m_game = game;
         }
 
@@ -73,7 +74,7 @@ final class CheatcodeManager
                     stillPossible = true;
                 }
             }
-            if (!stillPossible) m_current = "";
+            if (!stillPossible) m_current.length = 0;
         }
     }
 }

@@ -65,7 +65,7 @@ class Overlay
 
             drawWindowBox(BX - 16, BY - 28 + cast(int)(0.5 + h), BX + 30 * 8 + 16, BY + 116 - cast(int)(0.5 + h), 0x8F8080FF);
 
-            const string[] test = 
+            static immutable string[] test = 
             [
                 "      The Homeric wars.       ",
                 "  In these times of trouble,  ",
