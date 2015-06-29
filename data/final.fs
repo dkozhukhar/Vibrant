@@ -11,9 +11,13 @@ void main()
 	vec4 blur4 = texture2D(tex, p0, 4.0);
 	vec4 blur3 = texture2D(tex, p0, 3.0);
 	vec4 blur2 = texture2D(tex, p0, 2.0);
+	vec4 blur1 = texture2D(tex, p0, 1.0);
 	vec4 blur0 = texture2D(tex, p0);
 
-	vec4 color = blur0 + 0.1 * blur2 + 0.2 * blur3 + 0.4 * blur4 + 0.35 * blur5 + 0.2 * blur6;	
+    vec4 around = 0.5 * blur1 + 0.3 * blur2 + 0.2 * blur3;
+	vec4 color = blur0 + (blur0 - around) * 0.12;
+
+	color = color + 0.1 * blur2 + 0.2 * blur3 + 0.3 * blur4 + 0.2 * blur5 + 0.1 * blur6;
 		
 	gl_FragColor = vec4(color.xyz * globalColor, 1.0);
 }
