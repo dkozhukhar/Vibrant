@@ -59,7 +59,7 @@ final class CheatcodeManager
         void keyTyped(wchar c)
         {
             char ch = cast(char)c;
-            m_current = m_current ~ ch;
+            m_current ~= ch;
             bool stillPossible = false;
             for (Cheat i = Cheat.min; i <= Cheat.max; ++i)
             {

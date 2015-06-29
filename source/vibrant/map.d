@@ -261,7 +261,8 @@ class Map
 
         void generateMapLines(ref MapLine[] outLines)
         {
-            int nline = 0;            
+            int nline = 0;     
+            outLines.length = 0;
 
             for (int j = 0; j < NTILE_Y - 1; ++j)
                 for (int i = 0; i < NTILE_X - 1; ++i)
@@ -288,15 +289,14 @@ class Map
                         else
                             return;
 
-                        if (outLines.length <= nline)
-                            outLines.length = (outLines.length * 2 + 1);
-
-                        outLines[nline++] = MapLine(p1, p2, lineType);
+                        outLines ~= MapLine(p1, p2, lineType);
                     }
 
                     push(b, d, here, right);
                     push(c, b, here, down);
                 }
+
+            outLines.keepAtLeastThatSize();
 
         }
 

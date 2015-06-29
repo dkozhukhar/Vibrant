@@ -22,6 +22,14 @@ float normalizeAngle(float angle)
     return angle;
 }
 
+void keepAtLeastThatSize(T)(ref T[] slice)
+{
+    auto capacity = slice.capacity;
+    auto length = slice.length;
+    if (capacity < length)
+        slice.reserve(length); // should not reallocate
+}
+
 
 // polar
 vec2!(T) polarOld(T)(T angle, T radius)

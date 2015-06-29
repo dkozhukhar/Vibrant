@@ -230,7 +230,7 @@ final class Game
             {
                 vec2f posBirth = _camera.position(); 
                 float playerBirthAngle = _camera.angle() + PI_2_F;
-                player = new Player(this, true, posBirth, playerBirthAngle);
+                player = new Player(this, true, posBirth, playerBirthAngle); // #GC
                 m_soundManager.setMainPlayer(player);
 
                 _mainPlayerMustReborn = false;
@@ -466,7 +466,7 @@ final class Game
         {
             if (powerupIndex >= MAX_POWERUPS) 
                 return;
-            powerupPool[powerupIndex++] = new Powerup(this, pos, mov + polarOld(angle, 1.0f) * v);
+            powerupPool[powerupIndex++] = new Powerup(this, pos, mov + polarOld(angle, 1.0f) * v); // #GC
         }
 
         void initenemies()
@@ -484,7 +484,7 @@ final class Game
 
                 vec2f p = polarOld(a, 1.0f) * (10 + 5.0 * realLevel);
 
-                ia[i] = new Player(this, false, p, a);
+                ia[i] = new Player(this, false, p, a); // #GC
             }
 
         }
