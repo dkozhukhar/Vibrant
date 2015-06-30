@@ -8,10 +8,8 @@
 
 	"dependencies": {
         "vibrant:derelict": "*",
-        "vibrant:common2": "*"		
+        "vibrant:common2": "*"
     },
-
-    "dflags": ["-profile=gc"],
 
 
     "subPackages": [
@@ -20,7 +18,6 @@
             "sourcePaths": [ "source/derelict" ],
             "importPaths": [ "source/derelict" ],
             "targetType": "library",
-            "dflags": ["-profile=gc"],
             "libs-windows": ["gdi32", "user32"]
         },
         {
@@ -28,7 +25,6 @@
             "sourcePaths": [ "source/common2" ],
             "importPaths": [ "source/common2" ],
             "targetType": "library",
-            "dflags": ["-profile=gc"],
 
             "dependencies": {
                 "vibrant:derelict": "*",
