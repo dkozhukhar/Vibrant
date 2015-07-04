@@ -24,6 +24,7 @@ final struct Bullet
     float _damage;
     float liveliness;
     int _tailLength;
+    bool wasFiredByPlayer;
 
     static Bullet opCall(Game game, vec2f pos, vec2f mov, vec3f color, float angle, 
                           int guided, Player owner, float damage)
@@ -45,6 +46,7 @@ final struct Bullet
         res.dead = false;
         res.game = game;
         res._camera = game.camera();
+        res.wasFiredByPlayer = owner is player;
         return res;
     }
 
@@ -52,6 +54,7 @@ final struct Bullet
     {
         if (s is null) return false;
         if (owner is s) return false;
+        if (s is player && wasFiredByPlayer) return false;
         if (s.destroy > 0) return false;
 
         float limit = s.effectiveSize + BULLET_SIZE;
@@ -85,6 +88,7 @@ final struct Bullet
     {
         if (s is null) return;
         if (owner is s) return;
+        if (s is player && wasFiredByPlayer) return;
         if (s.destroy > 0) return;
         float sqrdist = pos[0].squaredDistanceTo(s.pos);
         if (sqrdist > 1000000.0) return;
