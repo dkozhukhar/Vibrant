@@ -150,11 +150,6 @@ final class FixedFrameCounter : FrameCounter
             auto wasFirstTick = m_firstTick;
             m_firstTick = false;
 
-            /* on attend un peu car pas la peine de se depecher */
-            auto delta = now - m_lastTime;
-            auto toWait = cast(int) ((m_dt - delta) * 1000.0 - 10.0);
-            if (toWait > 0) SDL_Delay(toWait);
-
 
             m_lastTime = now;
             return wasFirstTick;
