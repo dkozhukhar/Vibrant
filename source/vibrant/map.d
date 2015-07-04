@@ -265,7 +265,7 @@ class Map
         void generateMapLines(AlignedBuffer!MapLine outLines) @nogc
         {
             int nline = 0;     
-            outLines.clear();
+            outLines.clearContents();
 
             for (int j = 0; j < NTILE_Y - 1; ++j)
                 for (int i = 0; i < NTILE_X - 1; ++i)
