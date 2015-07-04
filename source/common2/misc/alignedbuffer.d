@@ -69,9 +69,24 @@ final class AlignedBuffer(T)
             // grow only
             if (_allocated < askedSize)
             {
-                size_t numBytes = askedSize * T.sizeof;
-                _data = cast(T*)(alignedRealloc(_data, numBytes, _alignment));
-                _allocated = askedSize;
+                size_t numBytes = askedSize * 2 * T.sizeof; // gives 2x what is asked to make room for growth
+
+                enum bool useRealloc = false; // Work-around problem with alignedRealloc
+                static if (useRealloc)
+                    _data = cast(T*)(alignedRealloc(_data, numBytes, _alignment));
+                else
+                {
+                    auto newData = cast(T*)(alignedMalloc(numBytes, _alignment));
+
+                    // copy existing items
+                    if (_data !is null && newData !is null)
+                        memcpy(newData, _data, _size * T.sizeof);
+
+                    alignedFree(_data);
+                    _data = newData;
+                }
+
+                _allocated = askedSize * 2;
             }
             _size = askedSize;
         }
@@ -100,6 +115,15 @@ final class AlignedBuffer(T)
             memcpy(_data + oldSize, other._data, T.sizeof * other._size);
         }
 
+          /// Appends a slice to this buffer.
+        void pushBack(T[] slice) nothrow @nogc
+        {
+            foreach(item; slice)
+            {
+                pushBack(item);
+            }
+        }
+
         /// Retuns: Raw pointer to data.
         @property inout(T)* ptr() inout nothrow @nogc
         {
@@ -116,7 +140,10 @@ final class AlignedBuffer(T)
             return _data[i] = x;
         }
 
-        void clear() nothrow @nogc
+        deprecated alias clear = clearContents;
+
+        /// Sets size to zero.
+        void clearContents() nothrow @nogc
         {
             _size = 0;
         }
