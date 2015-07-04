@@ -6,6 +6,11 @@
 	"sourcePaths": ["source/vibrant"],
 	"importPaths": ["source/vibrant"],
 
+	"buildRequirements": 
+	[
+		"disallowInlining"
+	],
+
 	"dependencies": {
         "vibrant:derelict": "*",
         "vibrant:common2": "*"
