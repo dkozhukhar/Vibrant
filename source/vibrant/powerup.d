@@ -16,9 +16,11 @@ const POWERUP_WIDTH = 1.0,
 
 enum PowerupType { LIFE, ENERGY_CELL, IMPROVE_WEAPON, ENERGY_GAIN, HIROSHIMA, IMPROVE_SIZE, MADNESS, TRAP, IMPROVE_ENGINE, BULLET_TIME, INVINCIBILITY };
 
-private static immutable int[PowerupType.max + 1] DRAG_SPEED = [ 24, 24, 24, 24, 24, 24, 24, 5, 24, 24, 24 ];
+private static immutable int[PowerupType.max + 1] DRAG_SPEED = [    18,     24,        24,        24,      18,      24,        24,      5,        24,            24,             18 ];
 
-static immutable string[PowerupType.max + 1] POWERUP_NAMES = ["life", "cell", "weapon+", "energy+", "blast", "size+", "madness", "trap", "engine+", "bullet time", "invincibility"];
+static immutable string[PowerupType.max + 1] POWERUP_NAMES =   ["life", "cell", "weapon+", "energy+", "blast", "size+", "madness", "trap", "engine+", "bullet time", "invincibility"];
+
+static immutable uint[PowerupType.max + 1] powerupWeights =    [    40,      0,        10,        10,      12,       8,         0,      8,        10,            10,               5];
 
 
 final class Powerup
@@ -43,18 +45,16 @@ final class Powerup
     {    
         PowerupType choosePowerupClass()
         {
-            const uint[PowerupType.max + 1] weight = [40, 0, 10, 10, 12, 8, 0, 8, 10, 9, 5];
-
             int totalWeight = 0;
             for (PowerupType bt = PowerupType.min; bt <= PowerupType.max; bt++)
             {
-                totalWeight += weight[bt];
+                totalWeight += powerupWeights[bt];
             }
 
             int i = random.nextRange(totalWeight);
             for (PowerupType bt = PowerupType.min; bt <= PowerupType.max; bt++)
             {
-                i -= weight[bt];
+                i -= powerupWeights[bt];
                 if (i < 0) return bt;
             }
             return PowerupType.LIFE;
