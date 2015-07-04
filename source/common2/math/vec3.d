@@ -4,7 +4,6 @@ module math.vec3;
 import std.string: format;
 
 import math.vec2;
-import math.half;
 import math.vectorop;
 import math.common;
 
@@ -255,9 +254,6 @@ struct vec3(T)
 alias vec3!(int) vec3i;
 alias vec3!(float) vec3f;
 alias vec3!(double) vec3d;
-
-alias vec3!(real) vec3l;
-alias vec3!(half) vec3h;
 
 vec3!(T) min3(T)(vec3!(T) a, vec3!(T) b)
 {

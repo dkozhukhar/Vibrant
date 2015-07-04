@@ -12,10 +12,5 @@ public
     import math.box2;
     import math.box3;
     import math.random;
-    import math.ray;
-    import math.sphere;
     import math.quat;
-    import math.triangle3;
-    import math.rootsolver;
-    import math.half;
 }

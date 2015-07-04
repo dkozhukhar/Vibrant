@@ -2,7 +2,6 @@ module math.vec4;
 
 import std.string: format;
 //import util.math;
-import math.half;
 import math.vec2;
 import math.vec3;
 import math.vectorop;
@@ -339,8 +338,6 @@ alias vec4!(int) vec4i;
 alias vec4!(float) vec4f;
 alias vec4!(double) vec4d;
 
-alias vec4!(real) vec4l;
-alias vec4!(half) vec4h;
 
 
 vec4!(T) min4(T)(vec4!(T) a, vec4!(T) b)

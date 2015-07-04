@@ -2,7 +2,6 @@ module math.box3;
 
 import math.common;
 import math.vec3;
-import math.ray;
 import std.string;
 
 // structure for box3
@@ -158,64 +157,6 @@ struct box3(T)
         vec3!(T) XyZ() { return vec3!(T)(m_xmax, m_ymin, m_zmax); }
         vec3!(T) XYz() { return vec3!(T)(m_xmax, m_ymax, m_zmin); }
         vec3!(T) XYZ() { return vec3!(T)(m_xmax, m_ymax, m_zmax); }
-
-        static if (!is(T : int)) // make no sense on integers
-        {
-            bool hit(ray!(T) r, out T distance, out vec3!(T) point, out vec3!(T) normal)
-            {
-                // BUG TODO : normal !
-
-                T epsilon = 1e-4;
-                T t_near = -T.infinity;
-                T t_far = +T.infinity;
-
-                vec3!(T) n_near, n_far;
-
-                for (int i = 0; i < 2; ++i)
-                {
-                    if (r.dir[i] == 0)
-                    {
-                        if ((r.start[i] < a[i]) || (r.start[i] > b[i])) return false;
-                    }
-                    else
-                    {
-                        T t_1 = (a[i] - r.start[i]) / r.dir[i];
-                        T t_2 = (b[i] - r.start[i]) / r.dir[i];
-
-                        vec3!(T) n_1 = vec3!(T).AXIS[i];
-                        vec3!(T) n_2 = vec3!(T).AXIS[i];
-
-                        if (t_1 > t_2)
-                        {
-                            swap(t_1, t_2);
-                            swap(n_1, n_2);
-                        }
-
-                        if (t_1 > t_near)
-                        {
-                            t_near = t_1;
-                            n_near = n_1;
-                        }
-
-                        if (t_2 < t_far)
-                        {
-                            t_far = t_2;
-                            n_far = n_2;
-                        }
-
-                        if ((t_near > t_far) || (t_far < epsilon)) return false;
-                    }
-                }
-
-                // hit
-                distance = (t_near > epsilon) ? t_near : t_far;
-                normal = (t_near > epsilon) ? n_near : n_far;
-                point = r.progress(distance);
-
-
-                return true;
-            }
-        }
     }
 }
 

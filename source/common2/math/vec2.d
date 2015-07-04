@@ -2,7 +2,6 @@ module math.vec2;
 
 import std.string: format;
 
-import math.half;
 import math.vectorop;
 import math.common;
 
@@ -186,9 +185,6 @@ struct vec2(T)
 alias vec2!(int) vec2i;
 alias vec2!(float) vec2f;
 alias vec2!(double) vec2d;
-
-alias vec2!(real) vec2l;
-alias vec2!(half) vec2h;
 
 
 // polar
