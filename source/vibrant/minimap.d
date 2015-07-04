@@ -116,7 +116,10 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
             {
                 pushmatrix;
 
-                GL.color = ia[i].maincolor();
+                if (ia[i].isInvincible())
+                    GL.color = vec3f(0.5, 0.7, 1);
+                else
+                    GL.color = ia[i].maincolor();
                 vga2d.translate(MAP_TRANSLATE_X,MAP_TRANSLATE_Y);
                 rotate(-a);
                 vga2d.translate(0,MAP_RADIUS * d / MAP_LIMIT);
