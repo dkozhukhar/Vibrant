@@ -156,7 +156,7 @@ final struct Bullet
             
             p.damage(BULLET_DAMAGE * _damage);
 
-            if (p.destroy == 0)
+            if (p.destroy == 0) //  not dead
             {
                 {
                     float power = p.isInvincible ? 0.125f : 1.0f;
@@ -182,7 +182,7 @@ final struct Bullet
 
                             if (isFinite(pushAmount))
                             {
-                                p.mov = p.mov - (diffVel * power * pushAmount) * 1.0 * (0.5 + (random.nextFloat + random.nextFloat + random.nextFloat) * 0.3333f);
+                                p.mov = p.mov - (diffVel * power * pushAmount) * (random.nextFloat);// + random.nextFloat + random.nextFloat) * 0.3333f);
                             }
 
                             if (isFinite(rotAmount))

@@ -15,7 +15,7 @@ void main()
 	vec4 blur0 = texture2D(tex, p0);
 
     vec4 around = 0.5 * blur1 + 0.3 * blur2 + 0.2 * blur3;
-	vec4 color = blur0 + (blur0 - around) * 0.12;
+	vec4 color = blur0 + (blur0 - around) * 0.06;
 
 	color = color + 0.1 * blur2 + 0.2 * blur3 + 0.3 * blur4 + 0.2 * blur5 + 0.1 * blur6;
 		
