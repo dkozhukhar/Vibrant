@@ -12,5 +12,4 @@ public
     import math.box2;
     import math.box3;
     import math.random;
-    import math.quat;
 }
