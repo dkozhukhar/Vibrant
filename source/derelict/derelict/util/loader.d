@@ -206,9 +206,9 @@ else version(Nix)
             RTLD_NOLOAD = 0x10,
         }
 
-        void *dlopen(char* file, int mode);
+        void *dlopen(const(char)* file, int mode);
         int dlclose(void* handle);
-        void *dlsym(void* handle, char* name);
+        void *dlsym(void* handle, const(char)* name);
         char* dlerror();
     }
 

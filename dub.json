@@ -16,6 +16,8 @@
         "vibrant:common2": "*"
     },
 
+    "libs-posix":["dl"],
+
 
     "subPackages": [
         {
