@@ -165,7 +165,7 @@ alias void                    function(Display*,GLXDrawable,uint*)
                             pfglXGetSelectedEvent;
 
 /* GLX 1.4+ */
-alias void*                   function(GLchar*)
+alias void*                   function(const(GLchar)*)
                             pfglXGetProcAddress;
 
 /* GLX extensions -- legacy */
