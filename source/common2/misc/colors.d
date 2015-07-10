@@ -1,7 +1,7 @@
 module misc.colors;
 
-import math.common;
-import math.vec4;
+import std.math;
+import gfm.math;
 
 alias uint Color; // a simple ABGR unsigned byte color (memory layout is RGBA on x86)
 alias vec4f Colorf; // a 4-components color
@@ -25,9 +25,9 @@ final uint rgba(ubyte a, ubyte r, ubyte g, ubyte b) // make a color from a integ
 
 final uint rgbf(float r, float g, float b) // make a color from a floating point RGB triplet
 {
-    ubyte br = cast(ubyte)(clampf(r, 0.0f, 1.0f) * 255.0f);
-    ubyte bg = cast(ubyte)(clampf(g, 0.0f, 1.0f) * 255.0f);
-    ubyte bb = cast(ubyte)(clampf(b, 0.0f, 1.0f) * 255.0f);
+    ubyte br = cast(ubyte)(gfm.math.clamp!float(r, 0.0f, 1.0f) * 255.0f);
+    ubyte bg = cast(ubyte)(gfm.math.clamp!float(g, 0.0f, 1.0f) * 255.0f);
+    ubyte bb = cast(ubyte)(gfm.math.clamp!float(b, 0.0f, 1.0f) * 255.0f);
     return ALPHA_MASK | (bb << 16) | (bg << 8) | br;
 }
 
@@ -91,7 +91,7 @@ Colorf hsla_to_rgba(float h, float s, float l, float a)
 
     float hue_to_rgb(float m1, float m2, float hue)
     {
-        float h = fract(hue);
+        float h = hue - cast(int)(floor(hue));
         if (h * 6.0f < 1.0f) return m1 + (m2 - m1) * h * 6.0f;
         else if (h * 2.0f < 1.0f) return m2;
         else if (h * 3.0f < 2.0f) return m1 + (m2 - m1) * (2.0f / 3.0f - h) * 6;

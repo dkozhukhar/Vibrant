@@ -3,21 +3,20 @@ module gl.texture;
 import std.string;
 import derelict.opengl.gl;
 import derelict.opengl.gl20;
-import derelict.opengl.extension.ext.texture_compression_s3tc;
-import derelict.opengl.extension.ext.texture_compression_dxt1;
 import derelict.opengl.extension.arb.texture_float;
 import derelict.opengl.extension.ext.framebuffer_object;
 import derelict.opengl.extension.arb.half_float_pixel;
 import derelict.opengl.extension.arb.depth_texture;
-import derelict.opengl.extension.ext.texture_sRGB;
+
 
 
 import gl.buffer;
 import gl.state;
 import std.stdio;
-import math.common, math.box2;
 import gl.textureunit;
 import gl.state;
+
+import gfm.math;
 
 
 // support DXT1 and DXT5 but not all combinations
@@ -102,59 +101,18 @@ class Texture
     }
 
     private
-    {
-        GLint chooseCompressionScheme(IFormat fmt)
-        {
-            static __gshared GLint[] s_supportedCompressedFormats = null;
-
-            static bool hasCompressionFormat(GLint fmt)
-            {
-                // create the array at first time
-                if (s_supportedCompressedFormats is null)
-                {
-                    GLint nCompressedFormats;
-                    glGetIntegerv(GL_NUM_COMPRESSED_TEXTURE_FORMATS, &nCompressedFormats);
-                    s_supportedCompressedFormats.length = nCompressedFormats;
-                    glGetIntegerv(GL_COMPRESSED_TEXTURE_FORMATS, s_supportedCompressedFormats.ptr);
-                }
-
-                // search the suitable compression format
-                for (int i = 0; i < s_supportedCompressedFormats.length; ++i)
-                {
-                    if (fmt == s_supportedCompressedFormats[i])
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            switch(fmt)
-            {
-                // DXT3 and DXT1 RGBA are disqualified
-                case IFormat.I8: return GL_COMPRESSED_INTENSITY;
-                case IFormat.A8: return GL_COMPRESSED_ALPHA;
-                case IFormat.L8: return GL_COMPRESSED_LUMINANCE;
-
-                // RGB -> DXT1 or GL_COMPRESSED_RGB
-                case IFormat.RGB8: return hasCompressionFormat(GL_COMPRESSED_RGB_S3TC_DXT1_EXT)
-                                          ? GL_COMPRESSED_RGB_S3TC_DXT1_EXT
-                                          : GL_COMPRESSED_RGB;
-
-                // RGBA -> DXT5 or GL_COMPRESSED_RGBA
-                case IFormat.RGBA8:  return hasCompressionFormat(GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
-                                          ? GL_COMPRESSED_RGBA_S3TC_DXT5_EXT
-                                          : GL_COMPRESSED_RGBA;
-                default: assert(false);
-            }
-        }
+    {        
 
         GLint translateIformat_toGL(IFormat fmt, bool compressed, bool sRGB)
         {
             GLint format;
+
+            if (sRGB)
+                assert(false);
+            
             if (compressed)
             {
-                format = chooseCompressionScheme(fmt);
+                assert(false);                
             }
             else
             {
@@ -184,40 +142,9 @@ class Texture
                     case IFormat.DEPTH32: format = GL_DEPTH_COMPONENT32_ARB; break;
                     default: assert(false);
                 }
-            }
-
-            if (sRGB)
-            {
-            //    EXTTextureSRGB.load();
-                if (!EXTTextureSRGB.isEnabled())
-                {
-                }
-                else
-                {
-                    switch(format)
-                    {
-                        case GL_RGB: format = GL_SRGB_EXT; break;
-                        case GL_RGB8: format = GL_SRGB8_EXT; break;
-                        case GL_RGBA: format = GL_SRGB_ALPHA_EXT; break;
-                        case GL_RGBA8: format = GL_SRGB8_ALPHA8_EXT; break;
-                        case GL_LUMINANCE_ALPHA: format = GL_SLUMINANCE_ALPHA_EXT; break;
-                        case GL_LUMINANCE8_ALPHA8: format = GL_SLUMINANCE8_ALPHA8_EXT; break;
-                        case GL_LUMINANCE: format = GL_SLUMINANCE_EXT; break;
-                        case GL_LUMINANCE8: format = GL_SLUMINANCE8_EXT; break;
-                        case GL_COMPRESSED_RGB: format = GL_COMPRESSED_SRGB_EXT; break;
-                        case GL_COMPRESSED_RGBA: format = GL_COMPRESSED_SRGB_ALPHA_EXT; break;
-
-                        case GL_COMPRESSED_LUMINANCE: format = GL_COMPRESSED_SLUMINANCE_EXT; break;
-                        case GL_COMPRESSED_LUMINANCE_ALPHA: format = GL_COMPRESSED_SLUMINANCE_ALPHA_EXT; break;
-                        case GL_COMPRESSED_RGB_S3TC_DXT1_EXT: format = GL_COMPRESSED_SRGB_S3TC_DXT1_EXT; break;
-                        case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT: format = GL_COMPRESSED_SRGB_ALPHA_S3TC_DXT5_EXT; break;
-                        default: 
-                    }
-                }
-            }
+            }          
 
             return format;
-
         }
     }
 
@@ -401,7 +328,7 @@ class Texture
         {
             if (m_wrapInPOT)
             {
-                return max(1, nextPow2(m_width) >> level);
+                return std.algorithm.max(1, nextPowerOf2(m_width) >> level);
             }
             else
             {
@@ -413,7 +340,7 @@ class Texture
         {
             if (m_wrapInPOT)
             {
-                return max(1, nextPow2(m_height) >> level);
+                return std.algorithm.max(1, nextPowerOf2(m_height) >> level);
             }
             else
             {
@@ -425,7 +352,7 @@ class Texture
         {
             if (m_wrapInPOT)
             {
-                return max(1, nextPow2(m_depth) >> level);
+                return std.algorithm.max(1, nextPowerOf2(m_depth) >> level);
             }
             else
             {
@@ -497,7 +424,7 @@ class Texture
          */
         final int width(int level = 0)
         {
-            return max(1, m_width >> level);
+            return std.algorithm.max(1, m_width >> level);
         }
 
         /**
@@ -505,7 +432,7 @@ class Texture
          */
         final int height(int level = 0)
         {
-            return max(1, m_height >> level);
+            return std.algorithm.max(1, m_height >> level);
         }
 
         /**
@@ -513,7 +440,7 @@ class Texture
          */
         final int depth(int level = 0)
         {
-            return max(1, m_depth >> level);
+            return std.algorithm.max(1, m_depth >> level);
         }
 
         final GLint target()

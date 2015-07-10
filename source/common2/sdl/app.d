@@ -1,10 +1,11 @@
 module sdl.app;
 
-
+import gfm.math;
 import derelict.sdl.sdl;
 import sdl.state, std.stdio, std.string, std.conv;
-import misc.framecounter, math.all;
+import misc.framecounter;
 import gl.state;
+
 
 enum FSAA { OFF, FSAA2X, FSAA4X, FSAA8X, FSAA16X };
 

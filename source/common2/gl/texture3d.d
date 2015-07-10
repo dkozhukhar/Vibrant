@@ -3,7 +3,7 @@ module gl.texture3d;
 import gl.texture;
 import gl.state;
 import derelict.opengl.gl;
-import math.common;
+import gfm.math;
 
 // not up to date
 final class Texture3D : Texture
@@ -32,7 +32,7 @@ final class Texture3D : Texture
                 if (m_wrapInPOT)
                 {
                     // alloc more
-                    glTexImage3D(m_target, level, m_iFormat, nextPow2(width), nextPow2(height), nextPow2(depth), 0, Format_toGL[format], Type_toGL[type], data);
+                    glTexImage3D(m_target, level, m_iFormat, nextPowerOf2(width), nextPowerOf2(height), nextPowerOf2(depth), 0, Format_toGL[format], Type_toGL[type], data);
                     if (data !is null) setSubImage(0, 0, 0, 0, width, height, depth, format, type, data);
                 }
                 else

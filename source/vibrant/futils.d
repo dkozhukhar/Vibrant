@@ -3,7 +3,6 @@ module futils;
 import std.conv;
 import std.string;
 
-import math.all;
 import misc.all;
 
 

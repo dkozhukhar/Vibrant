@@ -1,13 +1,9 @@
 module misc.random;
 
 import std.random : unpredictableSeed;
-import math.common;
-import math.vec2;
-import math.vec3;
-import math.vec4;
-import math.mat3;
-import math.mat4;
+import gfm.math;
 
+/+
 // more adapted now
 struct Random
 {
@@ -136,7 +132,7 @@ struct Random
 private
 {
     __gshared uint randSeed = 0;
-}
+}+/
 /+
 // initialize the random seed
 deprecated void srand(uint seed)

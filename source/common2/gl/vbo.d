@@ -3,7 +3,7 @@ module gl.vbo;
 import gl.buffer;
 import gl.state;
 import derelict.opengl.gl;
-import math.all;
+import gfm.math;
 
 // A vertex buffer
 // T : the vertex format

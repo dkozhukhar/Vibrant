@@ -1,6 +1,6 @@
 module postprocessing;
 
-import math.all;
+import gfm.math;
 import gl.all;
 import sdl.all;
 import globals;
@@ -61,10 +61,10 @@ final class PostProcessing
                 firstFrame = false;
             }
 
-            mat4f viewTransformInv = viewTransform.inversed();
+            mat4f viewTransformInv = viewTransform.inverse();
 
 
-            GL.projectionMatrix = mat4f.scale(vec3f(1 / ratio, 1, 1));
+            GL.projectionMatrix = mat4f.scaling(vec3f(1 / ratio, 1, 1));
             GL.modelviewMatrix = mat4f.identity;
 
             m_mainBuffer.generateMipmaps();

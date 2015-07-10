@@ -35,7 +35,8 @@
 
             "dependencies": {
                 "vibrant:derelict": "*",
-                "gfm:core": "~>2.0"
+                "gfm:core": "~>2.0",
+				"gfm:math": "~>2.0"
             }
         }
     ]

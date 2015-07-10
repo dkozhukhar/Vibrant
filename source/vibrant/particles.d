@@ -1,9 +1,9 @@
 module particles;
 
+import gfm.math;
 import core.stdc.stdlib;
 
 import globals, vga2d, utils, palettes, std.string, camera;
-import math.all;
 import game, map;
 
 

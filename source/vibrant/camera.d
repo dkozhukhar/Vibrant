@@ -1,7 +1,9 @@
 module camera;
 
-import math.all;
 import utils;
+
+import std.math;
+import gfm.math;
 
 final class Camera
 {
@@ -21,7 +23,7 @@ final class Camera
 
         void dizzy(float seconds)
         {
-            _camDizzy = min(1.0f, max(_camDizzy, seconds));
+            _camDizzy = std.algorithm.min(1.0f, std.algorithm.max(_camDizzy, seconds));
         }
 
         void nodizzy()
@@ -48,13 +50,13 @@ final class Camera
         void progress(float dt, bool isRotateViewNow)
         {
             double truc = 1.0 - exp(dt * 3.28 * log(CAMERA_VELOCITY));
-            double trucAngle = truc * max(0.0f, 1.0f - _camDizzy);
+            double trucAngle = truc * std.algorithm.max(0.0f, 1.0f - _camDizzy);
             _lastAngle = _angle;
             _lastPosition = _position;
             _angle = _angle + normalizeAngle(_targetAngle - _angle) * trucAngle * (isRotateViewNow ? 0.4 : 1.0f);
             _position += (_targetPosition - _position) * truc;
 
-            _camDizzy = max(0.0f, _camDizzy - dt);
+            _camDizzy = std.algorithm.max(0.0f, _camDizzy - dt);
         }
 
         bool canSee(vec2f position)

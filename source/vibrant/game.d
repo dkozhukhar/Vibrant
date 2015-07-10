@@ -1,9 +1,9 @@
 
 import globals;
 
+import std.math;
+import gfm.math;
 import misc.image;
-import math.all;
-import math.all;;
 import gl.all;
 import vga2d;
 import mousex;
@@ -23,6 +23,8 @@ import sdl.all;
 import camera;
 import map;
 import overlay;
+
+
 
 import derelict.opengl.extension.sgis.generate_mipmap;
 
@@ -53,7 +55,7 @@ final class Game
         bool m_usePostProcessing = false;
 
         int _tipIndex;
-        Random _random;
+        Xorshift32 _random;
         float _zoomFactor;
         double _localTime;
 
@@ -94,7 +96,7 @@ final class Game
             powerupPool.length = MAX_POWERUPS;
 
             _mainPlayerMustReborn = true;
-            _random = Random();
+            _random = Xorshift32();
             renewTipIndex();
             setZoomfactor(1.0f);
             _paused = false;
@@ -222,14 +224,14 @@ final class Game
 
             if (joyButton(1)) newGame();
 
-            _timeBeforeReborn = max!(float)(_timeBeforeReborn - dt, 0.0f);
+            _timeBeforeReborn = std.algorithm.max(_timeBeforeReborn - dt, 0.0f);
 
             BulletTime.progress(dt);
 
             if (_mainPlayerMustReborn)
             {
                 vec2f posBirth = _camera.position(); 
-                float playerBirthAngle = _camera.angle() + PI_2_F;
+                float playerBirthAngle = _camera.angle() + PI_2;
                 player = new Player(this, true, posBirth, playerBirthAngle); // #GC
                 m_soundManager.setMainPlayer(player);
 
@@ -305,7 +307,7 @@ final class Game
                 float constantAdvance = isRotateViewNow ? 75.0f : 0.0f;
 
                 vec2f targetPos = player.pos + player.mov * advance + polarOld(player.angle, 1.0f) * constantAdvance;
-                float targetAngle = isRotateViewNow ? normalizeAngle(player.angle - PI_2_F) : 0.0f;
+                float targetAngle = isRotateViewNow ? normalizeAngle(player.angle - PI_2) : 0.0f;
                 _camera.setTarget(targetPos, targetAngle);
             }
 
@@ -328,16 +330,16 @@ final class Game
                 // bullet time bar
                 float bu = 2.0f * BulletTime.fraction;
 
-                _overlay.drawBar(SCREENX - 29, SCREENY - 14,max(s, cast(int)round(s * bu)), bu, rgb(160,24,160));
+                _overlay.drawBar(SCREENX - 29, SCREENY - 14,std.algorithm.max(s, cast(int)round(s * bu)), bu, rgb(160,24,160));
 
                 // energy bar
-                _overlay.drawBar(SCREENX - 18, SCREENY - 14, max(s, cast(int)round(player.energy / cast(float)ENERGYMAX * s)), player.energy / cast(float)ENERGYMAX,  rgb(252, 26, 15));
+                _overlay.drawBar(SCREENX - 18, SCREENY - 14, std.algorithm.max(s, cast(int)round(player.energy / cast(float)ENERGYMAX * s)), player.energy / cast(float)ENERGYMAX,  rgb(252, 26, 15));
 
                 // life bar
-                _overlay.drawBar(SCREENX - 7, SCREENY - 14, max(s, cast(int)round(player.life*s)),player.life, rgb(42, 6, 245));
+                _overlay.drawBar(SCREENX - 7, SCREENY - 14, std.algorithm.max(s, cast(int)round(player.life*s)),player.life, rgb(42, 6, 245));
 
                 // invicibility bar
-                _overlay.drawBar(SCREENX - 7, SCREENY - 14, max(s,cast(int)round(player.life*s)),player.life * min(3.0f, player.invincibility) / 3.0f, rgb(252, 26, 15));
+                _overlay.drawBar(SCREENX - 7, SCREENY - 14, std.algorithm.max(s,cast(int)round(player.life*s)),player.life * std.algorithm.min(3.0f, player.invincibility) / 3.0f, rgb(252, 26, 15));
 
                 if (player.isInvincible)
                 {
@@ -362,7 +364,7 @@ final class Game
             }            
             if (_localTime < 5.0)
             {
-                setZoomfactor(0.85f + 0.35f * sin(-PI_2_F + PI_F * _localTime / 5));
+                setZoomfactor(0.85f + 0.35f * sin(-PI_2 + PI * _localTime / 5));
             }
 
             _overlay.clearBuffer();
@@ -383,11 +385,11 @@ final class Game
             GL.disable(GL.BLEND);
             GL.disable(GL.ALPHA_TEST);
 
-            mat4f projectionMatrix = mat4f.scale(1 / ratio, 1.0f, 1.0f);
+            mat4f projectionMatrix = mat4f.scaling(vec3f(1 / ratio, 1.0f, 1.0f));
             float viewScale = 2.0f * (1.0f / _zoomFactor) /  SCREENY;
-            mat4f modelViewMatrix = mat4f.scale(vec3f(viewScale, viewScale,1.0f))
+            mat4f modelViewMatrix = mat4f.scaling(vec3f(viewScale, viewScale,1.0f))
                                     * mat4f.rotateZ(-_camera.angle())
-                                    * mat4f.translate(vec3f(-_camera.position(), 0.0f));
+                                    * mat4f.translation(vec3f(-_camera.position(), 0.0f));
 
             setProjectionMatrix(projectionMatrix);
             setModelViewMatrix(modelViewMatrix);
@@ -475,7 +477,7 @@ final class Game
             if (level > 1) 
                 soundManager.playSound(_camera.position() + vec2f(0.001f), 1.0f, SOUND.PSCHIT);
             
-            int realLevel = min(NUMBER_OF_IA, level);
+            int realLevel = std.algorithm.min(NUMBER_OF_IA, level);
 
             for (int i = 0; i < realLevel; ++i)
             {

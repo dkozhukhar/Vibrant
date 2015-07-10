@@ -1,5 +1,7 @@
 module players;
 
+import std.math;
+import gfm.math;
 import oldfonts;
 import palettes;
 import vga2d;
@@ -7,7 +9,6 @@ import utils;
 import globals;
 import sdl.all;
 import mousex;
-import math.all;
 import std.stdio;
 import joy, sound;
 import game;
@@ -34,7 +35,7 @@ class Player
     float armsPhase;
     float angle, vangle;
     vec3f color;
-    Random random;
+    Xorshift32 random;
     float life;
     float baseVelocity; // velocity at size 7
     float shipSize;
@@ -69,7 +70,7 @@ class Player
         this.angle = angle;
         this.lastPos = pos;
         this.game = game;
-        this.random = Random();
+        this.random = Xorshift32();
         this.mapEnergyGain = 0.0f;
         _camera = game.camera();
         vangle = 0.0f;
@@ -81,8 +82,8 @@ class Player
         
 
         turbo = false;
-        shipSize = 7.0f + sqr(random.nextFloat) * 7;
-        weaponclass = 1 + cast(int)round(sqr(random.nextFloat)*2);
+        shipSize = 7.0f + (random.nextFloat() ^^ 2) * 7;
+        weaponclass = 1 + cast(int)round((random.nextFloat() ^^ 2)*2);
         energygain = BASE_ENERGY_GAIN;
         shieldAngle = random.nextFloat;
         armsPhase = random.nextAngle;
@@ -125,7 +126,7 @@ class Player
                 return vec3f(r, g, b);
             }
             color = colorchoose;
-            angle = random.nextFloat * TAU_F;
+            angle = random.nextFloat * (2 * PI);
 
             // AI have slightly different velocities
             baseVelocity = PLAYER_BASE_VELOCITY * (1.0f + (random.nextFloat - 0.5f) * 0.1f);
@@ -261,7 +262,7 @@ class Player
         vec3f r = void;
         float expo = shipSize - 6.0;
 
-        if (isVulnerable() && (cos(TAU_F * 6.0f * livingTime) >= 0))
+        if (isVulnerable() && (cos((2 * PI) * 6.0f * livingTime) >= 0))
         {
             r = vec3f(1.0f) - color;
         }
@@ -277,10 +278,10 @@ class Player
 
         if (invincibility > 0)
         {
-            r = vec3f(r.x, r.y, mixf(r.z, 1.0f, minf(1.0f, invincibility)));
+            r = vec3f(r.x, r.y, lerp(r.z, 1.0f, std.algorithm.min(1.0f, invincibility)));
         }
 
-        r.z = min(1.0f, r.z + mapEnergyGain * 0.1f);
+        r.z = std.algorithm.min(1.0f, r.z + mapEnergyGain * 0.1f);
 
         return r;
     }
@@ -291,7 +292,7 @@ class Player
         if ((!player._camera.canSee(s1.pos)) || (!player._camera.canSee(s2.pos)))
             return false;
 
-        return s1.pos.squaredDistanceTo(s2.pos) < (sqr(s1.effectiveSize + s2.effectiveSize));
+        return s1.pos.squaredDistanceTo(s2.pos) < ((s1.effectiveSize + s2.effectiveSize) ^^ 2);
     }
 
     void show()
@@ -319,7 +320,7 @@ class Player
 
         GL.enable(GL.BLEND);
 
-        rotate(-angle + PI_2_F);
+        rotate(-angle + PI_2);
 
         // shadow
         {
@@ -333,9 +334,10 @@ class Player
             for (int i = 0; i < 32; ++i)
             {
                 float fi = i / 32.0f;
-                float angle = TAU_F * fi;
+                float angle = (2 * PI) * fi;
                 float sina = void, cosa = void;
-                sincos(angle, sina, cosa);
+                sina = sin(angle);
+                cosa = cos(angle);
                 vertexf(cosa * SIZE, sina * SIZE);
             }
             GL.end();
@@ -355,9 +357,10 @@ class Player
             for (int i = 0; i < 9; ++i)
             {
                 float fi = i / 9.0f;
-                float angle = TAU_F * fi;
+                float angle = (2 * PI) * fi;
                 float sina = void, cosa = void;
-                sincos(angle, sina, cosa);
+                sina = sin(angle);
+                cosa = cos(angle);
                 vertexf(center.x + cosa * SIZE, center.y + sina * SIZE);
             }
             GL.end();
@@ -368,16 +371,17 @@ class Player
         {
             GL.begin(GL.TRIANGLE_FAN);
 
-            float alpha = 0.7f * (0.3f + 0.7f * min(3.0f, player.invincibility) / 3.0f);
+            float alpha = 0.7f * (0.3f + 0.7f * std.algorithm.min(3.0f, player.invincibility) / 3.0f);
 
             GL.color = vec4f(0.0f,0.0f,0.1f, alpha);
             vertexf(0,0);
             for (int i = 0; i < 32; ++i)
             {
                 float fi = i / 32.0f;
-                float angle = TAU_F * fi;
+                float angle = (2 * PI) * fi;
                 float sina = void, cosa = void;
-                sincos(angle, sina, cosa);
+                sina = sin(angle);
+                cosa = cos(angle);
                 vertexf(cosa * INVICIBILITY_SIZE_FACTOR, sina * INVICIBILITY_SIZE_FACTOR);
             }
             GL.end();
@@ -391,11 +395,12 @@ class Player
             for (int i = 0; i <= 32; ++i)
             {
                 float fi = i / 32.0f;
-                float angle = TAU_F * fi;
-                vec3f c = mix(mix(vec3f(0,0,1), color, fi), vec3f(0), (i+1) / 32.0f);
+                float angle = (2 * PI) * fi;
+                vec3f c = lerp(lerp(vec3f(0,0,1), color, fi), vec3f(0), (i+1) / 32.0f);
                 GL.color = vec4f(c, alpha);
                 float sina = void, cosa = void;
-                sincos(angle, sina, cosa);
+                sina = sin(angle);
+                cosa = cos(angle);
                 vertexf(cosa * INVICIBILITY_SIZE_FACTOR, sina * INVICIBILITY_SIZE_FACTOR);
             }
             GL.end();
@@ -415,11 +420,12 @@ class Player
             for (int i = 0; i <= 32; ++i)
             {
                 float fi = i / 32.0f;
-                float angle = TAU_F * fi;
-                vec3f c = mix(  mix(vec3f(1,1,0), color, fi), vec3f(0), (i+1) / 32.0f);
+                float angle = (2 * PI) * fi;
+                vec3f c = lerp(  lerp(vec3f(1,1,0), color, fi), vec3f(0), (i+1) / 32.0f);
                 GL.color = vec4f(c, (life - 1) * 0.7f );
                 float cosa = void, sina = void;
-                sincos(angle, sina, cosa);
+                sina = sin(angle);
+                cosa = cos(angle);
                 vertexf(cosa * SHIELD_SIZE_FACTOR, sina * SHIELD_SIZE_FACTOR);
             }
             GL.end();
@@ -437,7 +443,7 @@ class Player
 
 
 
-            rotate( armsPhase + PI_F * 20.0f * energy / cast(float)(ENERGYMAX));
+            rotate( armsPhase + PI * 20.0f * energy / cast(float)(ENERGYMAX));
 
             for (int j = 0; j < ENGINE_ARMS; ++j)
             {
@@ -457,7 +463,8 @@ class Player
                     float ang = baseangle + 0.6f;
 
                     float sina = void, cosa = void;
-                    sincos(ang, sina, cosa);
+                    sina = sin(ang);
+                    cosa = cos(ang);
                     px = px + cosa * dist;
                     py = py + sina * dist;
                     vertexf(px,py);
@@ -472,9 +479,9 @@ class Player
 
             // draw arms
             {
-                vec3f armsColor = mix(color, RGBF(ColorROL(Frgb(color), cast(byte)(12 + weaponclass))), 0.5f);
-                vec3f armsColorDark = mix(armsColor, vec3f(0.3f, 0.3f, 0.4f), 0.5f);// * 0.4f;
-                float wingswidth = min(3, weaponclass);
+                vec3f armsColor = lerp(color, RGBF(ColorROL(Frgb(color), cast(byte)(12 + weaponclass))), 0.5f);
+                vec3f armsColorDark = lerp(armsColor, vec3f(0.3f, 0.3f, 0.4f), 0.5f);// * 0.4f;
+                float wingswidth = std.algorithm.min(3, weaponclass);
                 pushmatrix;
                 rotate(-waitforshootTime*12);
                 
@@ -530,7 +537,7 @@ class Player
                     vertexf(0.0f,1.0f);
                     vertexf(-0.72f,-1.0f);
 
-                    GL.color = mix(c, vec3f(1,1,1), 0.5f);
+                    GL.color = lerp(c, vec3f(1,1,1), 0.5f);
                     vertexf(0.0f,-0.5f);
                     vertexf(0.0f,-0.5f);
 
@@ -539,7 +546,7 @@ class Player
                     vertexf(0.0f,1.0f);
 
                     // thrust
-                    GL.color = mix(c, vec3f(0.2f, 0.6f, 0.6f),  0.5f);
+                    GL.color = lerp(c, vec3f(0.2f, 0.6f, 0.6f),  0.5f);
                     float bb = baseVelocity / PLAYER_BASE_VELOCITY;
                     vertexf(0.0f,-0.5f);
                     vertexf(0.42f,-0.5f);                    
@@ -552,12 +559,12 @@ class Player
 
                 GL.begin(GL.QUADS);
                 {  
-                    vec3f col = mix(color, RGBF(ColorROR(Frgb(color), 24)), 0.5f);
-                    GL.color = mix(col, vec3f(0.0f), 0.95f);
+                    vec3f col = lerp(color, RGBF(ColorROR(Frgb(color), 24)), 0.5f);
+                    GL.color = lerp(col, vec3f(0.0f), 0.95f);
                     vertexf(0.0,0.5);
                     GL.color = col;
                     vertexf(-0.36,-0.5);
-                    GL.color = mix(col, vec3f(1.0f), 0.8f);
+                    GL.color = lerp(col, vec3f(1.0f), 0.8f);
                     vertexf(0.0,-0.643);
                     GL.color = col;
                     vertexf(0.36,-0.5);
@@ -583,7 +590,8 @@ class Player
                 vertexf(0.0,0.0);
                 float angle = random.nextAngle;
                 float cosa = void, sina = void;
-                sincos(angle, sina, cosa);
+                cosa = cos(angle);
+                sina = sin(angle);
                 vertexf(cosa * d, sina * d);
             }
             GL.end();
@@ -626,7 +634,7 @@ class Player
     uint particleColor()
     {
         vec3f r = color;      
-        r.z = min(1.0f, r.z + mapEnergyGain * 0.02f);
+        r.z = std.algorithm.min(1.0f, r.z + mapEnergyGain * 0.02f);
         return Frgb(r);
     }
 
@@ -639,7 +647,7 @@ class Player
             explode_power = clamp(explode_power, 0.0f, 1.0f);
             destroy = 0.0001f;
             cleanup();
-            angle = PI_F + normalizeAngle(angle - PI_F);
+            angle = PI + normalizeAngle(angle - PI);
 
             int nParticul = cast(int)round((100 + random.nextRange(60)) * PARTICUL_FACTOR * (shipSize / 7.0f));
             auto cc = particleColor();
@@ -707,7 +715,7 @@ class Player
         {
             float baseangle = angle;
 
-            int forwardBullet = min(weaponclass, 3);
+            int forwardBullet = std.algorithm.min(weaponclass, 3);
             int mguided = isHuman ? 50 : 20;
 
 
@@ -755,11 +763,11 @@ class Player
         engineExcitation *= exp3(-dt * 12);
 
         {
-            armsPhase += dt * 0.6 * PI_F;
+            armsPhase += dt * 0.6 * PI;
 
-            while (armsPhase > 32.0f * TAU_F)
+            while (armsPhase > 32.0f * (2 * PI))
             {
-                armsPhase -= 64.0f * TAU_F;
+                armsPhase -= 64.0f * (2 * PI);
             }
         }
 
@@ -769,9 +777,9 @@ class Player
 
         shieldAngle = shieldAngle + 12 * dt;
 
-        while(shieldAngle > PI_F * 2)
+        while(shieldAngle > PI * 2)
         {
-            shieldAngle -= PI_F * 2;
+            shieldAngle -= PI * 2;
         }
 
         waitforshootTime -= dt;
@@ -779,7 +787,7 @@ class Player
 
         if (invincibility > 0)
         {
-             invincibility = maxf(0.0f, invincibility - dt);
+             invincibility = std.algorithm.max(0.0f, invincibility - dt);
         }
 
         if (energy < ENERGYMAX)
@@ -807,10 +815,10 @@ class Player
                 vec2f middle = (_catchedPlayer.pos + pos) * 0.5f;
                 vec2f idealPosThis = middle + (pos - middle) * _catchedPlayerDistance / d;
                 vec2f idealPosOther = middle - (pos - middle) * _catchedPlayerDistance / d;
-                pos += (idealPosThis - pos) * min!(float)(1.0f, 2.0f * dt);
-                _catchedPlayer.pos += (idealPosOther - _catchedPlayer.pos) * min!(float)(1.0f, 2.0f * dt);
-                mov += (idealPosThis - pos) * min!(float)(1.0f, 0.25f * dt);
-                _catchedPlayer.mov += (idealPosOther - _catchedPlayer.pos) * min!(float)(1.0f, 0.25f * dt);
+                pos += (idealPosThis - pos) * std.algorithm.min(1.0f, 2.0f * dt);
+                _catchedPlayer.pos += (idealPosOther - _catchedPlayer.pos) * std.algorithm.min(1.0f, 2.0f * dt);
+                mov += (idealPosThis - pos) * std.algorithm.min(1.0f, 0.25f * dt);
+                _catchedPlayer.mov += (idealPosOther - _catchedPlayer.pos) * std.algorithm.min(1.0f, 0.25f * dt);
             }
         }
 
@@ -828,14 +836,14 @@ class Player
                 //double movL = mov.length();
                 //double speedAtten = clamp(1 - SPEEDATENUATOR * movL * movL * movL, 1e-5, 1.0);
 
-                float vFact = expd(dt * logd(speedAtten) * 60.0f);
+                float vFact = exp(dt * log(speedAtten) * 60.0f);
                 mov *= vFact;
             }
 
             {
-                double spF = clampd(1.0 - mov.squaredLength / sqr(SPEED_MAX), 1e-10, 1.0);
+                double spF = clamp(1.0 - mov.squaredLength / sqr(SPEED_MAX), 1e-10, 1.0);
                 double speedAtten2 = sqrt(spF);
-                float vFact2 = expd(dt * logd(speedAtten2) * 60.0f);
+                float vFact2 = exp(dt * log(speedAtten2) * 60.0f);
                 mov *= vFact2;
             }
         }
@@ -851,7 +859,7 @@ class Player
                 mapEnergyGain += 0.4f * dt * (100 - fx) * mov.squaredLength;
             }
 
-            energy = clampf(energy + mapEnergyGain, 0.0f, 2 * ENERGYMAX);
+            energy = clamp(energy + mapEnergyGain, 0.0f, 2 * ENERGYMAX);
         }
 
         //  borders
@@ -964,10 +972,10 @@ class Player
 
                 if (isDown)
                 {
-                    progress(velocity(), PI_F, dt);
+                    progress(velocity(), PI, dt);
                 }
-                if (isLeft && isAlt) { progress(velocity(), + PI_2_F, dt); }
-                if (isRight && isAlt) { progress(velocity(), - PI_2_F, dt); }
+                if (isLeft && isAlt) { progress(velocity(), + PI_2, dt); }
+                if (isRight && isAlt) { progress(velocity(), - PI_2, dt); }
 
 
                 angle -= axisx * dt * 60.0f * TURNSPEED * invMass();
@@ -981,7 +989,7 @@ class Player
                 {
                     if (player is null) return vec2f(0.0f);
 
-                    float intelligence = min(1.0f, level / 30.0f);
+                    float intelligence = std.algorithm.min(1.0f, level / 30.0f);
 
                     if (attitude == Attitude.KAMIKAZE)
                         return player.pos + intelligence * player.mov * 60;
@@ -998,13 +1006,13 @@ class Player
 
 
                 vec2f target = targetPos();
-                float targetAngle = player is null ? angle + PI_F : player.angle;
+                float targetAngle = player is null ? angle + PI : player.angle;
 
 
                 float dx = pos.x - target.x;
                 float dy = pos.y - target.y;
                 float d = vec2f(dx,dy).length;
-                float a = atan2(dy, dx) + PI_F;
+                float a = atan2(dy, dx) + PI;
 
                 float dangle = normalizeAngle(a - angle);
                 float dpangle = normalizeAngle(a - targetAngle);
@@ -1024,7 +1032,7 @@ class Player
                             {
                                 angle += dangle * TURNSPEED * 0.5f;
                             }
-                            progress(velocity() * (min(0.4f, 1.0f -(abs(dangle) / PI_F))), 0, dt);
+                            progress(velocity() * (std.algorithm.min(0.4f, 1.0f -(abs(dangle) / PI))), 0, dt);
                             if (abs(dangle) < 0.2f)
                             {
                                 shoot();
@@ -1052,7 +1060,7 @@ class Player
                             {
                                 if (random.nextFloat < 3 * dt) turbo = true;
                             }
-                            float advance = clamp(1 - sqr(abs(dangle)/PI_F), 0.0f, 1.0f);
+                            float advance = clamp(1 - sqr(abs(dangle)/PI), 0.0f, 1.0f);
                             progress(velocity() * advance, 0, dt);
                         }
                         break;
@@ -1094,7 +1102,7 @@ class Player
             }
         }
 
-        engineExcitation = min(1.0f, engineExcitation + abs(r));
+        engineExcitation = std.algorithm.min(1.0f, engineExcitation + abs(r));
 
         vec2f thrust = polarOld(angle + theta, 1.0f) * r;
 
@@ -1108,7 +1116,7 @@ class Player
         for (int i = 0; i < nParticul; ++i)
         {
             float where = random.nextFloat - 0.5f;
-            game.particles.add(basePos + where * mov, vec2f(0), angle + PI_F + theta, 0,
+            game.particles.add(basePos + where * mov, vec2f(0), angle + PI + theta, 0,
                                random.nextAngle, random.nextFloat, pcolor, random.nextRange(80));
 
         }
@@ -1246,7 +1254,7 @@ class Player
                 else
                 {
                     // weapon stealing
-                    int weapon = max(p1.weaponclass, p2.weaponclass);
+                    int weapon = std.algorithm.max(p1.weaponclass, p2.weaponclass);
                     p1.weaponclass = weapon;
                     p2.weaponclass = weapon;
                 }

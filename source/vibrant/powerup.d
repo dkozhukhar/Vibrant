@@ -1,9 +1,10 @@
 module powerup;
 
-
+import std.math;
+import gfm.math;
 import vga2d;
 import utils, bullet, palettes, oldfonts, globals, players;
-import math.all, misc.all;
+import misc.all;
 import sound;
 import particles;
 import game;
@@ -182,7 +183,7 @@ final class Powerup
         {
             case PowerupType.LIFE:
             {
-                s.life = min(2.0f, s.life + 0.5f);
+                s.life = std.algorithm.min(2.0f, s.life + 0.5f);
                 makePowerupSound(game.soundManager, pos);                
                 break;
             }
@@ -195,25 +196,25 @@ final class Powerup
             case PowerupType.ENERGY_GAIN:
             {
                 s.energy = 2 * ENERGYMAX;
-                s.energygain = min(BASE_ENERGY_GAIN * 2.0f, s.energygain + BASE_ENERGY_GAIN * 0.5f);
+                s.energygain = std.algorithm.min(BASE_ENERGY_GAIN * 2.0f, s.energygain + BASE_ENERGY_GAIN * 0.5f);
                 makePowerupSound(game.soundManager, pos);
                 break;
             }
             case PowerupType.IMPROVE_SIZE:
             {
-                s.shipSize = min(14.0f, s.shipSize + 1.0f);
+                s.shipSize = std.algorithm.min(14.0f, s.shipSize + 1.0f);
                 makePowerupSound(game.soundManager, pos);
                 break;
             }
             case PowerupType.IMPROVE_ENGINE:
             {
-                s.baseVelocity = min(PLAYER_BASE_VELOCITY * 1.8f, s.baseVelocity + PLAYER_BASE_VELOCITY * 0.2f);
+                s.baseVelocity = std.algorithm.min(PLAYER_BASE_VELOCITY * 1.8f, s.baseVelocity + PLAYER_BASE_VELOCITY * 0.2f);
                 makePowerupSound(game.soundManager, pos);
                 break;
             }
             case PowerupType.IMPROVE_WEAPON:
             {
-                s.weaponclass = min(3, s.weaponclass + 1);
+                s.weaponclass = std.algorithm.min(3, s.weaponclass + 1);
                 makePowerupSound(game.soundManager, pos);
                 break;
             }
@@ -245,7 +246,7 @@ final class Powerup
                 for (int i = 0; i < count; ++i)
                 {
                     vec3f color = s.color;
-                    float angle = s.angle + TWO_PI_F * i / cast(float)count;
+                    float angle = s.angle + 2 * PI * i / cast(float)count;
                     float d = 0.3f * (8.0f - (i & 1) * 2.0f);
 
                     if (!s.isHuman) 
@@ -261,7 +262,7 @@ final class Powerup
 
             case PowerupType.INVINCIBILITY:
             {
-                s.invincibility = minf(s.invincibility + 8.0f, MAX_INVINCIBILITY);
+                s.invincibility = std.algorithm.min(s.invincibility + 8.0f, MAX_INVINCIBILITY);
                 makePowerupSound(game.soundManager, pos);
                 break;
             }
@@ -343,7 +344,7 @@ final class Powerup
 
         map.enforceBounds(pos, mov, 0.0f, BUMP_FACTOR, BUMP);
 
-        float fact = 1.0 - expd(-dt * 3.0);
+        float fact = 1.0 - exp(-dt * 3.0);
         color1 += (finalcolor1 - color1) * fact;
         color2 += (finalcolor2 - color2) * fact;
         color3 += (finalcolor3 - color3) * fact;
@@ -370,13 +371,13 @@ final class Powerup
         if (_isVisible)
         {
             vec2f p = pos;
-            mat2f m = mat2f.scale(1.45f);
+            mat2f m = mat2f(1.45f, 0, 0, 1.45f);
 
-            mat2f m2 = m * mat2f.rotate(counter * 6);
-            mat2f m3 = mat2f.rotate(TAU_F / 3.0f);
+            mat2f m2 = m * mat2frotate(counter * 6);
+            mat2f m3 = mat2frotate(2*PI / 3.0f);
             float sina = void, cosa = void;
             sincos(counter * 0.6f, sina, cosa);
-            m2 *= mat2f.scale(0.7+0.3*cosa, 0.7+0.3*sina);
+            m2 *= mat2f(0.7+0.3*cosa, 0, 0, 0.7+0.3*sina);
 
             GL.color = color1;
             vertexf(p);
@@ -402,7 +403,7 @@ final class Powerup
 
             for (int i = 0; i <= 2; ++i)
             {
-                m2 = m * mat2f.rotate(-counter * 3.0 * (i+1) + i);
+                m2 = m * mat2frotate(-counter * 3.0 * (i+1) + i);
                 vec2f p2 = vec2f(8.0f * cos(counter * 3 * (i + 1)+i), 0);
 
                 GL.color = colors[i];

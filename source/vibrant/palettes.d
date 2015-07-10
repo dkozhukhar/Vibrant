@@ -1,7 +1,7 @@
 module palettes;
 
-
-import math.all;
+import std.math;
+import gfm.math;
 import utils;
 
 struct Tbgra

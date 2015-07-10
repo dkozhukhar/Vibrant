@@ -8,7 +8,7 @@ import gl.texture, gl.textureunit;
 import gl.state;
 import gl.error;
 
-import math.vec2, math.vec3, math.vec4, math.mat3, math.mat4;
+import gfm.math;
 import std.string;
 
 

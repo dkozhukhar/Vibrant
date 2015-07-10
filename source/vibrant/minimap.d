@@ -1,20 +1,20 @@
 module minimap;
 
+import std.math;
 import vga2d;
 import sdl.all;
 import utils;
 import globals;
 import palettes;
-import sdl.all;
 import mousex;
 import players;
 import bullet;
 import misc.all;
-import math.all;
 import powerup;
 import sound;
 import camera;
 import map;
+import gfm.math;
 
 void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
 {
@@ -41,7 +41,7 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
         vertexf(MAP_TRANSLATE_X, MAP_TRANSLATE_Y);
         for (int i = 0; i <= 64; ++i)
         {
-            float angle = TAU_F * i / 64.0f;
+            float angle = 2 * PI * i / 64.0f;
             vertexf(MAP_TRANSLATE_X + MAP_RADIUS * cos(angle), MAP_TRANSLATE_Y + MAP_RADIUS * sin(angle));
         }
         GL.end();
@@ -58,23 +58,25 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
             float distA = MAP_RADIUS * player.pos.distanceTo(a) / MAP_LIMIT;
             float distB = MAP_RADIUS * player.pos.distanceTo(b) / MAP_LIMIT;            
 
-            float angleA = atan2(a.y - player.pos.y, a.x - player.pos.x) - camera.angle - PI_2_F;
+            float angleA = atan2(a.y - player.pos.y, a.x - player.pos.x) - camera.angle - PI_2;
 
             if (!isFinite(angleA)) return;
 
-            float angleB = atan2(b.y - player.pos.y, b.x - player.pos.x) - camera.angle - PI_2_F;
+            float angleB = atan2(b.y - player.pos.y, b.x - player.pos.x) - camera.angle - PI_2;
             if (!isFinite(angleB)) return;
 
             float sA = void, cA = void;
             float sB = void, cB = void;
-            sincosf(-angleA, sA, cA);
-            sincosf(-angleB, sB, cB);
+            sA = sin(-angleA);
+            cA = cos(-angleA);
+            sB = sin(-angleB);
+            cB = cos(-angleB);
 
             vec2f at = vec2f(MAP_TRANSLATE_X + distA * sA, MAP_TRANSLATE_Y + distA * cA);
             vec2f bt = vec2f(MAP_TRANSLATE_X + distB * sB, MAP_TRANSLATE_Y + distB * cB);
 
-            float alpha_a = max!(float)(0.0f, 0.5f - 2.0f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(at) / (MAP_RADIUS * MAP_RADIUS));
-            float alpha_b = max!(float)(0.0f, 0.5f - 2.0f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(bt) / (MAP_RADIUS * MAP_RADIUS));
+            float alpha_a = std.algorithm.max(0.0f, 0.5f - 2.0f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(at) / (MAP_RADIUS * MAP_RADIUS));
+            float alpha_b = std.algorithm.max(0.0f, 0.5f - 2.0f * vec2f(MAP_TRANSLATE_X, MAP_TRANSLATE_Y).squaredDistanceTo(bt) / (MAP_RADIUS * MAP_RADIUS));
             if (alpha_a <= 0.001 && alpha_b <= 0.001)
                 return;
 
@@ -110,7 +112,7 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
 
         if (d <= MAP_LIMIT)
         {
-            float a = atan2(pos.y - player.pos.y, pos.x - player.pos.x) - camera.angle - PI_2_F;
+            float a = atan2(pos.y - player.pos.y, pos.x - player.pos.x) - camera.angle - PI_2;
 
             if (isFinite(a))
             {
@@ -150,14 +152,15 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
         if (sqrd <= MAP_LIMIT * MAP_LIMIT)
         {
             float d = sqrt(sqrd);
-            float a = atan2(bullet.pos[0].y - player.pos.y, bullet.pos[0].x - player.pos.x) - camera.angle - PI_2_F;
+            float a = atan2(bullet.pos[0].y - player.pos.y, bullet.pos[0].x - player.pos.x) - camera.angle - PI_2;
 
             if (isFinite(a))
             {
                 GL.color = bullet.color;
                 float dist = MAP_RADIUS * d / MAP_LIMIT;
                 float sine = void, cosine = void;
-                sincosf(-a, sine, cosine);
+                sine = sin(-a);
+                cosine = cos(-a);
                 vertexf(MAP_TRANSLATE_X + dist * sine, MAP_TRANSLATE_Y + dist * cosine);
             }
         }        
@@ -173,7 +176,7 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
         float d = player.pos.distanceTo(pos);
         if (d <= MAP_LIMIT)
         {
-            float a = atan2(pos.y - player.pos.y, pos.x - player.pos.x) - camera.angle - PI_2_F;
+            float a = atan2(pos.y - player.pos.y, pos.x - player.pos.x) - camera.angle - PI_2;
 
             if (isFinite(a))
             {
@@ -181,7 +184,8 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
 
                 float dist = MAP_RADIUS * d / MAP_LIMIT;
                 float sine = void, cosine = void;
-                sincosf(-a, sine, cosine);
+                sine = sin(-a);
+                cosine = cos(-a);
                 vertexf(MAP_TRANSLATE_X + dist * sine, MAP_TRANSLATE_Y + dist * cosine);
             }
 

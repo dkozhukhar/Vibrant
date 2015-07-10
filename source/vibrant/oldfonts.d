@@ -1,7 +1,6 @@
 module oldfonts;
 
 import utils;
-import math.all;
 import palettes;
 import misc.image;
 

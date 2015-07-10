@@ -10,12 +10,7 @@ import derelict.opengl.extension.arb.half_float_pixel;
 import derelict.opengl.extension.ext.blend_minmax;
 import derelict.util.exception;
 
-import math.box2;
-import math.vec2;
-import math.vec3;
-import math.vec4;
-import math.mat3;
-import math.mat4;
+import gfm.math;
 import std.string;
 
 import gl.error;
@@ -404,7 +399,7 @@ final class GLState
         {
             mat4d m;
             glGetDoublev(GL_PROJECTION_MATRIX, m.ptr);
-            m.transpose();
+            m = m.transposed();
             return m;
         }
 
@@ -413,7 +408,7 @@ final class GLState
         {
             mat4d m;
             glGetDoublev(GL_MODELVIEW_MATRIX, m.ptr);
-            m.transpose();
+            m = m.transposed();
             return m;
         }
 
@@ -647,7 +642,7 @@ final class GLState
 
         void viewport(box2i view)
         {
-            glViewport(view.xmin, view.ymin, view.width, view.height);
+            glViewport(view.min.x, view.min.y, view.width, view.height);
             GL.check();
         }
 

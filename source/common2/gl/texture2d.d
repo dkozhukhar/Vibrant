@@ -5,8 +5,7 @@ import core.stdc.stdlib;
 import gl.texture;
 import gl.state;
 import derelict.opengl.gl;
-import math.box2;
-import math.common;
+import gfm.math;
 
 final class Texture2D : Texture
 {

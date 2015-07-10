@@ -7,7 +7,9 @@ import derelict.sdl.sdl, derelict.sdl.mixer;
 
 import misc.singleton;
 import sdl.state;
-import math.all;
+
+import std.math;
+import gfm.math;
 
 
 
@@ -116,7 +118,7 @@ final class Chunk
 
 		void playPosition(float volume, float distance, float angle)
 		{
-			int vol = cast(int)round(clampf(volume * exp(-distance * 0.03), 0.0f, 1.0f) * 127);
+			int vol = cast(int)round(gfm.math.clamp!float(volume * exp(-distance * 0.03), 0.0f, 1.0f) * 127);
 			if (vol <= 0) return;
 			/*
 			int dist = round(clamp(volume, 0.0f, 1.0f) * 255);
@@ -133,8 +135,8 @@ final class Chunk
 					x *= 0.5f;
 					if (x < -0.5f) x = -0.5f;
 					if (x > 0.5f) x = 0.5f;
-					right = 1.0f - sqr(x - 0.5f);
-					left = 1.0f - sqr(x + 0.5f);
+					right = 1.0f - (x - 0.5f) * (x - 0.5f);
+					left = 1.0f - (x + 0.5f) * (x + 0.5f);
 				}
 
 				float l, r;
@@ -237,8 +239,8 @@ final class Channel
 				x *= 0.5f;
 				if (x < -0.5f) x = -0.5f;
 				if (x > 0.5f) x = 0.5f;
-				float r_gain = 1.0f - sqr(x - 0.5f);
-				float l_gain = 1.0f - sqr(x + 0.5f);
+				float r_gain = 1.0f - (x - 0.5f) * (x - 0.5f);
+				float l_gain = 1.0f - (x + 0.5f) * (x + 0.5f);
 				return vec2f(l_gain, r_gain);
 			}
 

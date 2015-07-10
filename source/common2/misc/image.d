@@ -1,7 +1,7 @@
 module misc.image;
 
-import math.common;
-import math.random;
+import std.math;
+
 import misc.colors;
 
 import core.stdc.stdlib;
@@ -128,8 +128,8 @@ final class Image
 
         uint sample(float x, float y)  // linear interpolation
         {
-            float nx = fract(x) * width;
-            float ny = fract(y) * height;
+            float nx = (x - cast(int)(floor(x))) * width;
+            float ny = (y - cast(int)(floor(y))) * height;
             int i = cast(int)nx;
             int j = cast(int)ny;
             float s = nx - i;
@@ -203,7 +203,12 @@ final class Image
         void drawHLine(int x1, int x2, int y, int c)
         {
             if (!yvalid(y)) return;
-            if (x1 > x2) swap(x1, x2);
+            if (x1 > x2)
+            {
+                int temp = x1;
+                x1 = x2;
+                x2 = temp;
+            }
 
             if (x1 < 0)
             {
@@ -228,8 +233,13 @@ final class Image
         void drawVLine(int x, int y1, int y2, int c)
         {
             if (!xvalid(x)) return;
-            if (y1 > y2) swap(y1, y2);
-
+            if (y1 > y2)
+            {
+                int temp = y1;
+                y1 = y2;
+                y2 = temp;
+            }
+             
             if (y1 < 0)
             {
                 y1 = 0;
@@ -256,6 +266,13 @@ final class Image
             drawHLine(x1,x2,y2,c);
             drawVLine(x1,y1,y2,c);
             drawVLine(x2,y1,y2,c);
+        }
+
+        void swap(ref int a, ref int b)
+        {
+            int temp = a;
+            a = b;
+            b = temp;
         }
 
         void drawFilledBox(int x1,int y1,int x2,int y2, int c)
@@ -461,7 +478,7 @@ final class Image
                 if (dx23 != 0) c3 = dy23 / cast(fp_number)dx23;
                 if (dx13 != 0) c1 = dy13 / cast(fp_number)dx13; else
                 {
-                    drawVLine(x1, max(y1, max(y2, y3)), min(y1, min(y2, y3)), c);
+                    drawVLine(x1, std.algorithm.max(y1, std.algorithm.max(y2, y3)), std.algorithm.min(y1, std.algorithm.min(y2, y3)), c);
                     c1 = 0;
                 }
 

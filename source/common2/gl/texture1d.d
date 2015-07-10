@@ -5,7 +5,7 @@ import gl.state;
 
 import derelict.opengl.gl;
 //import derelict.opengl.gl20;
-import math.common;
+import gfm.math;
 
 // not up to date
 final class Texture1D : Texture
@@ -34,7 +34,7 @@ final class Texture1D : Texture
                     if (m_wrapInPOT)
                     {
                         // alloc more
-                        glTexImage1D(m_target, level, m_iFormat, nextPow2(width), 0, Format_toGL[format], Type_toGL[type], null);
+                        glTexImage1D(m_target, level, m_iFormat, nextPowerOf2(width), 0, Format_toGL[format], Type_toGL[type], null);
                         if (data !is null) setSubImage(0, 0, width, format, type, data);
                     }
                     else

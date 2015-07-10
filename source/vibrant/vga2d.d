@@ -1,7 +1,8 @@
 module vga2d;
 
+import std.math;
+import gfm.math;
 import utils, palettes;
-import math.all;
 import std.stdio;
 import globals;
 import camera;
@@ -28,7 +29,7 @@ void translate(vec2f v)
 
 void rotate(float theta)
 {
-    static immutable float c = -180.0f / PI_F;
+    static immutable float c = -180.0f / PI;
     GL.rotate(theta * c, 0, 0, 1);
 }
 

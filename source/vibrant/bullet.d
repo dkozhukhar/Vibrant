@@ -1,7 +1,11 @@
 module bullet;
 
+import std.math;
+
+import gfm.math;
+
 import gl.all;
-import math.all;
+
 import sound;
 import particles, palettes, globals, utils, vga2d, players, game;
 import map;
@@ -64,7 +68,7 @@ final struct Bullet
         if (abs(pos[0].x - s.pos.x) > limit) return false;
         if (abs(pos[0].y - s.pos.y) > limit) return false;
 
-        float limit2 = sqr(limit);
+        float limit2 = limit * limit;
 
         float dist2 = pos[0].squaredDistanceTo(s.pos);
 
@@ -102,7 +106,7 @@ final struct Bullet
             float f = mul * guided / (sqrdist + 0.01f);
             //float force = s.isInvincible ? -1.0f : 1.0f;
             auto P = clamp(f, 0.0f, 1.0f) * ((bullettimeTime > 0.0f) ? 2.0f : 1.0f);
-            P = min!(float)(1.0f, P);
+            P = std.algorithm.min(1.0f, P);
             pos[0] += (s.pos - pos[0]) * P * dt * 85.0f;
         }
     }
@@ -128,7 +132,7 @@ final struct Bullet
             for (int i = 0; i < 15 * PARTICUL_FACTOR; ++i)
             {
                 game.particles.add(pos[0], vec2f(0), 0, 0, random.nextAngle,
-                                   sqr(random.nextFloat * 2.0) + random.nextFloat * 6.0, Frgb(color), random.nextRange(64) + 10);
+                                   (random.nextFloat * 2.0) ^^ 2 + random.nextFloat * 6.0, Frgb(color), random.nextRange(64) + 10);
             }
 
             game.soundManager.playSound(p.pos, 0.73, SOUND.DAMAGED);
@@ -218,7 +222,7 @@ final struct Bullet
             for (int i = 0; i < nParticles; ++i)
             {
                 float a = random.nextFloat;
-                vec2f p = mix(anc, pos[0], vec2f(a));
+                vec2f p = lerp(anc, pos[0], vec2f(a));
                 game.particles.add(p, vec2f(0), 0, 0, random.nextAngle, random.nextFloat * 0.6f,
                                    Frgb(color * 0.5f), random.nextRange(5) + 1);
             }
@@ -257,7 +261,7 @@ final struct Bullet
         }
 
 
-        mat2f m = mat2f.rotate(angle) * scale;
+        mat2f m = mat2frotate(angle) * mat2f(scale, 0, 0, scale);
         vec3f c2 = colorBase + vec3f(2.0f / 255.0f, 20.0f / 255.0f, 20.0f / 255.0f);
 
         colorBase *= liveliness;
@@ -268,7 +272,7 @@ final struct Bullet
         vertexf(m * vec2f(1.20,-1.38) + pos[0]);
         vertexf(m * vec2f(0.0,3.09) + pos[0]);
         GL.color = c2;
-        m.transpose();
+        m = m.transposed();
         vertexf(m * vec2f(-1.20,-1.38) + pos[0]);
         vertexf(m * vec2f(1.20,-1.38) + pos[0]);
         vertexf(m * vec2f(0.0,3.09) + pos[0]);
@@ -304,7 +308,7 @@ final struct Bullet
                 break;
 
             float expectedWidthN = 1.0f * (1 - df);
-            expectedWidthN = minf(expectedWidthN, dl);
+            expectedWidthN = std.algorithm.min(expectedWidthN, dl);
             diff.normalize();
 
             vec2f D = B + vec2f(diff.y, -diff.x) * expectedWidthN;

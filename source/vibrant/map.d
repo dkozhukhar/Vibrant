@@ -1,6 +1,8 @@
 module map;
 
-import math.all;
+import std.math;
+
+import gfm.math;
 import camera, palettes;
 import vga2d;
 import utils;
@@ -66,7 +68,7 @@ class Map
 
         this()
         {
-            random = Random();
+            random = Xorshift32();
             _tiles.length = NTILE_X * NTILE_Y;
             for (int j = 0; j < NTILE_Y; ++j)
                 for (int i = 0; i < NTILE_X; ++i)
@@ -121,7 +123,7 @@ class Map
 
             // chose a random position on this tile
             box2f b = t.bounds();
-            return vec2f( b.xmin + b.width * random.nextFloat(), b.ymin + b.height * random.nextFloat());
+            return vec2f( b.min.x + b.width * random.nextFloat(), b.min.y + b.height * random.nextFloat());
         }
 
         // get 9 neighbours
@@ -147,7 +149,7 @@ class Map
             {
                 if (neighbours[i].type() == TILE_OUTSIDE)
                 {
-                    float dist = neighbours[i].bounds().distanceTo(pos);
+                    float dist = neighbours[i].bounds().distance(pos);
                     if (dist < minDist)
                         minDist = dist;
                 }
@@ -233,14 +235,14 @@ class Map
                 pos.x = -m;
                 mov.x = - mov.x * bounce + constantBounce;
                 res++;
-                if (abs(angle)> PI_2_F) angle = PI_F - angle;
+                if (abs(angle)> PI_2) angle = PI - angle;
             }
             else if (pos.x > m)
             {
                 pos.x = m;
                 mov.x = - mov.x * bounce - constantBounce;
                 res++;
-                if (abs(angle)< PI_2_F) angle = PI_F - angle;
+                if (abs(angle)< PI_2) angle = PI - angle;
             }
 
             if (pos.y < -m)
@@ -248,7 +250,7 @@ class Map
                 pos.y = -m;
                 mov.y = -mov.y*bounce + constantBounce;
                 res++;
-                if (angle < 0.0 ) angle = TAU_F - angle;
+                if (angle < 0.0 ) angle = 2*PI - angle;
 
             }
             else if (pos.y > m)
@@ -256,7 +258,7 @@ class Map
                 pos.y = m;
                 mov.y = -mov.y*bounce - constantBounce;
                 res++;
-                if (angle > 0.0) angle = TAU_F - angle;
+                if (angle > 0.0) angle = 2*PI - angle;
             }
 
             return res;
@@ -274,10 +276,10 @@ class Map
 
                     box2f bounds = here.bounds();
 
-                    vec2f a = bounds.a();
-                    vec2f b = bounds.b();
-                    vec2f c = vec2f(bounds.xmin, bounds.ymax);
-                    vec2f d = vec2f(bounds.xmax, bounds.ymin);
+                    vec2f a = bounds.min;
+                    vec2f b = bounds.max;
+                    vec2f c = vec2f(bounds.min.x, bounds.max.y);
+                    vec2f d = vec2f(bounds.max.x, bounds.min.y);
 
                     MapTile down = getTile(i, j + 1);
                     MapTile right = getTile(i + 1, j);      
@@ -364,7 +366,7 @@ class Map
     private
     {
         const float SIZE_OF_MAP = 3000;
-        Random random;
+        Xorshift32 random;
         MapTile[] _tiles;        
     }
 }

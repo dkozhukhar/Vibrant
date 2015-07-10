@@ -1,10 +1,12 @@
 module vibrantprogram;
 
+import std.math;
+import gfm.math;
 import sdl.all;
 import misc.all;
-import math.all;
 import gl.all;
 import globals;
+import utils;
 import game;
 import mousex;
 import joy;

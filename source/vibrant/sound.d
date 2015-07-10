@@ -1,12 +1,12 @@
 module sound;
 
+import std.math;
+import gfm.math;
 import sdl.mixer;
 import derelict.sdl.mixer;
 import sdl.all;
 import utils;
-import math.common;
 import camera;
-import math.all;
 import players;
 import lfo;
 import globals;
@@ -57,7 +57,7 @@ final class SoundManager
             m_bufR.length = BUF_LENGTH;
             m_bufR[] = 0.0;
 
-            lfo1 = LFO(1.0f / TAU_F);
+            lfo1 = LFO(1.0f / (2 * PI));
             lfo2 = LFO(87.307f);
             lfo3 = LFO(0.9f);
             lfo4 = LFO(87.307f * 2.0f);
@@ -131,7 +131,7 @@ final class SoundManager
 
                 float dist = sqrt(dx * dx + dy * dy) / 500.0;
 
-                float a = atan2(x - camPos.x, y - camPos.y) - _camera.angle() - PI_2_F;
+                float a = atan2(x - camPos.x, y - camPos.y) - _camera.angle() - PI_2;
 
                 if (dist > 1.0f) return;
 
@@ -147,7 +147,7 @@ final class SoundManager
         void timePassed(double dt)
         {
             for (SOUND s = SOUND.min; s <= SOUND.max; ++s)
-                _timeToWait[s] = max!(double)(0, _timeToWait[s] - dt);
+                _timeToWait[s] = std.algorithm.max(0, _timeToWait[s] - dt);
 
         }
     }
@@ -254,7 +254,7 @@ final class SoundManager
                     invincibilityGoal = 0.0f;
                 }
 
-                float feedbackAmount = min!(float)(bullettimeTime / 5.0f + 0.2f, 1.0f);
+                float feedbackAmount = std.algorithm.min(bullettimeTime / 5.0f + 0.2f, 1.0f);
 
 
                 short* p = cast(short*) stream;
@@ -267,7 +267,7 @@ final class SoundManager
                 }
 
                 static const float INC_TIME = 1.0f / 44100.0f;
-                static const float MAX_PHASE = TAU_F * 32.0f;
+                static const float MAX_PHASE = (2 * PI) * 32.0f;
                 static const float XTAU = 1e-3f;
 
                 for (int i = 0; i < N; ++i)
@@ -288,7 +288,7 @@ final class SoundManager
 
                     float mod6 = 0.9f + 0.1f * lfo6.s;
                     float am = (m + lfo1.c * 0.05f) * mod6;
-                    float A = cos(am * TAU_F * 0.21f);
+                    float A = cos(am * (2 * PI) * 0.21f);
                     float B = (1.0f - A);
 
                     float fact = -1.0f * B / short.max;
@@ -386,8 +386,8 @@ final class SoundManager
                     double right = inLimiterR * oldGainR;
 
 
-                    short outL = cast(short)clampd(left, short.min + 1, short.max);
-                    short outR = cast(short)clampd(right, short.min + 1, short.max);
+                    short outL = cast(short)clamp(left, short.min + 1, short.max);
+                    short outR = cast(short)clamp(right, short.min + 1, short.max);
 
                     p[i * 2] = outL;
                     p[i * 2 + 1] = outR;

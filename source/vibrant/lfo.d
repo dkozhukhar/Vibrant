@@ -1,6 +1,6 @@
 module lfo;
 
-import math.common;
+import std.math;
 
 /**
  * Quadrature LFO.
@@ -21,7 +21,7 @@ struct LFO
             LFO lfo = void;
             lfo.s = 0.0f;
             lfo.c = 1.0f;
-            lfo.a = 2.0f * sin(frequency * PI_F / 44100.0f);
+            lfo.a = 2.0f * sin(frequency * PI / 44100.0f);
             return lfo;
         }
 

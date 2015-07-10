@@ -3,7 +3,7 @@ module gl.renderbuffer;
 import derelict.opengl.gl;
 import derelict.opengl.glext;
 import gl.state;
-import math.common;
+import gfm.math;
 
 final class RenderBuffer
 {
@@ -55,7 +55,7 @@ final class RenderBuffer
 
             if (wrapInPOT)
             {
-                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, convert_format[fmt], nextPow2(width), nextPow2(height));
+                glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, convert_format[fmt], nextPowerOf2(width), nextPowerOf2(height));
             }
             else
             {
@@ -106,7 +106,7 @@ final class RenderBuffer
         {
             if (m_wrapInPOT)
             {
-                return nextPow2(m_width);
+                return nextPowerOf2(m_width);
             }
             else
             {
@@ -118,7 +118,7 @@ final class RenderBuffer
         {
             if (m_wrapInPOT)
             {
-                return nextPow2(m_height);
+                return nextPowerOf2(m_height);
             }
             else
             {
