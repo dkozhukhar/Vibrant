@@ -7,6 +7,8 @@ import particles, palettes, globals, utils, vga2d, players, game;
 import map;
 import camera;
 
+import gfm.core.memory;
+
 final struct Bullet
 {
     // tail length
@@ -321,7 +323,8 @@ class BulletPool
     {
         this()
         {
-            _bulletPool.length = MAX_BULLETS;
+            Bullet* pBulletPool = cast(Bullet*)alignedMalloc(Bullet.sizeof * MAX_BULLETS, 128); // this will leak but is once per run
+            _bulletPool = pBulletPool[0..MAX_BULLETS];
             _bulletIndex = 0;
         }
 
