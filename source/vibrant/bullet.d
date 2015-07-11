@@ -32,10 +32,14 @@ final struct Bullet
     int _tailLength;
     bool wasFiredByPlayer;
 
+    Xorshift32* random;
+
     static Bullet opCall(Game game, vec2f pos, vec2f mov, vec3f color, float angle, 
                           int guided, Player owner, float damage)
     {
         Bullet res = void;
+
+        res.random = game.random();
 
         res._tailLength = guided > 90 ? MAX_TAIL : 14;
 
@@ -131,8 +135,8 @@ final struct Bullet
         {
             for (int i = 0; i < 15 * PARTICUL_FACTOR; ++i)
             {
-                game.particles.add(pos[0], vec2f(0), 0, 0, random.nextAngle,
-                                   (random.nextFloat * 2.0) ^^ 2 + random.nextFloat * 6.0, Frgb(color), random.nextRange(64) + 10);
+                game.particles.add(pos[0], vec2f(0), 0, 0, (*random).nextAngle,
+                                   ((*random).nextFloat * 2.0) ^^ 2 + (*random).nextFloat * 6.0, Frgb(color), (*random).nextRange(64) + 10);
             }
 
             game.soundManager.playSound(p.pos, 0.73, SOUND.DAMAGED);
@@ -188,12 +192,12 @@ final struct Bullet
 
                             if (isFinite(pushAmount))
                             {
-                                p.mov = p.mov - (diffVel * power * pushAmount) * (random.nextFloat);// + random.nextFloat + random.nextFloat) * 0.3333f);
+                                p.mov = p.mov - (diffVel * power * pushAmount) * ((*random).nextFloat);// + (*random).nextFloat + (*random).nextFloat) * 0.3333f);
                             }
 
                             if (isFinite(rotAmount))
                             {
-                                p.rotatePush(- force * power * rotAmount * 0.05 * (0.5 + (random.nextFloat + random.nextFloat + random.nextFloat) * 0.3333f));
+                                p.rotatePush(- force * power * rotAmount * 0.05 * (0.5 + ((*random).nextFloat + (*random).nextFloat + (*random).nextFloat) * 0.3333f));
                             }
                         }
                     }
@@ -221,10 +225,10 @@ final struct Bullet
             float nParticles = 85.0f * dt * 1.0f * PARTICUL_FACTOR;
             for (int i = 0; i < nParticles; ++i)
             {
-                float a = random.nextFloat;
+                float a = (*random).nextFloat;
                 vec2f p = lerp(anc, pos[0], vec2f(a));
-                game.particles.add(p, vec2f(0), 0, 0, random.nextAngle, random.nextFloat * 0.6f,
-                                   Frgb(color * 0.5f), random.nextRange(5) + 1);
+                game.particles.add(p, vec2f(0), 0, 0, (*random).nextAngle, (*random).nextFloat * 0.6f,
+                                   Frgb(color * 0.5f), (*random).nextRange(5) + 1);
             }
         }
 

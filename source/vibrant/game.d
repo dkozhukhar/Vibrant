@@ -86,6 +86,11 @@ final class Game
         {
             return _camera;
         }
+
+        Xorshift32* random()
+        {
+            return &_random;
+        }
     }
 
     public
@@ -103,7 +108,7 @@ final class Game
             _localTime = 0.0;
 
             _camera = new Camera();
-            _map = new Map();
+            _map = new Map(&_random);
 
             m_usePostProcessing = usePostProcessing;
             _overlay = new Overlay();

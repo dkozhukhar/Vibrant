@@ -1,5 +1,5 @@
 {
-	"name": "vibrant",
+	"name": "vibrant2",
 	"description": "Abstract ballistic shooter game.",
 	"targetType": "executable",
 
@@ -12,8 +12,8 @@
 	],
 
 	"dependencies": {
-        "vibrant:derelict": "*",
-        "vibrant:common2": "*"
+        "vibrant2:derelict": "*",
+        "vibrant2:common2": "*"
     },
 
     "libs-posix":["dl"],
@@ -34,7 +34,7 @@
             "targetType": "library",
 
             "dependencies": {
-                "vibrant:derelict": "*",
+                "vibrant2:derelict": "*",
                 "gfm:core": "~>2.0",
 				"gfm:math": "~>2.0"
             }

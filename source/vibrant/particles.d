@@ -26,7 +26,8 @@ final class ParticleManager
         Tparticul[] particulstack;
         int particleIndex;
         Game game;
-        Camera _camera;        
+        Camera _camera;      
+        Xorshift32* _random;
     }
 
     public
@@ -44,6 +45,7 @@ final class ParticleManager
             particleIndex = 0;
             this.game = game;
             _camera = camera;
+            _random = game.random();
         }
 
         ~this()
@@ -55,7 +57,7 @@ final class ParticleManager
         {
             if (pos.squaredDistanceTo(_camera.position()) > OUT_OF_SIGHT) return;
             if (particleIndex >= MAX_PARTICUL) return;
-            if ((particleIndex >= ENOUGH_PARTICUL) && (random.nextRange(2) == 0)) return;
+            if ((particleIndex >= ENOUGH_PARTICUL) && ((*_random).nextRange(2) == 0)) return;
             if (life < 0.0001f) return;
 
             Tparticul* n = &particulstack[particleIndex++];

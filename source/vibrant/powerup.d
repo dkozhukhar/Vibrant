@@ -40,6 +40,7 @@ final class Powerup
     private vec2f lastPos;
     private vec3f finalcolor1,finalcolor2,finalcolor3;
     vec3f color1, color2, color3;
+    Xorshift32* random;
 
 
     this(Game game, vec2f pos, vec2f mov)
@@ -52,7 +53,7 @@ final class Powerup
                 totalWeight += powerupWeights[bt];
             }
 
-            int i = random.nextRange(totalWeight);
+            int i = (*random).nextRange(totalWeight);
             for (PowerupType bt = PowerupType.min; bt <= PowerupType.max; bt++)
             {
                 i -= powerupWeights[bt];
@@ -61,6 +62,7 @@ final class Powerup
             return PowerupType.LIFE;
         }
 
+        this.random = game.random();
         this.game = game;
         this.type = choosePowerupClass();
         this.pos = pos;
@@ -184,38 +186,38 @@ final class Powerup
             case PowerupType.LIFE:
             {
                 s.life = std.algorithm.min(2.0f, s.life + 0.5f);
-                makePowerupSound(game.soundManager, pos);                
+                makePowerupSound(game.soundManager, random, pos);                
                 break;
             }
             case PowerupType.ENERGY_CELL:
             {
                 s.energy = 2 * ENERGYMAX;
-                makePowerupSound(game.soundManager, pos);
+                makePowerupSound(game.soundManager, random, pos);
                 break;
             }
             case PowerupType.ENERGY_GAIN:
             {
                 s.energy = 2 * ENERGYMAX;
                 s.energygain = std.algorithm.min(BASE_ENERGY_GAIN * 2.0f, s.energygain + BASE_ENERGY_GAIN * 0.5f);
-                makePowerupSound(game.soundManager, pos);
+                makePowerupSound(game.soundManager, random, pos);
                 break;
             }
             case PowerupType.IMPROVE_SIZE:
             {
                 s.shipSize = std.algorithm.min(14.0f, s.shipSize + 1.0f);
-                makePowerupSound(game.soundManager, pos);
+                makePowerupSound(game.soundManager, random, pos);
                 break;
             }
             case PowerupType.IMPROVE_ENGINE:
             {
                 s.baseVelocity = std.algorithm.min(PLAYER_BASE_VELOCITY * 1.8f, s.baseVelocity + PLAYER_BASE_VELOCITY * 0.2f);
-                makePowerupSound(game.soundManager, pos);
+                makePowerupSound(game.soundManager, random, pos);
                 break;
             }
             case PowerupType.IMPROVE_WEAPON:
             {
                 s.weaponclass = std.algorithm.min(3, s.weaponclass + 1);
-                makePowerupSound(game.soundManager, pos);
+                makePowerupSound(game.soundManager, random, pos);
                 break;
             }
             case PowerupType.MADNESS:
@@ -224,7 +226,7 @@ final class Powerup
                 {
                     if (ia[i] !is null)    ia[i].becomeMad;
                 }
-                makePowerupSound(game.soundManager, pos);
+                makePowerupSound(game.soundManager, random, pos);
                 break;
             }
             case PowerupType.BULLET_TIME:
@@ -237,7 +239,7 @@ final class Powerup
                 {
                     s.becomeMad();
                 }
-                makePowerupSound(game.soundManager, pos);
+                makePowerupSound(game.soundManager, random, pos);
                 break;
             }
             case PowerupType.HIROSHIMA:
@@ -263,7 +265,7 @@ final class Powerup
             case PowerupType.INVINCIBILITY:
             {
                 s.invincibility = std.algorithm.min(s.invincibility + 8.0f, MAX_INVINCIBILITY);
-                makePowerupSound(game.soundManager, pos);
+                makePowerupSound(game.soundManager, random, pos);
                 break;
             }
 
@@ -282,12 +284,12 @@ final class Powerup
         for (int i = 0; i < 10 * PARTICUL_FACTOR; ++i)
         {
             uint color = Frgb(color1);
-             game.particles.add(pos, vec2f(0), 0, 0, random.nextAngle, sqr(random.nextFloat)+random.nextFloat, color,random.nextRange(12)+10);
+             game.particles.add(pos, vec2f(0), 0, 0, (*random).nextAngle, sqr((*random).nextFloat)+(*random).nextFloat, color,(*random).nextRange(12)+10);
         }
         for (int i = 0; i < 10 * PARTICUL_FACTOR; ++i)
         {
             uint color = Frgb(color2);
-            game.particles.add(pos, vec2f(0), 0, 0, random.nextAngle, sqr(random.nextFloat)+random.nextFloat,color,random.nextRange(12)+10);
+            game.particles.add(pos, vec2f(0), 0, 0, (*random).nextAngle, sqr((*random).nextFloat)+(*random).nextFloat,color,(*random).nextRange(12)+10);
         }
     }
 
@@ -349,9 +351,9 @@ final class Powerup
         color2 += (finalcolor2 - color2) * fact;
         color3 += (finalcolor3 - color3) * fact;
 
-        if (random.nextFloat < dt * 2.0f) swap(finalcolor1,finalcolor3);
-        if (random.nextFloat < dt * 2.0f) swap(finalcolor2,finalcolor1);
-        if (random.nextFloat < dt * 2.0f) swap(finalcolor3,finalcolor2);
+        if ((*random).nextFloat < dt * 2.0f) swap(finalcolor1,finalcolor3);
+        if ((*random).nextFloat < dt * 2.0f) swap(finalcolor2,finalcolor1);
+        if ((*random).nextFloat < dt * 2.0f) swap(finalcolor3,finalcolor2);
 
         counter += dt * 0.75f;
     }

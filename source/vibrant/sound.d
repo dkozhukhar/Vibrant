@@ -429,10 +429,10 @@ static T hermite(T)(T frac_pos, T xm1, T x0, T x1, T x2)
 }
 
 
-void makePowerupSound(SoundManager soundManager, vec2f pos)
+void makePowerupSound(SoundManager soundManager, Xorshift32* random, vec2f pos)
 {
     SOUND which;
-    switch (random.nextRange(4))
+    switch ((*random).nextRange(4))
     {
         case 0: which = SOUND.POWERUP1; break;
         case 1: which = SOUND.POWERUP2; break;
@@ -440,7 +440,7 @@ void makePowerupSound(SoundManager soundManager, vec2f pos)
         case 3: default: which = SOUND.POWERUP4; break;
     }
 
-    soundManager.playSound(pos, 0.65f + 0.2f * random.nextFloat, which);
+    soundManager.playSound(pos, 0.65f + 0.2f * (*random).nextFloat, which);
 }
 
 

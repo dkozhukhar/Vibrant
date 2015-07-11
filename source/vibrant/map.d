@@ -29,8 +29,9 @@ class MapTile
 {
     public
     {
-        this(int type, vec2i index) nothrow @nogc
+        this(Xorshift32* random, int type, vec2i index) nothrow @nogc
         {
+            this.random = random;
             _type = type;
             _index = index;
         }
@@ -55,6 +56,7 @@ class MapTile
 
     private
     {
+        Xorshift32* random;
         int _type;
         vec2i _index;
     }
@@ -65,16 +67,18 @@ class Map
     public
     {
         AlignedBuffer!MapLine _outLines;
+        Xorshift32* random;
 
-        this()
+        this(Xorshift32* random)
         {
-            random = Xorshift32();
+            this.random = random;
+
             _tiles.length = NTILE_X * NTILE_Y;
             for (int j = 0; j < NTILE_Y; ++j)
                 for (int i = 0; i < NTILE_X; ++i)
                 {
                     bool border = i <= 1 || j <= 1 || i >= NTILE_X - 2 || j >= NTILE_Y - 2;
-                    _tiles[j * NTILE_X + i] = new MapTile(border ? TILE_OUTSIDE : TILE_NORMAL, vec2i(i, j));
+                    _tiles[j * NTILE_X + i] = new MapTile(random, border ? TILE_OUTSIDE : TILE_NORMAL, vec2i(i, j));
                 }
 
             _outLines = new AlignedBuffer!MapLine();
@@ -117,13 +121,13 @@ class Map
 
             do
             {
-                t = getTile(random.nextRange(NTILE_X), random.nextRange(NTILE_Y));
+                t = getTile((*random).nextRange(NTILE_X), (*random).nextRange(NTILE_Y));
             }
             while (t.type() != TILE_NORMAL);
 
             // chose a random position on this tile
             box2f b = t.bounds();
-            return vec2f( b.min.x + b.width * random.nextFloat(), b.min.y + b.height * random.nextFloat());
+            return vec2f( b.min.x + b.width * (*random).nextFloat(), b.min.y + b.height * (*random).nextFloat());
         }
 
         // get 9 neighbours
@@ -318,7 +322,7 @@ class Map
                 while (t < 1.0f)
                 {
                     vec2f pt = t * b + (1 - t) * a;
-                    vec2f p = pt + vec2f(random.nextFloat2 * random.nextFloat2 , random.nextFloat2 * random.nextFloat2) * 5.0f;
+                    vec2f p = pt + vec2f((*random).nextFloat2 * (*random).nextFloat2 , (*random).nextFloat2 * (*random).nextFloat2) * 5.0f;
 
                     vertexf(p);
 
@@ -366,7 +370,6 @@ class Map
     private
     {
         const float SIZE_OF_MAP = 3000;
-        Xorshift32 random;
         MapTile[] _tiles;        
     }
 }

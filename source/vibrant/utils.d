@@ -4,8 +4,6 @@ import std.math;
 import std.random;
 import gfm.math;
 
-__gshared Xorshift32 random;
-
 alias powd = pow;
 
 void swap(T)(ref T a, ref T b)
@@ -32,11 +30,6 @@ T exp3(T)(T x)
 T sqr(T)(T x)
 {
     return x * x;
-}
-
-shared static this()
-{
-    random = Xorshift32();
 }
 
 float nextAngle(ref Xorshift32 random)

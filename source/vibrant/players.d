@@ -35,7 +35,6 @@ class Player
     float armsPhase;
     float angle, vangle;
     vec3f color;
-    Xorshift32 random;
     float life;
     float baseVelocity; // velocity at size 7
     float shipSize;
@@ -54,6 +53,7 @@ class Player
     bool isHuman;
     Player _catchedPlayer;
     float _catchedPlayerDistance;
+    Xorshift32* _random;
 
     private Powerup[MAX_DRAGGED_POWERUPS] _draggedPowerups;
     private int _numDraggedPowerups;
@@ -70,8 +70,8 @@ class Player
         this.angle = angle;
         this.lastPos = pos;
         this.game = game;
-        this.random = Xorshift32();
         this.mapEnergyGain = 0.0f;
+        _random = game.random();
         _camera = game.camera();
         vangle = 0.0f;
         mov = vec2f(0.0f);
@@ -82,11 +82,11 @@ class Player
         
 
         turbo = false;
-        shipSize = 7.0f + (random.nextFloat() ^^ 2) * 7;
-        weaponclass = 1 + cast(int)round((random.nextFloat() ^^ 2)*2);
+        shipSize = 7.0f + ((*_random).nextFloat() ^^ 2) * 7;
+        weaponclass = 1 + cast(int)round(((*_random).nextFloat() ^^ 2)*2);
         energygain = BASE_ENERGY_GAIN;
-        shieldAngle = random.nextFloat;
-        armsPhase = random.nextAngle;
+        shieldAngle = (*_random).nextFloat;
+        armsPhase = (*_random).nextAngle;
 
         livingTime = 0.0f;
 
@@ -109,7 +109,7 @@ class Player
         else
         {
             energy = ENERGYMAX;
-            waitforshootTime = random.nextFloat;
+            waitforshootTime = (*_random).nextFloat;
             invincibility = 0.0f;
 
             vec3f colorchoose()
@@ -118,20 +118,20 @@ class Player
                 bool ok = false;
                 do
                 {
-                    r = random.nextFloat;
-                    g = random.nextFloat;
-                    b = random.nextFloat;
+                    r = (*_random).nextFloat;
+                    g = (*_random).nextFloat;
+                    b = (*_random).nextFloat;
                     ok = (r+g+b > 1.0f) && (r*g*b < 0.5f);
                 } while(!ok);
                 return vec3f(r, g, b);
             }
             color = colorchoose;
-            angle = random.nextFloat * (2 * PI);
+            angle = (*_random).nextFloat * (2 * PI);
 
             // AI have slightly different velocities
-            baseVelocity = PLAYER_BASE_VELOCITY * (1.0f + (random.nextFloat - 0.5f) * 0.1f);
+            baseVelocity = PLAYER_BASE_VELOCITY * (1.0f + ((*_random).nextFloat - 0.5f) * 0.1f);
 
-            attitude = (random.nextRange(2) == 0) ? Attitude.OCCUPIED : Attitude.FEARFUL;
+            attitude = ((*_random).nextRange(2) == 0) ? Attitude.OCCUPIED : Attitude.FEARFUL;
         }
     }
 
@@ -162,7 +162,7 @@ class Player
 
         _draggedPowerups[_numDraggedPowerups++] = p;
                   
-        game.soundManager.playSound(p.pos, 0.7f + random.nextFloat * 0.3f, SOUND.CATCH_POWERUP);
+        game.soundManager.playSound(p.pos, 0.7f + (*_random).nextFloat * 0.3f, SOUND.CATCH_POWERUP);
         debug checkDragInvariant();
     }
 
@@ -578,7 +578,7 @@ class Player
             for (int i = 0; i < 6; ++i)
             {
 
-                if (random.nextRange(4) == 0)
+                if ((*_random).nextRange(4) == 0)
                 {
                     GL.color = vec4f(0.5f,0.5f,0.5f,1);
                 }
@@ -586,9 +586,9 @@ class Player
                 {
                     GL.color = vec4f(0,0,0,1);
                 }
-                float d = random.nextFloat * destroy / 7.0f;
+                float d = (*_random).nextFloat * destroy / 7.0f;
                 vertexf(0.0,0.0);
-                float angle = random.nextAngle;
+                float angle = (*_random).nextAngle;
                 float cosa = void, sina = void;
                 cosa = cos(angle);
                 sina = sin(angle);
@@ -642,20 +642,20 @@ class Player
     {
         if (isAlive())
         {
-            game.soundManager.playSound(pos, 0.5f + 0.3f * random.nextFloat, SOUND.EXPLODE);
+            game.soundManager.playSound(pos, 0.5f + 0.3f * (*_random).nextFloat, SOUND.EXPLODE);
 
             explode_power = clamp(explode_power, 0.0f, 1.0f);
             destroy = 0.0001f;
             cleanup();
             angle = PI + normalizeAngle(angle - PI);
 
-            int nParticul = cast(int)round((100 + random.nextRange(60)) * PARTICUL_FACTOR * (shipSize / 7.0f));
+            int nParticul = cast(int)round((100 + (*_random).nextRange(60)) * PARTICUL_FACTOR * (shipSize / 7.0f));
             auto cc = particleColor();
             for (int i = 0; i <= nParticul; ++i)            
             {
-                int life = cast(int)round(sqr(random.nextFloat) * random.nextRange(800 - cast(int)round(400 * explode_power))) + 5;
-                game.particles.add(pos, sqr(random.nextFloat) * mov * invMass,  0, 0, random.nextAngle,
-                                   (sqr(random.nextFloat) + sqr(random.nextFloat) * 0.3f) * 7.0f * explode_power,
+                int life = cast(int)round(sqr((*_random).nextFloat) * (*_random).nextRange(800 - cast(int)round(400 * explode_power))) + 5;
+                game.particles.add(pos, sqr((*_random).nextFloat) * mov * invMass,  0, 0, (*_random).nextAngle,
+                                   (sqr((*_random).nextFloat) + sqr((*_random).nextFloat) * 0.3f) * 7.0f * explode_power,
                             cc, life);
             }
 
@@ -675,7 +675,7 @@ class Player
                 if (p is this) return;
                 if (p.dead) return;
                 float d = pos.squaredDistanceTo(p.pos);
-                p.mov += ((random.nextFloat + random.nextFloat) * 0.5f) * sqr(mass()) * 100 * (p.pos - pos) / (d + 100.0f);
+                p.mov += (((*_random).nextFloat + (*_random).nextFloat) * 0.5f) * sqr(mass()) * 100 * (p.pos - pos) / (d + 100.0f);
             }
 
             for (int i = 0; i < NUMBER_OF_IA; ++i)
@@ -684,11 +684,11 @@ class Player
             }
             movePlayer(player);
 
-            int nPowerup = 1 + cast(int)round(random.nextFloat * level * 0.08);
+            int nPowerup = 1 + cast(int)round((*_random).nextFloat * level * 0.08);
             for (int i = 0; i < nPowerup; ++i)
             {
-                float t = random.nextFloat;
-                game.addPowerup(pos, mov * t, random.nextAngle, random.nextFloat * 5);
+                float t = (*_random).nextFloat;
+                game.addPowerup(pos, mov * t, (*_random).nextAngle, (*_random).nextFloat * 5);
             }
         }
     }
@@ -892,10 +892,10 @@ class Player
 
         if (attitude != Attitude.HUMAN)
         {
-            if (random.nextFloat < 0.0025 * 60.0f * dt) attitude = Attitude.AGGRESSIVE;
-            if (random.nextFloat < 0.002 * 60.0f * dt) attitude = Attitude.OCCUPIED;
-            if ((life < 0.42) && (random.nextFloat < 0.0025 * 60.0f * dt)) attitude = Attitude.FEARFUL;
-            if ((life < 0.21) && (random.nextFloat < 0.01 * 60.0f * dt)) attitude = Attitude.KAMIKAZE;
+            if ((*_random).nextFloat < 0.0025 * 60.0f * dt) attitude = Attitude.AGGRESSIVE;
+            if ((*_random).nextFloat < 0.002 * 60.0f * dt) attitude = Attitude.OCCUPIED;
+            if ((life < 0.42) && ((*_random).nextFloat < 0.0025 * 60.0f * dt)) attitude = Attitude.FEARFUL;
+            if ((life < 0.21) && ((*_random).nextFloat < 0.01 * 60.0f * dt)) attitude = Attitude.KAMIKAZE;
 
             if (!player.isValidTarget()) attitude = Attitude.OCCUPIED;
         }
@@ -1016,7 +1016,7 @@ class Player
 
                 float dangle = normalizeAngle(a - angle);
                 float dpangle = normalizeAngle(a - targetAngle);
-                if (random.nextFloat < 0.6 * dt) 
+                if ((*_random).nextFloat < 0.6 * dt) 
                     drag();
 
                 switch(attitude)
@@ -1026,7 +1026,7 @@ class Player
                             if (abs(dangle) < 1.0f)
                             {
                                 angle += dangle * TURNSPEED;
-                                if ((d > 150) && (random.nextFloat < 0.01f)) turbo = true;
+                                if ((d > 150) && ((*_random).nextFloat < 0.01f)) turbo = true;
                             }
                             else
                             {
@@ -1037,18 +1037,18 @@ class Player
                             {
                                 shoot();
                             }
-                            else if (random.nextFloat < 0.6 * dt)
+                            else if ((*_random).nextFloat < 0.6 * dt)
                             {
-                                vangle += dangle * TURNSPEED * (random.nextFloat + 0.5f);
+                                vangle += dangle * TURNSPEED * ((*_random).nextFloat + 0.5f);
                             }
                         }
                         break;
 
                     case Attitude.FEARFUL:
                         {
-                            if (random.nextFloat < 3 * dt) vangle = vangle - dangle * TURNSPEED* random.nextFloat * 0.2;
+                            if ((*_random).nextFloat < 3 * dt) vangle = vangle - dangle * TURNSPEED* (*_random).nextFloat * 0.2;
                             progress(velocity(), 0, dt);
-                            if (random.nextFloat < 1.5 * dt) turbo = true;
+                            if ((*_random).nextFloat < 1.5 * dt) turbo = true;
                             if (abs(dangle) < 12 * dt) shoot();
                         }
                         break;
@@ -1058,7 +1058,7 @@ class Player
                             angle = angle + dangle * TURNSPEED * 1.8;
                             if (abs(dangle) < 0.1)
                             {
-                                if (random.nextFloat < 3 * dt) turbo = true;
+                                if ((*_random).nextFloat < 3 * dt) turbo = true;
                             }
                             float advance = clamp(1 - sqr(abs(dangle)/PI), 0.0f, 1.0f);
                             progress(velocity() * advance, 0, dt);
@@ -1068,10 +1068,10 @@ class Player
                     case Attitude.OCCUPIED:
                     default:
                         {
-                            vangle = vangle + random.nextFloat2 * TURNSPEED * 0.012;
-                            if (random.nextFloat < 0.1f * dt) turbo = !turbo;
+                            vangle = vangle + (*_random).nextFloat2 * TURNSPEED * 0.012;
+                            if ((*_random).nextFloat < 0.1f * dt) turbo = !turbo;
                             progress(velocity() * 0.5,0, dt);
-                            if (random.nextFloat < 0.6 * dt) 
+                            if ((*_random).nextFloat < 0.6 * dt) 
                                 drag();
                         }
                         break;
@@ -1115,9 +1115,9 @@ class Player
         vec2f basePos = pos - dec;
         for (int i = 0; i < nParticul; ++i)
         {
-            float where = random.nextFloat - 0.5f;
+            float where = (*_random).nextFloat - 0.5f;
             game.particles.add(basePos + where * mov, vec2f(0), angle + PI + theta, 0,
-                               random.nextAngle, random.nextFloat, pcolor, random.nextRange(80));
+                               (*_random).nextAngle, (*_random).nextFloat, pcolor, (*_random).nextRange(80));
 
         }
     }
@@ -1177,7 +1177,7 @@ class Player
                 }
             }
         }
-        if (isHuman || (random.nextFloat() < probOfCatching)) // AI rarely catch you
+        if (isHuman || ((*_random).nextFloat() < probOfCatching)) // AI rarely catch you
         {
             catchOtherPlayer(player);
             for (int i = 0; i < ia.length; ++i) 
@@ -1191,7 +1191,7 @@ class Player
             _catchedPlayerDistance = _catchedPlayer.pos.distanceTo(pos);
             _catchedPlayer._catchedPlayerDistance = _catchedPlayerDistance;
             assert(isFinite(_catchedPlayerDistance));    
-            game.soundManager.playSound(_catchedPlayer.pos, 0.7f + random.nextFloat * 0.3f, 
+            game.soundManager.playSound(_catchedPlayer.pos, 0.7f + (*_random).nextFloat * 0.3f, 
                                         SOUND.CATCH_POWERUP);
         }
         else if ((nearest !is null) && (_numDraggedPowerups < MAX_DRAGGED_POWERUPS))
@@ -1202,7 +1202,7 @@ class Player
         {
             if (isHuman)
             {
-                game.soundManager.playSound(pos, 0.25f + random.nextFloat * 0.15f, SOUND.FAIL);
+                game.soundManager.playSound(pos, 0.25f + (*_random).nextFloat * 0.15f, SOUND.FAIL);
             }
         }
     }
@@ -1259,8 +1259,8 @@ class Player
                     p2.weaponclass = weapon;
                 }
 
-                p1.rotatePush((p1.random.nextFloat - 0.5) * damage * (p1.isHuman ? 0.07 : 0.1));
-                p2.rotatePush((p2.random.nextFloat - 0.5) * damage * (p2.isHuman ? 0.07 : 0.1));
+                p1.rotatePush(((*p1._random).nextFloat - 0.5) * damage * (p1.isHuman ? 0.07 : 0.1));
+                p2.rotatePush(((*p2._random).nextFloat - 0.5) * damage * (p2.isHuman ? 0.07 : 0.1));
             }
         }
     }
