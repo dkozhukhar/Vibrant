@@ -17,6 +17,8 @@ Vibrant v1.7:
 Vibrant 1.8:
 [ok] less random stutter while playing
 [ok] most desirable powerups are pulled slower for more entropy
+[ok] ships now have a graphical tail
+[ok] ennemies change attitude more when being shot
 
 decreasing timer
 

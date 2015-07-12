@@ -311,7 +311,7 @@ final class Game
                 float advance = isRotateViewNow ? 7.0f : 5.0f;
                 float constantAdvance = isRotateViewNow ? 75.0f : 0.0f;
 
-                vec2f targetPos = player.pos + player.mov * advance + polarOld(player.angle, 1.0f) * constantAdvance;
+                vec2f targetPos = player.currentPosition + player.mov * advance + polarOld(player.angle, 1.0f) * constantAdvance;
                 float targetAngle = isRotateViewNow ? normalizeAngle(player.angle - PI_2) : 0.0f;
                 _camera.setTarget(targetPos, targetAngle);
             }

@@ -112,7 +112,7 @@ final class Powerup
         else
         {
             _dragger.startDragPowerup(this);
-            fromdragger = _dragger.pos.distanceTo(pos);
+            fromdragger = _dragger.currentPosition.distanceTo(pos);
         }
     }
 
@@ -127,7 +127,7 @@ final class Powerup
         else
         {
             _isVisible = cam.canSee(pos);
-            _isLinkVisible = (_dragger !is null) && (_isVisible || cam.canSee(_dragger.pos));
+            _isLinkVisible = (_dragger !is null) && (_isVisible || cam.canSee(_dragger.currentPosition));
         }
     }
 
@@ -136,7 +136,7 @@ final class Powerup
         if (s is null) return;
         if (s.destroy > 0) return;
 
-        float sqrde = pos.squaredDistanceTo(s.pos);
+        float sqrde = pos.squaredDistanceTo(s.currentPosition);
 
         if (sqrde >= 1000000.0) return;
 
@@ -144,7 +144,7 @@ final class Powerup
         {
             float f = 60.0f / (sqrde + 0.01);
             float P = clamp(f, 0.0f, 1.0f);
-            pos = pos - (s.pos - pos) * P * dt * 85.0f; // could be better
+            pos = pos - (s.currentPosition - pos) * P * dt * 85.0f; // could be better
         }
     }
 
@@ -153,7 +153,7 @@ final class Powerup
         if (s1 is null) return false;
         if (s1.destroy > 0) return false;
 
-        float sqrde = pos.squaredDistanceTo(s1.pos);
+        float sqrde = pos.squaredDistanceTo(s1.currentPosition);
 
         return sqrde < SQRPOWERUP_WIDTH + sqr(s1.effectiveSize);
     }
@@ -317,7 +317,7 @@ final class Powerup
             }
             else
             {
-                float d = _dragger.pos.squaredDistanceTo(pos);
+                float d = _dragger.currentPosition.squaredDistanceTo(pos);
 
                 if (d < DRAG_DISTANCE * DRAG_DISTANCE)
                 {
@@ -334,7 +334,7 @@ final class Powerup
 
                     if (d > 1e-3f)
                     {
-                        pos = _dragger.pos - (_dragger.pos - pos) * fromdragger / d;
+                        pos = _dragger.currentPosition - (_dragger.currentPosition - pos) * fromdragger / d;
                     }
                 }
                 else
@@ -364,7 +364,7 @@ final class Powerup
         {
             GL.color = RGBAF(0xff606060);
             vertexf(pos);
-            vertexf(_dragger.pos);
+            vertexf(_dragger.currentPosition);
         }
     }
 

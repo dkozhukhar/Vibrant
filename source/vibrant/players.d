@@ -22,16 +22,31 @@ import camera;
 
 enum Attitude {HUMAN, AGGRESSIVE, FEARFUL, KAMIKAZE, OCCUPIED };
 
+enum float MAX_DESTROY = 32 / 60.0f;
+
 class Player
 {
     const int MAX_DRAGGED_POWERUPS = 4; // can't drag more than that powerup
+    static const MAX_TAIL = 100;
 
     Game game;
     Camera _camera;
     bool dead;
-    vec2f pos;
+
+    vec2f[MAX_TAIL] positions; // pos[0] = current   pos[1] = last frame position
+
+    vec2f currentPosition()
+    {
+        return positions[0];
+    }
+
+    vec2f lastPosition()
+    {
+        return positions[1];
+    }
+
     vec2f mov;
-    vec2f lastPos;
+    //vec2f lastPos;
     float armsPhase;
     float angle, vangle;
     vec3f color;
@@ -59,6 +74,7 @@ class Player
     private int _numDraggedPowerups;
     float engineExcitation;
 
+
     static const float SHIELD_SIZE_FACTOR = 2.0f;
     static const float INVICIBILITY_SIZE_FACTOR = 2.0f;
     static const float LIVING_TIME_CYCLE = 256.0f;
@@ -66,9 +82,9 @@ class Player
     this(Game game, bool isHuman_, vec2f pos, float angle)
     {
         this.isHuman = isHuman_;
-        this.pos = pos;
+
+        this.positions[] = pos;
         this.angle = angle;
-        this.lastPos = pos;
         this.game = game;
         this.mapEnergyGain = 0.0f;
         _random = game.random();
@@ -289,16 +305,16 @@ class Player
     static bool collisioned(Player s1, Player s2)
     {
         // trick: collision do not happen outside of vision :)
-        if ((!player._camera.canSee(s1.pos)) || (!player._camera.canSee(s2.pos)))
+        if ((!player._camera.canSee(s1.currentPosition)) || (!player._camera.canSee(s2.currentPosition)))
             return false;
 
-        return s1.pos.squaredDistanceTo(s2.pos) < ((s1.effectiveSize + s2.effectiveSize) ^^ 2);
+        return s1.currentPosition.squaredDistanceTo(s2.currentPosition) < ((s1.effectiveSize + s2.effectiveSize) ^^ 2);
     }
 
     void show()
     {
         const ENGINE_ARMS = 3;
-        if ((dead) || (!_camera.canSee(pos)))
+        if ((dead) || (!_camera.canSee(currentPosition)))
         {
             return;
         }
@@ -307,20 +323,58 @@ class Player
         {
             GL.begin(GL.LINES);
                 GL.color = RGBAF(0xff606060);
-                vertexf(pos);
-                vertexf(_catchedPlayer.pos);
+                vertexf(currentPosition);
+                vertexf(_catchedPlayer.currentPosition);
             GL.end();
         }
 
         pushmatrix;
 
-        vga2d.translate(pos);
-
-        scale(shipSize, shipSize);
-
         GL.enable(GL.BLEND);
 
+        // tail
+        {
+            float lastDl = 0.0f;
+            GL.begin(GL.TRIANGLE_STRIP);
+            for (int i = 0; i < MAX_TAIL - 1; ++i)
+            {
+                float df = i / cast(float)(MAX_TAIL - 1);
+                
+                vec2f B = positions[i];
+                vec2f E = positions[i + 1];
+                vec2f diff = B - E;
+                double dl = diff.length();
+
+                lastDl += (dl - lastDl) * 0.4f; // smoth dl since it's too discontinuous
+
+                float alpha = gfm.math.clamp(0.06f * (lastDl - 5) * (df * (1-df)) * (1 - destroy / MAX_DESTROY), 0.0f, 0.3f);
+
+                
+                GL.color = vec4f(color, alpha);
+
+                if (dl < 1e-3f)
+                    break;
+
+
+                float expectedWidthN = shipSize * (df * (1-df));
+                expectedWidthN = std.algorithm.min(expectedWidthN, lastDl);
+                diff.normalize();
+
+                vec2f D = B + vec2f(diff.y, -diff.x) * expectedWidthN;
+                vec2f F = B + vec2f(-diff.y, diff.x) * expectedWidthN;
+                vertexf(D);
+                vertexf(F);
+            }
+            vertexf(positions[MAX_TAIL - 1]);        
+            GL.end();
+        }
+
+        vga2d.translate(currentPosition);
+
+        scale(shipSize, shipSize);        
+
         rotate(-angle + PI_2);
+ 
 
         // shadow
         {
@@ -642,7 +696,7 @@ class Player
     {
         if (isAlive())
         {
-            game.soundManager.playSound(pos, 0.5f + 0.3f * (*_random).nextFloat, SOUND.EXPLODE);
+            game.soundManager.playSound(currentPosition, 0.5f + 0.3f * (*_random).nextFloat, SOUND.EXPLODE);
 
             explode_power = clamp(explode_power, 0.0f, 1.0f);
             destroy = 0.0001f;
@@ -654,7 +708,7 @@ class Player
             for (int i = 0; i <= nParticul; ++i)            
             {
                 int life = cast(int)round(sqr((*_random).nextFloat) * (*_random).nextRange(800 - cast(int)round(400 * explode_power))) + 5;
-                game.particles.add(pos, sqr((*_random).nextFloat) * mov * invMass,  0, 0, (*_random).nextAngle,
+                game.particles.add(currentPosition, sqr((*_random).nextFloat) * mov * invMass,  0, 0, (*_random).nextAngle,
                                    (sqr((*_random).nextFloat) + sqr((*_random).nextFloat) * 0.3f) * 7.0f * explode_power,
                             cc, life);
             }
@@ -664,8 +718,8 @@ class Player
             {
                 Powerup m = powerupPool[i];
                 assert(m.getDragger() !is this);
-                float d = pos.squaredDistanceTo(m.pos);
-                m.mov += 100 * (m.pos - pos) / (d + 1.0f);
+                float d = currentPosition.squaredDistanceTo(m.pos);
+                m.mov += 100 * (m.pos - currentPosition) / (d + 1.0f);
             }
 
             // move nearby players
@@ -674,8 +728,8 @@ class Player
                 if (p is null) return;
                 if (p is this) return;
                 if (p.dead) return;
-                float d = pos.squaredDistanceTo(p.pos);
-                p.mov += (((*_random).nextFloat + (*_random).nextFloat) * 0.5f) * sqr(mass()) * 100 * (p.pos - pos) / (d + 100.0f);
+                float d = currentPosition.squaredDistanceTo(p.currentPosition);
+                p.mov += (((*_random).nextFloat + (*_random).nextFloat) * 0.5f) * sqr(mass()) * 200 * (p.currentPosition - currentPosition) / (d + 100.0f);
             }
 
             for (int i = 0; i < NUMBER_OF_IA; ++i)
@@ -685,10 +739,12 @@ class Player
             movePlayer(player);
 
             int nPowerup = 1 + cast(int)round((*_random).nextFloat * level * 0.08);
+            if (nPowerup > 2)
+                nPowerup = 2;
             for (int i = 0; i < nPowerup; ++i)
             {
                 float t = (*_random).nextFloat;
-                game.addPowerup(pos, mov * t, (*_random).nextAngle, (*_random).nextFloat * 5);
+                game.addPowerup(currentPosition, mov * t, (*_random).nextAngle, (*_random).nextFloat * 5);
             }
         }
     }
@@ -732,7 +788,7 @@ class Player
                 vec2f v = mspeed * dir + vel;
 
 
-                vec2f mpos = pos + dir * shipSize;
+                vec2f mpos = currentPosition + dir * shipSize;
 
                 auto mcolor = (RGBF(0xFFA0A0) + color) * 0.5f;
                 Player owner = this;
@@ -742,7 +798,7 @@ class Player
             mov -= polarOld(baseangle, 1.0f) * 0.5f; // recul
 
             waitforshootTime = RELOADTIME;
-            game.soundManager.playSound(pos, 1.0f, SOUND.SHOT);
+            game.soundManager.playSound(currentPosition, 1.0f, SOUND.SHOT);
         }
     }
 
@@ -755,7 +811,12 @@ class Player
         if (dead) return;
 
         bounced = false;
-        lastPos = pos;
+
+
+        for (int i = MAX_TAIL - 1; i > 0; --i)
+        {
+            positions[i] = positions[i - 1];
+        }
 
         livingTime += dt;
         while (livingTime > LIVING_TIME_CYCLE) livingTime -= LIVING_TIME_CYCLE;
@@ -804,7 +865,7 @@ class Player
 
         if (_catchedPlayer !is null)
         {
-            float d = _catchedPlayer.pos.squaredDistanceTo(pos);
+            float d = _catchedPlayer.currentPosition.squaredDistanceTo(currentPosition);
             if (d > 1e-3f)
             {
                 _catchedPlayerDistance -= dt * 5.0f; // like TRAP
@@ -812,17 +873,17 @@ class Player
                 _catchedPlayer._catchedPlayerDistance = _catchedPlayerDistance;
 
                 d = sqrt(d);
-                vec2f middle = (_catchedPlayer.pos + pos) * 0.5f;
-                vec2f idealPosThis = middle + (pos - middle) * _catchedPlayerDistance / d;
-                vec2f idealPosOther = middle - (pos - middle) * _catchedPlayerDistance / d;
-                pos += (idealPosThis - pos) * std.algorithm.min(1.0f, 2.0f * dt);
-                _catchedPlayer.pos += (idealPosOther - _catchedPlayer.pos) * std.algorithm.min(1.0f, 2.0f * dt);
-                mov += (idealPosThis - pos) * std.algorithm.min(1.0f, 0.25f * dt);
-                _catchedPlayer.mov += (idealPosOther - _catchedPlayer.pos) * std.algorithm.min(1.0f, 0.25f * dt);
+                vec2f middle = (_catchedPlayer.currentPosition + currentPosition) * 0.5f;
+                vec2f idealPosThis = middle + (currentPosition - middle) * _catchedPlayerDistance / d;
+                vec2f idealPosOther = middle - (currentPosition - middle) * _catchedPlayerDistance / d;
+                positions[0] += (idealPosThis - currentPosition) * std.algorithm.min(1.0f, 2.0f * dt);
+                _catchedPlayer.positions[0] += (idealPosOther - _catchedPlayer.currentPosition) * std.algorithm.min(1.0f, 2.0f * dt);
+                mov += (idealPosThis - currentPosition) * std.algorithm.min(1.0f, 0.25f * dt);
+                _catchedPlayer.mov += (idealPosOther - _catchedPlayer.currentPosition) * std.algorithm.min(1.0f, 0.25f * dt);
             }
         }
 
-        pos = pos + mov * invMass * 60.0f * dt;
+        positions[0] = positions[0] + mov * invMass * 60.0f * dt;
 
         // damping
         {
@@ -852,7 +913,7 @@ class Player
         {
             mapEnergyGain = 0.0f;
 
-            float fx = map.distanceToBorder(pos);
+            float fx = map.distanceToBorder(currentPosition);
    
             if (fx < 100)
             {
@@ -864,7 +925,7 @@ class Player
 
         //  borders
         {
-            int bounces = map.enforceBounds(pos, mov, angle, effectiveSize, BUMPFACTOR, CONSTANT_BUMP);
+            int bounces = map.enforceBounds(positions[0], mov, angle, effectiveSize, BUMPFACTOR, CONSTANT_BUMP);
 
             bounced = bounces > 0;
 
@@ -877,14 +938,15 @@ class Player
             {
                 energy = 0;
                 invincibility = 0.0f;
-                game.soundManager.playSound(pos, 1.0f, SOUND.BORDER);
+                game.soundManager.playSound(currentPosition, 1.0f, SOUND.BORDER);
             }
         }
 
         if (destroy > 0.0f)
         {
             destroy += dt;
-            if (destroy >= 16 / 60.0f)
+
+            if (destroy >= MAX_DESTROY)
             {                
                 dead = true;
             }
@@ -992,16 +1054,16 @@ class Player
                     float intelligence = std.algorithm.min(1.0f, level / 30.0f);
 
                     if (attitude == Attitude.KAMIKAZE)
-                        return player.pos + intelligence * player.mov * 60;
+                        return player.currentPosition + intelligence * player.mov * 60;
 
                     if (attitude == Attitude.AGGRESSIVE)
                     {
                         float speed = (mov * invMass).length;
 
-                        float d = (pos - player.pos).length / (BULLET_BASE_SPEED + speed);
-                        return player.pos + intelligence * player.mov * d;
+                        float d = (currentPosition - player.currentPosition).length / (BULLET_BASE_SPEED + speed);
+                        return player.currentPosition + intelligence * player.mov * d;
                     }
-                    return player.pos;
+                    return player.currentPosition;
                 }
 
 
@@ -1009,8 +1071,8 @@ class Player
                 float targetAngle = player is null ? angle + PI : player.angle;
 
 
-                float dx = pos.x - target.x;
-                float dy = pos.y - target.y;
+                float dx = currentPosition.x - target.x;
+                float dy = currentPosition.y - target.y;
                 float d = vec2f(dx,dy).length;
                 float a = atan2(dy, dx) + PI;
 
@@ -1110,14 +1172,15 @@ class Player
 
         mov += thrust * 60.0f * dt;
 
-        int nParticul = cast(int)(0.4f + (1 + round(r * r * 2)) * PARTICUL_FACTOR * 85 * dt);
+        int nParticul = cast(int)(0.4f + (1 + round(r * r * 2)) * PARTICUL_FACTOR * 70 * dt * (0.8f + 0.4f * (*_random).nextFloat) );
         uint pcolor = particleColor();
-        vec2f basePos = pos - dec;
+        vec2f basePos = currentPosition - dec;
         for (int i = 0; i < nParticul; ++i)
         {
             float where = (*_random).nextFloat - 0.5f;
+            int life = cast(int)( 80 * ((*_random).nextFloat) ^^ 2);
             game.particles.add(basePos + where * mov, vec2f(0), angle + PI + theta, 0,
-                               (*_random).nextAngle, (*_random).nextFloat, pcolor, (*_random).nextRange(80));
+                               (*_random).nextAngle, (*_random).nextFloat, pcolor, life);
 
         }
     }
@@ -1138,11 +1201,11 @@ class Player
 
             if (p.getDragger() !is this)
             {
-                float f = pos.squaredDistanceTo(p.pos);
+                float f = currentPosition.squaredDistanceTo(p.pos);
                 if (f < dmin)
                 {
                     dmin = f;
-                    if ((p.getDragger() is null) || ( p.getDragger.pos.squaredDistanceTo(p.pos) > f))
+                    if ((p.getDragger() is null) || ( p.getDragger.currentPosition.squaredDistanceTo(p.pos) > f))
                     {
                         nearest = p;
                     }
@@ -1168,7 +1231,7 @@ class Player
 
             if (this !is other)
             {
-                float dist2 = pos.squaredDistanceTo(other.pos);
+                float dist2 = currentPosition.squaredDistanceTo(other.currentPosition);
                 if (dist2 < dmin)
                 {
                     dmin = dist2;
@@ -1188,10 +1251,10 @@ class Player
         {
             _catchedPlayer = nearestPlayer; // enforce distance between two players
             _catchedPlayer._catchedPlayer = this;
-            _catchedPlayerDistance = _catchedPlayer.pos.distanceTo(pos);
+            _catchedPlayerDistance = _catchedPlayer.currentPosition.distanceTo(currentPosition);
             _catchedPlayer._catchedPlayerDistance = _catchedPlayerDistance;
             assert(isFinite(_catchedPlayerDistance));    
-            game.soundManager.playSound(_catchedPlayer.pos, 0.7f + (*_random).nextFloat * 0.3f, 
+            game.soundManager.playSound(_catchedPlayer.currentPosition, 0.7f + (*_random).nextFloat * 0.3f, 
                                         SOUND.CATCH_POWERUP);
         }
         else if ((nearest !is null) && (_numDraggedPowerups < MAX_DRAGGED_POWERUPS))
@@ -1202,7 +1265,7 @@ class Player
         {
             if (isHuman)
             {
-                game.soundManager.playSound(pos, 0.25f + (*_random).nextFloat * 0.15f, SOUND.FAIL);
+                game.soundManager.playSound(currentPosition, 0.25f + (*_random).nextFloat * 0.15f, SOUND.FAIL);
             }
         }
     }
@@ -1239,7 +1302,7 @@ class Player
                 p1.damage(v2 * damage);
                 p2.damage(v1 * damage);
 
-                soundManager.playSound(p2.pos, damage, SOUND.COLLISION);
+                soundManager.playSound(p2.currentPosition, damage, SOUND.COLLISION);
 
                 if ((p1.isAlive()) && (p2.isAlive()))
                 {

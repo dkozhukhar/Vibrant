@@ -69,12 +69,12 @@ final struct Bullet
 
         float limit = s.effectiveSize + BULLET_SIZE;
 
-        if (abs(pos[0].x - s.pos.x) > limit) return false;
-        if (abs(pos[0].y - s.pos.y) > limit) return false;
+        if (abs(pos[0].x - s.currentPosition.x) > limit) return false;
+        if (abs(pos[0].y - s.currentPosition.y) > limit) return false;
 
         float limit2 = limit * limit;
 
-        float dist2 = pos[0].squaredDistanceTo(s.pos);
+        float dist2 = pos[0].squaredDistanceTo(s.currentPosition);
 
         if (dist2 < limit2)
         {
@@ -87,7 +87,7 @@ final struct Bullet
         else
         {
             vec2f posm = (pos[0] + pos[1]) * 0.5f;
-            vec2f sposm = (s.pos + s.lastPos) * 0.5f;
+            vec2f sposm = (s.currentPosition + s.lastPosition) * 0.5f;
 
             return posm.squaredDistanceTo(sposm) < limit2;
         }
@@ -100,7 +100,7 @@ final struct Bullet
         if (owner is s) return;
         if (s is player && wasFiredByPlayer) return;
         if (s.destroy > 0) return;
-        float sqrdist = pos[0].squaredDistanceTo(s.pos);
+        float sqrdist = pos[0].squaredDistanceTo(s.currentPosition);
         if (sqrdist > 1000000.0) return;
 
 
@@ -111,7 +111,7 @@ final struct Bullet
             //float force = s.isInvincible ? -1.0f : 1.0f;
             auto P = clamp(f, 0.0f, 1.0f) * ((bullettimeTime > 0.0f) ? 2.0f : 1.0f);
             P = std.algorithm.min(1.0f, P);
-            pos[0] += (s.pos - pos[0]) * P * dt * 85.0f;
+            pos[0] += (s.currentPosition - pos[0]) * P * dt * 85.0f;
         }
     }
 
@@ -139,7 +139,7 @@ final struct Bullet
                                    ((*random).nextFloat * 2.0) ^^ 2 + (*random).nextFloat * 6.0, Frgb(color), (*random).nextRange(64) + 10);
             }
 
-            game.soundManager.playSound(p.pos, 0.73, SOUND.DAMAGED);
+            game.soundManager.playSound(p.currentPosition, 0.73, SOUND.DAMAGED);
 
             bool destroyBullet = !p.isInvincible();
             if (destroyBullet)
@@ -154,7 +154,7 @@ final struct Bullet
                 _damage = 3;
 
                 // reflect bullet on shield
-                vec2f diff = pos[0] - p.pos;
+                vec2f diff = pos[0] - p.currentPosition;
                 if ((diff.length > 0.001f) && (mov.length > 0.001f))
                 {
                     diff = diff.normalized;
@@ -166,14 +166,22 @@ final struct Bullet
             
             p.damage(BULLET_DAMAGE * _damage);
 
+            // change attitude of AI when receiving player bullets
+            if (!p.isHuman && owner.isHuman)
+            {
+                if ((*random).nextFloat < 0.3f) p.attitude = Attitude.AGGRESSIVE;
+                if ((*random).nextFloat < 0.3f) p.attitude = Attitude.FEARFUL;
+                if ((*random).nextFloat < 0.3f) p.attitude = Attitude.KAMIKAZE;
+            }
+
             if (p.destroy == 0) //  not dead
             {
                 {
                     float power = p.isInvincible ? 0.125f : 1.0f;
                     vec2f vel = pos[0] - pos[1];
-                    vec2f pvel = p.pos - p.lastPos;
+                    vec2f pvel = p.currentPosition - p.lastPosition;
                     vec2f diffVel = pvel - vel;
-                    vec2f diffPos = p.lastPos - pos[1];
+                    vec2f diffPos = p.lastPosition - pos[1];
 
                     float force = diffVel.length;
                     float L = 1e-2f;

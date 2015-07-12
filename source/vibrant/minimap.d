@@ -49,20 +49,22 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
 
     GL.lineWidth(1);
 
+    vec2f refPos = player.currentPosition;
+
     // draw borders
     
     {
         void line(vec2f a, vec2f b)
         {
             
-            float distA = MAP_RADIUS * player.pos.distanceTo(a) / MAP_LIMIT;
-            float distB = MAP_RADIUS * player.pos.distanceTo(b) / MAP_LIMIT;            
+            float distA = MAP_RADIUS * refPos.distanceTo(a) / MAP_LIMIT;
+            float distB = MAP_RADIUS * refPos.distanceTo(b) / MAP_LIMIT;            
 
-            float angleA = atan2(a.y - player.pos.y, a.x - player.pos.x) - camera.angle - PI_2;
+            float angleA = atan2(a.y - refPos.y, a.x - refPos.x) - camera.angle - PI_2;
 
             if (!isFinite(angleA)) return;
 
-            float angleB = atan2(b.y - player.pos.y, b.x - player.pos.x) - camera.angle - PI_2;
+            float angleB = atan2(b.y - refPos.y, b.x - refPos.x) - camera.angle - PI_2;
             if (!isFinite(angleB)) return;
 
             float sA = void, cA = void;
@@ -105,14 +107,14 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
     with(ia[i])
     {
 
-        float d = player.pos.distanceTo(pos);
+        float d = refPos.distanceTo(currentPosition);
 
         // fix for seeing out-of-reach players
         if (d >= MAP_LIMIT - 200) d = MAP_LIMIT - 200;
 
         if (d <= MAP_LIMIT)
         {
-            float a = atan2(pos.y - player.pos.y, pos.x - player.pos.x) - camera.angle - PI_2;
+            float a = atan2(currentPosition.y - refPos.y, currentPosition.x - refPos.x) - camera.angle - PI_2;
 
             if (isFinite(a))
             {
@@ -147,12 +149,12 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
     {
         Bullet* bullet = bulletPool.item(i);
 
-        float sqrd = player.pos.squaredDistanceTo(bullet.pos[0]);
+        float sqrd = refPos.squaredDistanceTo(bullet.pos[0]);
 
         if (sqrd <= MAP_LIMIT * MAP_LIMIT)
         {
             float d = sqrt(sqrd);
-            float a = atan2(bullet.pos[0].y - player.pos.y, bullet.pos[0].x - player.pos.x) - camera.angle - PI_2;
+            float a = atan2(bullet.pos[0].y - refPos.y, bullet.pos[0].x - refPos.x) - camera.angle - PI_2;
 
             if (isFinite(a))
             {
@@ -173,10 +175,10 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
     with (powerupPool[i])
     {
 
-        float d = player.pos.distanceTo(pos);
+        float d = refPos.distanceTo(pos);
         if (d <= MAP_LIMIT)
         {
-            float a = atan2(pos.y - player.pos.y, pos.x - player.pos.x) - camera.angle - PI_2;
+            float a = atan2(pos.y - refPos.y, pos.x - refPos.x) - camera.angle - PI_2;
 
             if (isFinite(a))
             {
