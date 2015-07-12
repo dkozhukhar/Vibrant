@@ -25,7 +25,7 @@ struct MapLine
     int type;
 }
 
-class MapTile
+struct MapTile
 {
     public
     {
@@ -78,7 +78,7 @@ class Map
                 for (int i = 0; i < NTILE_X; ++i)
                 {
                     bool border = i <= 1 || j <= 1 || i >= NTILE_X - 2 || j >= NTILE_Y - 2;
-                    _tiles[j * NTILE_X + i] = new MapTile(random, border ? TILE_OUTSIDE : TILE_NORMAL, vec2i(i, j));
+                    _tiles[j * NTILE_X + i] = MapTile(random, border ? TILE_OUTSIDE : TILE_NORMAL, vec2i(i, j));
                 }
 
             _outLines = new AlignedBuffer!MapLine();
