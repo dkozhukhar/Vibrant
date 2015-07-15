@@ -19,7 +19,7 @@ enum PowerupType { LIFE, ENERGY_CELL, IMPROVE_WEAPON, ENERGY_GAIN, HIROSHIMA, IM
 
 private static immutable int[PowerupType.max + 1] DRAG_SPEED = [    18,     24,        24,        24,      18,      24,        24,      5,        24,            24,             18 ];
 
-static immutable string[PowerupType.max + 1] POWERUP_NAMES =   ["life", "cell", "weapon+", "energy+", "blast", "size+", "madness", "trap", "engine+", "bullet time", "invincibility"];
+static immutable string[PowerupType.max + 1] POWERUP_NAMES =   ["life", "cell", "weapon+",  "energy", "blast", "size+", "madness", "trap", "engine+", "bullet time", "invincibility"];
 
 static immutable uint[PowerupType.max + 1] powerupWeights =    [    40,      0,        10,        10,      12,       8,         0,      8,        10,            10,               5];
 
@@ -198,7 +198,6 @@ final class Powerup
             case PowerupType.ENERGY_GAIN:
             {
                 s.energy = 2 * ENERGYMAX;
-                s.energygain = std.algorithm.min(BASE_ENERGY_GAIN * 2.0f, s.energygain + BASE_ENERGY_GAIN * 0.5f);
                 makePowerupSound(game.soundManager, random, pos);
                 break;
             }

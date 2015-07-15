@@ -100,7 +100,7 @@ class Player
         turbo = false;
         shipSize = 7.0f + ((*_random).nextFloat() ^^ 2) * 5;
         weaponclass = 1 + cast(int)round(((*_random).nextFloat() ^^ 2)*2);
-        energygain = BASE_ENERGY_GAIN;
+        energygain = BASE_ENERGY_GAIN * 1.5f;
         shieldAngle = (*_random).nextFloat;
         armsPhase = (*_random).nextAngle;
 

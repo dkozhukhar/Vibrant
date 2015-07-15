@@ -19,6 +19,8 @@ Vibrant 1.8:
 [ok] most desirable powerups are pulled slower for more entropy
 [ok] ships now have a graphical tail
 [ok] ennemies change attitude more when being shot
+[ok] the 2 larger ship sizes were removed
+[ok] energy renewal is now fixed, energy powerup doesn't affect it anymore
 
 decreasing timer
 
@@ -33,6 +35,9 @@ map with blocks
   - life regain block?
 
   trap should be a bomb
+
+turn faster once speed powerup is taken
+non intense end of levels
 
 
 
