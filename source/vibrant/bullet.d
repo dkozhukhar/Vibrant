@@ -80,10 +80,6 @@ final struct Bullet
         {
             return true;
         }
-        else if (dist2 > OUT_OF_SIGHT_SQUARED)
-        {
-            return false;
-        }
         else
         {
             vec2f posm = (pos[0] + pos[1]) * 0.5f;
@@ -163,8 +159,9 @@ final struct Bullet
                     mov = newMov * mov.length();
                 }
             }
-            
-            p.damage(BULLET_DAMAGE * _damage);
+
+            if (_camera.canSee(p.currentPosition))
+                p.damage(BULLET_DAMAGE * _damage); // trick: AIs outside the field of vision of an human don't take damages from bullets
 
             // change attitude of AI when receiving player bullets
             if (!p.isHuman && owner.isHuman)
