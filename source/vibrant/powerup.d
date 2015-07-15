@@ -203,7 +203,7 @@ final class Powerup
             }
             case PowerupType.IMPROVE_SIZE:
             {
-                s.shipSize = std.algorithm.min(12.0f, s.shipSize + 1.0f);
+                s.shipSize = std.algorithm.min(SHIP_MAX_SIZE, s.shipSize + 1.0f);
                 makePowerupSound(game.soundManager, random, pos);
                 break;
             }

@@ -98,7 +98,7 @@ class Player
         
 
         turbo = false;
-        shipSize = 7.0f + ((*_random).nextFloat() ^^ 2) * 5;
+        shipSize = SHIP_MIN_SIZE + ((*_random).nextFloat() ^^ 2) * (SHIP_MAX_SIZE - SHIP_MIN_SIZE);
         weaponclass = 1 + cast(int)round(((*_random).nextFloat() ^^ 2)*2);
         energygain = BASE_ENERGY_GAIN * 1.5f;
         shieldAngle = (*_random).nextFloat;
@@ -115,7 +115,7 @@ class Player
             life = 1.0;
             weaponclass = 1;
             attitude = Attitude.HUMAN;
-            shipSize = 7.0;
+            shipSize = SHIP_MIN_SIZE;
             color = vec3f(1, 0, 0);
             baseVelocity = PLAYER_BASE_VELOCITY;
             waitforshootTime = 0.0f;
@@ -229,12 +229,12 @@ class Player
 
     float invMass()
     {
-        return 7.0f / shipSize;
+        return SHIP_MIN_SIZE / shipSize;
     }
 
     float mass()
     {
-        return shipSize / 7.0f;
+        return shipSize / SHIP_MIN_SIZE;
     }
 
     bool isInvincible()
@@ -655,10 +655,10 @@ class Player
         GL.check();
     }
 
-    // damage mulitplier, with ship size in account
+    // damage multiplier, with ship size in account
     float damageMultiplier()
     {
-        return pow(shipSize - 6.0,-2.0 / 3.0);
+        return pow(shipSize - (SHIP_MIN_SIZE - 1),-2.0 / 3.0);
     }
 
     float damageToExplode()
@@ -703,7 +703,7 @@ class Player
             cleanup();
             angle = PI + normalizeAngle(angle - PI);
 
-            int nParticul = cast(int)round((100 + (*_random).nextRange(60)) * PARTICUL_FACTOR * (shipSize / 7.0f));
+            int nParticul = cast(int)round((100 + (*_random).nextRange(60)) * PARTICUL_FACTOR * (shipSize / SHIP_MIN_SIZE));
             auto cc = particleColor();
             for (int i = 0; i <= nParticul; ++i)            
             {
