@@ -334,6 +334,8 @@ final class Powerup
                     if (d > 1e-3f)
                     {
                         pos = _dragger.currentPosition - (_dragger.currentPosition - pos) * fromdragger / d;
+
+                        _dragger.mov += (pos - _dragger.currentPosition).normalized() * dt * 2;
                     }
                 }
                 else
