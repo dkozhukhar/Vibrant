@@ -39,6 +39,7 @@ map with blocks
 turn faster once speed powerup is taken
 non intense end of levels
 
+ArcOfDream suggests more discernible powerups in the minimap
 
 
   Experiments on MMO player:
