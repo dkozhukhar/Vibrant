@@ -129,10 +129,15 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
                 vga2d.translate(0,MAP_RADIUS * d / MAP_LIMIT);
                 rotate(a);
                 GL.begin(GL.LINES);
-                vertexf(-5,0);
-                vertexf(5,0);
-                vertexf(0,-5);
-                vertexf(0,5);
+                vertexf(-4,0);
+                vertexf(-1,0);
+                vertexf(1,0);
+                vertexf(4,0);
+
+                vertexf(0,-4);
+                vertexf(0,-1);
+                vertexf(0,1);
+                vertexf(0,4);
                 GL.end();
                 popmatrix;
             }
@@ -169,7 +174,7 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
     }
     GL.end();
 
-    GL.pointSize(2.0);
+    GL.pointSize(1.0);
     GL.begin(GL.POINTS);
     for (int i = 0; i < powerupIndex; ++i)
     with (powerupPool[i])
@@ -188,7 +193,14 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
                 float sine = void, cosine = void;
                 sine = sin(-a);
                 cosine = cos(-a);
-                vertexf(MAP_TRANSLATE_X + dist * sine, MAP_TRANSLATE_Y + dist * cosine);
+                float px = MAP_TRANSLATE_X + dist * sine;
+                float py = MAP_TRANSLATE_Y + dist * cosine;
+                vertexf(px, py);
+
+                GL.color = color2;
+                vertexf(px + 1, py);
+                GL.color = color3;
+                vertexf(px, py + 1);
             }
 
         }

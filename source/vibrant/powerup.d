@@ -38,7 +38,6 @@ final class Powerup
     vec2f pos;
     vec2f mov;
     private vec2f lastPos;
-    private vec3f finalcolor1,finalcolor2,finalcolor3;
     vec3f color1, color2, color3;
     Xorshift32* random;
 
@@ -73,13 +72,10 @@ final class Powerup
         const uint[PowerupType.max + 1] colors2 = [0xffff0000,0xff10a0c0,0xff00ffff,0xff10a0c0,0xff00ffff,0xffc000a0,0xff00ff00,0xff808080,0xff00ff00, 0xff9080, 0xff8000];
         const uint[PowerupType.max + 1] colors3 = [0xffffff00,0xff0000ff,0xffffff00,0xffffffff,0xffff00ff,0xff800060,0xffffff00,0xff808080,0xff00ffff, 0x804000, 0xaf0040];
 
-        this.finalcolor1 = RGBF(colors1[this.type]);
-        this.finalcolor2 = RGBF(colors2[this.type]);
-        this.finalcolor3 = RGBF(colors3[this.type]);
-
-        this.color1 = vec3f(0.0f);
-        this.color2 = vec3f(0.0f);
-        this.color3 = vec3f(0.0f);
+        this.color1 = RGBF(colors1[this.type]);
+        this.color2 = RGBF(colors2[this.type]);
+        this.color3 = RGBF(colors3[this.type]);
+        
         this.counter = 0.0f;
 
         this.dead = false;
@@ -347,14 +343,7 @@ final class Powerup
 
         map.enforceBounds(pos, mov, 0.0f, BUMP_FACTOR, BUMP);
 
-        float fact = 1.0 - exp(-dt * 3.0);
-        color1 += (finalcolor1 - color1) * fact;
-        color2 += (finalcolor2 - color2) * fact;
-        color3 += (finalcolor3 - color3) * fact;
 
-        if ((*random).nextFloat < dt * 2.0f) swap(finalcolor1,finalcolor3);
-        if ((*random).nextFloat < dt * 2.0f) swap(finalcolor2,finalcolor1);
-        if ((*random).nextFloat < dt * 2.0f) swap(finalcolor3,finalcolor2);
 
         counter += dt * 0.75f;
     }
