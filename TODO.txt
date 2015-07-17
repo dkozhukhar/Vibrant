@@ -15,12 +15,14 @@ Vibrant v1.7:
 [ok] remove console window in release mode (1.6 regression)
 
 Vibrant 1.8:
+[ok] ported to D2
 [ok] less random stutter while playing
 [ok] most desirable powerups are pulled slower for more entropy
 [ok] ships now have a graphical tail
 [ok] ennemies change attitude more when being shot
 [ok] the 2 larger ship sizes were removed
 [ok] energy renewal is now fixed, energy powerup doesn't affect it anymore
+[ok] ennemies don't get bullet damage when out of sight, makes the levels fuller of ennemies
 
 decreasing timer
 
@@ -36,8 +38,7 @@ map with blocks
 
   trap should be a bomb
 
-turn faster once speed powerup is taken
-non intense end of levels
+remove speed powerups? or turn faster once speed powerup is taken
 
 ArcOfDream suggests more discernible powerups in the minimap
 
