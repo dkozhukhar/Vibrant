@@ -54,8 +54,8 @@ class Overlay
             _text.setColor(0xFF8080FF);
             _text.setFont(FontType.SMALL);
 
-            int BX = 200;
-            auto BY = 101 + 1 * 16;
+            int BX = 360;
+            auto BY = 147;
 
             double h = 0;
             const START = 0.03;
@@ -87,11 +87,14 @@ class Overlay
 
         void drawPauseScreen()
         {
-            drawWindowBox(280, 222, 360, 262, 0xffffffff);
+            int offsetX = SCREENX/2 - 320;
+            int offsetY = SCREENY/2 - 240;
+
+            drawWindowBox(offsetX + 280, offsetY + 222, offsetX + 360, offsetY + 262, 0xffffffff);
             _text.setAttr(ATTR);
             _text.setColor(clwhite);
             _text.setFont(FontType.SMALL);
-            _text.setCursorPosition(320 - 8 * 3, 240);
+            _text.setCursorPosition(offsetX + 320 - 8 * 3, offsetY + 240);
             _text.outputString("Paused");
         }
 
@@ -99,10 +102,13 @@ class Overlay
         {
             // help screen
 
-            drawWindowBox(130, 116, 510, 364, 0xffffffff);
+            int offsetX = SCREENX/2 - 320;
+            int offsetY = SCREENY/2 - 240;
 
-            auto BX = 101 + 2 * 8;
-            auto BY = 101 + 3 * 16;
+            drawWindowBox(offsetX + 130, offsetY + 116, offsetX + 510, offsetY + 364, 0xffffffff);
+
+            auto BX = offsetX + 101 + 2 * 8;
+            auto BY = offsetY + 101 + 3 * 16;
 
             _text.setAttr(ATTR);
             _text.setColor(0xFFFFFFFF);
@@ -114,26 +120,26 @@ class Overlay
             _text.drawString(BX, BY + 16, "               www.gamesfrommars.fr    ");
 
             {
-                BY = 100 + 16 * 13;
+                BY = offsetY + 100 + 16 * 13;
 
                 string tip = tipOfTheMinute;
 
-                _text.setCursorPosition(320 - 4 * cast(int)(tip.length), BY);
+                _text.setCursorPosition(SCREENX/2 - 4 * cast(int)(tip.length), BY);
                 _text.setColor(0xff7477ff);
                 _text.outputString(tip);
 
                 if (showContinue)
                 {
                     string msg = "Now press FIRE to continue";
-                    _text.setCursorPosition(320 - 4 * cast(int)(msg.length), BY + 20);
+                    _text.setCursorPosition(SCREENX/2 - 4 * cast(int)(msg.length), BY + 20);
                     _text.setColor(clwhite);
                     _text.outputString(msg);
                 }
             }
 
             {
-                BX = 101 + 8 * 8;
-                BY = 101 + 4 * 16 - 4;
+                BX = offsetX + 101 + 8 * 8;
+                BY = offsetY + 101 + 4 * 16 - 4;
                 _text.setColor(clwhite);
                 _text.setCursorPosition(BX, BY + 32);
                 _text.outputString("               Controls");
@@ -158,12 +164,6 @@ class Overlay
                 _text.setCursorPosition(BX, BY + 112);
                 _text.outputString("          SPACE  Z  ");
             }
-
-/*
-            ALT strafe
-                P pause
-                M toggle music*/
-
         }
 
         void drawStatus()
