@@ -4,8 +4,8 @@ import palettes;
 
 /* contains some globals */
 
-const int SCREENX = 640,
-          SCREENY = 480,
+const int SCREENX = 960,
+          SCREENY = 540,
           NUMBER_OF_IA = 30,
       ENERGYMAX = 1023,
       TURBO_COST = 5,

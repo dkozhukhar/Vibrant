@@ -391,7 +391,7 @@ final class Game
             GL.disable(GL.ALPHA_TEST);
 
             mat4f projectionMatrix = mat4f.scaling(vec3f(1 / ratio, 1.0f, 1.0f));
-            float viewScale = 2.0f * (1.0f / _zoomFactor) /  SCREENY;
+            float viewScale = 2.0f * (1.0f / _zoomFactor) /  480;
             mat4f modelViewMatrix = mat4f.scaling(vec3f(viewScale, viewScale,1.0f))
                                     * mat4f.rotateZ(-_camera.angle())
                                     * mat4f.translation(vec3f(-_camera.position(), 0.0f));

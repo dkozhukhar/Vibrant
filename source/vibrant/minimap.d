@@ -37,8 +37,9 @@ void drawMinimap(Camera camera, Map map, BulletPool bulletPool)
     // clear the minimap zone
     {
         GL.begin(GL.TRIANGLE_FAN);
-        GL.color(vec4f(0, 0, 0, 0.75f));
+        GL.color(vec4f(0.0, 0.0, 0.0, 0.9f));
         vertexf(MAP_TRANSLATE_X, MAP_TRANSLATE_Y);
+        GL.color(vec4f(0.03, 0.0, 0.0, 0.9f));
         for (int i = 0; i <= 64; ++i)
         {
             float angle = 2 * PI * i / 64.0f;

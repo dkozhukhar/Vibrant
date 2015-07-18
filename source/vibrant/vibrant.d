@@ -138,7 +138,7 @@ int main(string[]args)
      && (fsaa != 16))
         throw new InvalidCommandLine("No such FSAA option (should be 1, 2, 4, 8 or 16)");
 
-    double ratio = 4.0 / 3.0;
+    double ratio = 16.0 / 9.0;
 
     {
         scope auto app = new VibrantProgram(width, height, ratio, fullscreen, fsaa, music, gamma, vsync, blur);
