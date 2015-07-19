@@ -39,8 +39,7 @@ T safeConvert(T)(string src, string errorMsg)
 
 int main(string[]args)
 {
-    chdir(dirName(args[0]));
-
+    string basePath = dirName(absolutePath(thisExePath())); 
 
 //    int fsaa = 4;
 
@@ -141,7 +140,7 @@ int main(string[]args)
     double ratio = 16.0 / 9.0;
 
     {
-        scope auto app = new VibrantProgram(width, height, ratio, fullscreen, fsaa, music, gamma, vsync, blur);
+        scope auto app = new VibrantProgram(basePath, width, height, ratio, fullscreen, fsaa, music, gamma, vsync, blur);
         app.run();
         app.close();
     }

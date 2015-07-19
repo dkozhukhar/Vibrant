@@ -6,14 +6,9 @@ import misc.colors;
 
 import core.stdc.stdlib;
 
-import sdl.sdlimage;
-
-version(useDevIL)
-{
-    import misc.devilimage;
-}
 import std.stdio;
 import std.c.string;
+import ae.utils.graphics;
 
 final class Image
 {
@@ -50,40 +45,12 @@ final class Image
             m_data = pData[0..width * height]; // never freed since Image are long-time resources and the OS will reclaim memory :)
         }
 
-        version(useDevIL)
+        this(ae.utils.graphics.Image!RGBA image)
         {
-            this(DevilImage image)
-            {
-                this(image.width, image.height); // allocate some space
-                memcpy(m_data.ptr, image.data(), uint.sizeof * m_data.length);
-            }
-        }
-
-        this(SDLImage image)
-        {
-            this(image.width, image.height); // allocate some space
-            // lock and copy
-            image.lock();
-            memcpy(m_data.ptr, image.data(), uint.sizeof * m_data.length);
-            //moveDWords(image.data(), m_data.ptr, m_data.length);
-            image.unlock();
-        }
-
-        version(useDevIL)
-        {
-            this(string filename)
-            {
-                scope di = new DevilImage(filename);
-                this(di);
-            }
-
-
-            void save(string filename)
-            {
-                scope DevilImage devilImage = new DevilImage();
-                devilImage.setData(m_width, m_height, ptr());
-                devilImage.saveImage(filename);
-            }
+            this(image.w, image.h);
+            
+            memcpy(m_data.ptr, image.pixels.ptr, uint.sizeof * m_data.length);            
+            
         }
 
         final int width()

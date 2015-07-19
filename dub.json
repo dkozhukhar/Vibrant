@@ -13,7 +13,7 @@
 
 	"dependencies": {
         "vibrant:derelict": "*",
-        "vibrant:common2": "*"
+        "vibrant:common2": "*"	
     },
 
     "libs-posix":["dl"],
@@ -36,7 +36,8 @@
             "dependencies": {
                 "vibrant:derelict": "*",
                 "gfm:core": "~>2.0",
-				"gfm:math": "~>2.0"
+				"gfm:math": "~>2.0",
+                "gfm:image": "~>2.0"
             }
         }
     ]

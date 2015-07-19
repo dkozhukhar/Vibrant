@@ -1,6 +1,8 @@
 module sound;
 
 import std.math;
+import std.path;
+
 import gfm.math;
 import sdl.mixer;
 import derelict.sdl.mixer;
@@ -23,7 +25,7 @@ final class SoundManager
 {
     public
     {
-        this(Camera camera)
+        this(string basePath, Camera camera)
         {
             _camera = camera;
             try
@@ -36,7 +38,7 @@ final class SoundManager
                 return;
             }
 
-            m_music = new Music("deciBeats-Martini_Trip.ogg");
+            m_music = new Music(buildPath(basePath, "deciBeats-Martini_Trip.ogg"));
             Music.setVolume(0.8f);
             _musicActivated = true;
 
@@ -47,7 +49,7 @@ final class SoundManager
             m_chunks.length = SOUND.max + 1;
             for (SOUND i = SOUND.min; i <= SOUND.max; ++i)
             {
-                m_chunks[i] = m_SDLMixer.createChunk("data/" ~ wavFiles[i]);
+                m_chunks[i] = m_SDLMixer.createChunk(buildPath(basePath, "data/" ~ wavFiles[i]));
                 _timeToWait[i] = 0;
             }
 

@@ -2,6 +2,8 @@
 import globals;
 
 import std.math;
+import std.path;
+
 import gfm.math;
 import misc.image;
 import gl.all;
@@ -96,7 +98,7 @@ final class Game
     public
     {
 
-        this(box2i viewport, bool usePostProcessing)
+        this(string basePath, box2i viewport, bool usePostProcessing)
         {
             powerupPool.length = MAX_POWERUPS;
 
@@ -111,7 +113,7 @@ final class Game
             _map = new Map(&_random);
 
             m_usePostProcessing = usePostProcessing;
-            _overlay = new Overlay();
+            _overlay = new Overlay(basePath);
 
             m_fbTex = new Texture2D(SCREENX, SCREENY, Texture.IFormat.RGBA8, false, false, false);
             m_fbTex.minFilter = Texture.Filter.NEAREST;
@@ -150,15 +152,16 @@ final class Game
 
             if (m_usePostProcessing)
             {
-                m_postProcessing = new PostProcessing(m_defaultFBO, m_mainTexture, viewport, m_fbTex);
+                m_postProcessing = new PostProcessing(basePath, m_defaultFBO, m_mainTexture, viewport, m_fbTex);
              
-                m_blit = new Shader("data/blit.vs", "data/blit.fs");
+                m_blit = new Shader(buildPath(basePath, "data/blit.vs"), 
+                                    buildPath(basePath, "data/blit.fs"));
             }
             
             m_viewport = viewport;
 
             // sound
-            m_soundManager = new SoundManager(_camera);
+            m_soundManager = new SoundManager(basePath, _camera);
             m_cheatcodeManager = new CheatcodeManager(this);
             m_particleManager = new ParticleManager(this, _camera);
             m_bulletPool = new BulletPool();

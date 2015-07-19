@@ -115,6 +115,7 @@ final class Shader
 
         static __gshared Shader binded = null;
         static __gshared Shader used = null;
+        static int count = 0;
 
         final void attach(Subshader s)
         {
@@ -132,8 +133,9 @@ final class Shader
 
         final void createProgram()
         {
+            import std.stdio;
+            void* p = cast(void*)(&glCreateProgram);
             handle = glCreateProgram();
-            //assert( glIsProgram(handle) );
             GL.check();
         }
 

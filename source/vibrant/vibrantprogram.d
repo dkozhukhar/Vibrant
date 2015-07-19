@@ -31,7 +31,7 @@ class VibrantProgram : SDLApp
 
     public
     {
-        this(int asked_width, int asked_height, double ratio, bool fullscreen, int fsaa, bool playMusic, float gamma, bool vsync, bool doBlur)
+        this(string basePath, int asked_width, int asked_height, double ratio, bool fullscreen, int fsaa, bool playMusic, float gamma, bool vsync, bool doBlur)
         {
             FSAA aa = void;
             if (fsaa == 2) aa = FSAA.FSAA2X;
@@ -55,7 +55,11 @@ class VibrantProgram : SDLApp
                 // fallback to ugly mode
                 doPostProcessing = false;
             }
-            //doPostProcessing = false;
+
+            version(linux)
+            {
+                doPostProcessing = false;
+            }
 
 
             GL.check();
@@ -80,7 +84,7 @@ class VibrantProgram : SDLApp
             GL.alphaFunc(GL.GREATER, 0.001f);
             GL.hint(GL.POINT_SMOOTH_HINT, GL.NICEST);
 
-            m_game = new Game(m_view, doPostProcessing);
+            m_game = new Game(basePath, m_view, doPostProcessing);
 
             cheatString = "";
         }

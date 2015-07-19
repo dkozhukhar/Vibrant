@@ -1,13 +1,18 @@
 module overlay;
 
 import std.math;
+import std.path;
+import std.string;
+import std.file;
+
 import gfm.math;
+import gfm.image;
 import misc.image;
 import oldfonts;
 import palettes;
 import globals;
 import sdl.all;
-import std.string;
+
 
 class Overlay
 {
@@ -17,12 +22,13 @@ class Overlay
         Image _mb; // framebuffer
         TextRenderer _text;
 
-        this()
+        this(string basePath)
         {
             _mb = new Image(SCREENX, SCREENY);
             _text = new TextRenderer(_mb);
-
-            _ui = new Image(new SDLImage("data/ui.png"));
+            import std.stdio;
+            void[] uiData = std.file.read(buildPath(basePath, "data/ui.png"));
+            _ui = new Image(stbiLoadImageAE(uiData));
         }
         
         void drawWindowBox(int x1, int y1, int x2, int y2, uint c)

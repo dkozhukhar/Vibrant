@@ -7,6 +7,5 @@ public
     import sdl.app;
     import sdl.keyboard;
     import sdl.joystick;
-    import sdl.sdlimage;
     import sdl.mixer;
 }
