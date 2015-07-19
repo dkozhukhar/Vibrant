@@ -33,10 +33,7 @@ module derelict.sdl.sdl;
 
 private
 {
-    import derelict.util.loader;
-
-    version(darwin)
-        import derelict.sdl.macinit.SDLMain;
+    import derelict.util.loader;    
 }
 
 public
@@ -296,8 +293,6 @@ private void load(SharedLib lib)
     version(Windows)
         bindFunc(SDL_GetWMInfo)("SDL_GetWMInfo", lib);
 
-    version (darwin)
-        macInit();
 }
 
 __gshared  GenericLoader DerelictSDL;
