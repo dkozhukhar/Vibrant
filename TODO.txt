@@ -23,6 +23,7 @@ Vibrant 1.8:
 [ok] the 2 larger ship sizes were removed
 [ok] energy renewal is now fixed, energy powerup doesn't affect it anymore
 [ok] ennemies don't get bullet damage when out of sight, makes the levels fuller of ennemies
+[ok] now using an aspect ratio of 16/9
 
 decreasing timer
 
