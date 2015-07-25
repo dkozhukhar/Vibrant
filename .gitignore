@@ -1,0 +1,6 @@
+dub.selections.json
+.dub
+vibrant
+vibrant.sublime-project
+.DS_Store
+*.a
