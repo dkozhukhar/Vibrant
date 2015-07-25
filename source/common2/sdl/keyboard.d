@@ -8,7 +8,7 @@ class SDLKeyboard
     {
         bool[SDLK_LAST] key_pressed;
 
-        const PRESSED = true,
+        enum PRESSED = true,
               RELEASED = false;
     }
 

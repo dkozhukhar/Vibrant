@@ -20,8 +20,8 @@ final class ParticleManager
 {
     private
     {
-        const MAX_PARTICUL = 50000;
-        const ENOUGH_PARTICUL = MAX_PARTICUL >> 1;
+        enum MAX_PARTICUL = 50000;
+        enum ENOUGH_PARTICUL = MAX_PARTICUL >> 1;
         
         Tparticul[] particulstack;
         int particleIndex;

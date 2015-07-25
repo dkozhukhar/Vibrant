@@ -41,12 +41,9 @@ final class PostProcessing
             m_mainBuffer = mainBuffer;
             m_defaultFBO = defaultFBO;
             import std.stdio;
-            writeln("3");
-
             m_finalShader = new Shader(buildPath(basePath, "data/final.vs"), 
                                        buildPath(basePath, "data/final.fs"));
 
-writeln("4");
             m_HUDBuffer = HUDBuffer;
         }
 

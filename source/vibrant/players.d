@@ -26,7 +26,7 @@ enum float MAX_DESTROY = 32 / 60.0f;
 
 class Player
 {
-    const int MAX_DRAGGED_POWERUPS = 4; // can't drag more than that powerup
+    enum int MAX_DRAGGED_POWERUPS = 4; // can't drag more than that powerup
     static const MAX_TAIL = 100;
 
     Game game;

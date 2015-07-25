@@ -355,8 +355,9 @@ alias void                    function(int*, int*)
 /*
 ** Convert an error code to a string
 */
-alias const char*             function(CGLError)
+/*alias const char*             function(CGLError)
                             pfCGLErrorString;
+                            */
 
 /*
 ** Current context functions
@@ -460,7 +461,7 @@ pfCGLGetVersion             CGLGetVersion;
 /*
 ** Convert an error code to a string
 */
-pfCGLErrorString            CGLErrorString;
+//pfCGLErrorString            CGLErrorString;
 
 /*
 ** Current context functions
@@ -566,7 +567,7 @@ version (Mac_OS_X_10_4_and_later)
 /*
 ** Convert an error code to a string
 */
-    bindFunc(CGLErrorString)("CGLErrorString", lib);
+//    bindFunc(CGLErrorString)("CGLErrorString", lib);
 
 /*
 ** Current context functions

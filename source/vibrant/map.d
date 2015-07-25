@@ -8,15 +8,15 @@ import vga2d;
 import utils;
 import misc.alignedbuffer;
 
-const TILE_SIZE = 200.0f;
-const TILE_OUTSIDE = 0;
-const TILE_NORMAL = 1;
+enum TILE_SIZE = 200.0f;
+enum TILE_OUTSIDE = 0;
+enum TILE_NORMAL = 1;
 
-const LINE_ELECTRIC_ARC = 0;
-const LINE_TILE_SEP = 1;
+enum LINE_ELECTRIC_ARC = 0;
+enum LINE_TILE_SEP = 1;
 
-const NTILE_X = 34;
-const NTILE_Y = 34;
+enum NTILE_X = 34;
+enum NTILE_Y = 34;
 
 struct MapLine
 {

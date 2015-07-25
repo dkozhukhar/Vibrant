@@ -412,7 +412,7 @@ class BulletPool
 
     private
     {
-        const MAX_BULLETS = 1000;
+        enum MAX_BULLETS = 1000;
 
         Bullet[] _bulletPool;
         int _bulletIndex;

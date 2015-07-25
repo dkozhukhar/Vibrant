@@ -53,6 +53,12 @@ int main(string[]args)
     int fsaa = 4;
     bool blur = true;
 
+    version(darwin)
+    {
+        pragma(msg, "Building with Mac OS X fullscreen work-around");
+        fullscreen = false;
+    }
+
     // parse command-line arguments
     {
         int i = 1;

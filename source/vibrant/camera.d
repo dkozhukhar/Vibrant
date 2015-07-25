@@ -67,8 +67,8 @@ final class Camera
 
     private
     {
-        const CAMERA_VELOCITY = 0.12;
-        const OUT_OF_SIGHT = 1000.0f;
+        enum CAMERA_VELOCITY = 0.12;
+        enum OUT_OF_SIGHT = 1000.0f;
 
         vec2f _position;
         float _angle;

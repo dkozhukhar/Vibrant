@@ -118,6 +118,9 @@ class SDLApp
             }
             m_finished = false;
             m_delayBetweenFrames = delayBetweenFrames;
+
+            //version(darwin)
+            //    SDL_WM_GrabInput(SDL_GRAB_ON);
         }
 
         final int width()
@@ -157,6 +160,8 @@ class SDLApp
 
                     case SDL_KEYUP:
                     {
+                        import std.stdio;
+                        writeln("SDL_KEYUP");
                         SDLKey key = event.key.keysym.sym;
                         SDLMod mod = event.key.keysym.mod;
                         wchar ch = event.key.keysym.unicode;
@@ -167,6 +172,8 @@ class SDLApp
 
                     case SDL_KEYDOWN:
                     {
+                        import std.stdio;
+                        writeln("SDL_KEYDOWN");
                         SDLKey key = event.key.keysym.sym;
                         SDLMod mod = event.key.keysym.mod;
                         wchar ch = event.key.keysym.unicode;

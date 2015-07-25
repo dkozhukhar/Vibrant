@@ -10,8 +10,8 @@ class SDLJoystick
         SDL_Joystick* m_handle;
         int m_index;
 
-        const PRESSED = true,
-              RELEASED = false;
+        enum PRESSED = true,
+             RELEASED = false;
 
         bool[] m_button_pressed;
         float[] m_axis;

@@ -16,7 +16,7 @@ import sdl.all;
 
 class Overlay
 {
-    const ATTR = TEXT_SHADOW;
+    enum ATTR = TEXT_SHADOW;
     public
     {
         Image _mb; // framebuffer
