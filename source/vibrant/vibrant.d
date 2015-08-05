@@ -41,8 +41,6 @@ int main(string[]args)
 {
     string basePath = dirName(absolutePath(thisExePath())); 
 
-//    int fsaa = 4;
-
     auto width = SDLApp.AUTO_DETECT;
     auto height = SDLApp.AUTO_DETECT;
     string sratio = "auto"; // auto-detect ratio from width and height
