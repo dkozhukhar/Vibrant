@@ -160,8 +160,6 @@ class SDLApp
 
                     case SDL_KEYUP:
                     {
-                        import std.stdio;
-                        writeln("SDL_KEYUP");
                         SDLKey key = event.key.keysym.sym;
                         SDLMod mod = event.key.keysym.mod;
                         wchar ch = event.key.keysym.unicode;
@@ -172,8 +170,6 @@ class SDLApp
 
                     case SDL_KEYDOWN:
                     {
-                        import std.stdio;
-                        writeln("SDL_KEYDOWN");
                         SDLKey key = event.key.keysym.sym;
                         SDLMod mod = event.key.keysym.mod;
                         wchar ch = event.key.keysym.unicode;

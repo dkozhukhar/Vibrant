@@ -16,7 +16,7 @@ final class CheatcodeManager
 
     private
     {
-        const string[Cheat.max + 1] cheatcodeString =
+        static immutable string[Cheat.max + 1] cheatcodeString =
         [
             "next",
             "levelmax",

@@ -369,7 +369,7 @@ class Map
 
     private
     {
-        const float SIZE_OF_MAP = 3000;
+        static immutable float SIZE_OF_MAP = 3000;
         MapTile[] _tiles;        
     }
 }
