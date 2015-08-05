@@ -4,8 +4,6 @@
 <dict>
 	<key>BuildMachineOSBuild</key>
 	<string>13D65</string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>vibrant</string>
 	<key>CFBundleIdentifier</key>
@@ -16,19 +14,19 @@
 	<string>Vibrant</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleIconFile</key>
+	<string>Vibrant.icns</string>
+	<key>DTXcodeBuild</key>
+	<string>5B1008</string>
+	<key>DTSDKBuild</key>
+	<string>12F37</string>
 	<key>CFBundleSignature</key>
 	<string>ABAB</string>
 	<key>CFBundleVersion</key>
 	<string>1.7.4</string>
 	<key>DTPlatformVersion</key>
 	<string>GM</string>
-	<key>DTSDKBuild</key>
-	<string>12F37</string>
-	<key>DTSDKName</key>
-	<string>macosx10.8</string>
 	<key>DTXcode</key>
 	<string>0511</string>
-	<key>DTXcodeBuild</key>
-	<string>5B1008</string>
 </dict>
 </plist>
