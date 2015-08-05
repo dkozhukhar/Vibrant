@@ -73,8 +73,14 @@ class VibrantProgram : SDLApp
                 if (ratio > 16.0 / 9.0) ratio = 16.0 / 9.0;
             }
 
+            int yOffset = 0;
+            version(OSX)
+            {
+                yOffset += 50;
+            }
+
             // adjust viewport according to ratio
-            m_view = box2i(0, 0, width, height).subRectWithRatio(ratio);
+            m_view = box2i(0, yOffset, width, height - yOffset).subRectWithRatio(ratio);
             GL.check();
             GL.disable(GL.DEPTH_TEST);
             GL.disable(GL.BLEND, GL.FOG, GL.LIGHTING, GL.NORMALIZE, GL.STENCIL_TEST, GL.CULL_FACE);
