@@ -1,2 +1,2 @@
-dub build --compiler=ldc --combined -b release-nobounds -v
-cp vibrant Vibrant.app/Contents/MacOSX/vibrant
+dub build --compiler=ldc2 --combined -b release-nobounds -v
+cp vibrant Vibrant.app/Contents/MacOS/vibrant
