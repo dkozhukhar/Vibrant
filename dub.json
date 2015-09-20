@@ -6,7 +6,7 @@
 	"sourcePaths": ["source/vibrant"],
 	"importPaths": ["source/vibrant"],
 
-    "sourceFiles-windows": ["vibrant.res"],
+    "sourceFiles-windows": ["vibrant.res", "vibrant.def"],
 
 	"buildRequirements": 
 	[
@@ -20,6 +20,7 @@
 
     "libs-posix":["dl"],
 
+    "commented-dflags-windows": ["-L/SUBSYSTEM:windows,5.01"],
 
     "subPackages": [
         {
