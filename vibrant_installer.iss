@@ -11,10 +11,10 @@ AppUpdatesURL=http://www.gamesfrommars.fr/vibrant
 DefaultDirName={pf}\Vibrant
 DefaultGroupName=Vibrant
 DisableProgramGroupPage=yes
-LicenseFile=C:\Users\ponce\gamesfrommars\d\vibrant\LICENSE.txt
-OutputDir=C:\Users\ponce\gamesfrommars\d\vibrant
+LicenseFile=C:\Users\ponce\Desktop\Vibrant\LICENSE.txt
+OutputDir=C:\Users\ponce\Desktop\Vibrant
 OutputBaseFilename=vibrant_installer
-SetupIconFile=C:\Users\ponce\gamesfrommars\d\vibrant\icons\vibrant_48x48_24b.ico
+SetupIconFile=C:\Users\ponce\Desktop\Vibrant\icons\vibrant_48x48_24b.ico
 UninstallDisplayIcon={app}\vibrant.exe
 
 [Dirs]
@@ -27,7 +27,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Users\ponce\gamesfrommars\d\vibrant\release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
+Source: "C:\Users\ponce\Desktop\Vibrant\release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
