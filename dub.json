@@ -6,6 +6,8 @@
 	"sourcePaths": ["source/vibrant"],
 	"importPaths": ["source/vibrant"],
 
+    "sourceFiles-windows": ["vibrant.res"],
+
 	"buildRequirements": 
 	[
 		"disallowInlining"
