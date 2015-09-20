@@ -3,7 +3,7 @@
 
 [Setup]
 AppName=Vibrant
-AppVerName=Vibrant 1.6
+AppVerName=Vibrant 1.8
 AppPublisher=Games From Mars
 AppPublisherURL=http://www.gamesfrommars.fr
 AppSupportURL=http://www.gamesfrommars.fr/vibrant

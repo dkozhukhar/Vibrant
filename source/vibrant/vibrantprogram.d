@@ -1,5 +1,6 @@
 module vibrantprogram;
 
+import std.path;
 import std.math;
 import gfm.math;
 import sdl.all;
@@ -40,7 +41,7 @@ class VibrantProgram : SDLApp
             else if (fsaa == 16) aa = FSAA.FSAA16X;
             else aa = FSAA.OFF;
 
-            super(asked_width, asked_height, fullscreen, false, "Vibrant", "data/icon.bmp", aa, 0, OpenGLVersion.Version20, true);
+            super(asked_width, asked_height, fullscreen, false, "Vibrant", buildPath(basePath, "data/icon.bmp"), aa, 0, OpenGLVersion.Version20, true);
 
             bool doPostProcessing = void;
 

@@ -24,6 +24,7 @@ Vibrant 1.8:
 [ok] energy renewal is now a fixed quantity, energy powerup doesn't affect it anymore
 [ok] ennemies don't get bullet damage when out of sight, makes the levels fuller of ennemies
 [ok] HD! Now using an aspect ratio of 16/9
+[ok] Fix crash when launched with a working directory that isn't the app directory
 
 decreasing timer
 
