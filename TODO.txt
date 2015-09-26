@@ -19,11 +19,12 @@ Vibrant 1.8:
 [ok] less random stutter while playing
 [ok] most desirable powerups are pulled slower for more entropy
 [ok] ships now have a graphical tail
-[ok] ennemies change attitude more when being shot
+[ok] ennemies change attitude more often when being shot
 [ok] the 2 larger ship sizes were removed
-[ok] energy renewal is now fixed, energy powerup doesn't affect it anymore
+[ok] energy renewal is now a fixed quantity, energy powerup doesn't affect it anymore
 [ok] ennemies don't get bullet damage when out of sight, makes the levels fuller of ennemies
-[ok] now using an aspect ratio of 16/9
+[ok] HD! Now using an aspect ratio of 16/9
+[ok] Fix crash when launched with a working directory that isn't the app directory
 
 decreasing timer
 

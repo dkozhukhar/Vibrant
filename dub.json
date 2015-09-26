@@ -6,6 +6,8 @@
 	"sourcePaths": ["source/vibrant"],
 	"importPaths": ["source/vibrant"],
 
+    "sourceFiles-windows": ["vibrant.res", "vibrant.def"],
+
 	"buildRequirements": 
 	[
 		"disallowInlining"
@@ -18,6 +20,7 @@
 
     "libs-posix":["dl"],
 
+    "commented-dflags-windows": ["-L/SUBSYSTEM:windows,5.01"],
 
     "subPackages": [
         {

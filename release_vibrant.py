@@ -7,11 +7,11 @@ import time
 import subprocess
 
 
-source_folder = "C:/Users/ponce/gamesfrommars/d/vibrant"
+source_folder = os.getcwd()
+print "Source folder = " + source_folder
 
-destination_folder = "C:/Users/ponce/gamesfrommars/d/vibrant/release/"
-
-
+destination_folder = source_folder + "/release/"
+print "Destination folder = " + destination_folder
 
 print "Deleting " + destination_folder
 rmtree(destination_folder, True) # ignore errors
