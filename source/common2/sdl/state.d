@@ -35,7 +35,6 @@ class SDL
         {
             version(OSX)
                 DerelictSDL2.load("../Frameworks/SDL2.framework/SDL2");
-
             else
                 DerelictSDL2.load();
 

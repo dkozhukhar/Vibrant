@@ -43,8 +43,8 @@ struct MapTile
 
         vec2f pos() nothrow @nogc
         {
-            return vec2f((_index.x - NTILE_X / 2) * TILE_SIZE, 
-                         (_index.y - NTILE_Y / 2) * TILE_SIZE); 
+            return vec2f((_index.x - NTILE_X / 2) * TILE_SIZE,
+                         (_index.y - NTILE_Y / 2) * TILE_SIZE);
         }
 
         box2f bounds() nothrow @nogc
@@ -62,7 +62,7 @@ struct MapTile
     }
 }
 
-class Map
+final class Map
 {
     public
     {
@@ -91,7 +91,7 @@ class Map
 
         static vec2i getIndex(vec2f pos) nothrow @nogc
         {
-            return vec2i(cast(int)(floor(pos.x / TILE_SIZE)) + (NTILE_X / 2), 
+            return vec2i(cast(int)(floor(pos.x / TILE_SIZE)) + (NTILE_X / 2),
                          cast(int)(floor(pos.y / TILE_SIZE) + (NTILE_Y / 2)));
         }
 
@@ -137,7 +137,7 @@ class Map
             assert(indexInMap(i));
 
             for (int y = 0; y < 3; ++y)
-                for (int x = 0; x < 3; ++x)                
+                for (int x = 0; x < 3; ++x)
                     outputTiles[y * 3 + x] = getTile(vec2i (i.x + x - 1, i.y + y - 1));
         }
 
@@ -270,7 +270,7 @@ class Map
 
         void generateMapLines(AlignedBuffer!MapLine outLines) @nogc
         {
-            int nline = 0;     
+            int nline = 0;
             outLines.clearContents();
 
             for (int j = 0; j < NTILE_Y - 1; ++j)
@@ -286,7 +286,7 @@ class Map
                     vec2f d = vec2f(bounds.max.x, bounds.min.y);
 
                     MapTile down = getTile(i, j + 1);
-                    MapTile right = getTile(i + 1, j);      
+                    MapTile right = getTile(i + 1, j);
 
                     void push(vec2f p1, vec2f p2, MapTile t1, MapTile t2) @nogc
                     {
@@ -370,7 +370,7 @@ class Map
     private
     {
         static immutable float SIZE_OF_MAP = 3000;
-        MapTile[] _tiles;        
+        MapTile[] _tiles;
     }
 }
 

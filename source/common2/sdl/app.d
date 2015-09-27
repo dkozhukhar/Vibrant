@@ -165,7 +165,7 @@ class SDLApp
                         SDL_Keymod mod = event.key.keysym.mod;
                         dchar ch = event.key.keysym.unicode;
                         SDL.instance.keyboard.markAsReleased( key );
-                        onKeyUp( key, mod, ch );
+                        onKeyUp( key, mod );
                         break;
                     }
 
@@ -175,7 +175,18 @@ class SDLApp
                         SDL_Keymod mod = event.key.keysym.mod;
                         dchar ch = event.key.keysym.unicode;
                         SDL.instance.keyboard.markAsPressed( key );
-                        onKeyDown( key, mod, ch );
+                        onKeyDown( key, mod );
+                        break;
+                    }
+
+                    case SDL_TEXTINPUT:
+                    {
+                        const(char)[] s = fromStringz(event.text.text.ptr);
+                        if (s.length > 0)
+                        {
+                            dchar ch = cast(dchar)(s[0]);
+                            onCharDown(ch);
+                        }
                         break;
                     }
 
@@ -244,8 +255,10 @@ class SDLApp
 
         abstract void onRender(double elapsedTime);
         abstract void onMove(double elapsedTime, double dt);
-        abstract void onKeyUp(int key, int mod, dchar ch);
-        abstract void onKeyDown(int key, int mod, dchar ch);
+
+        abstract void onKeyUp(int key, int mod);
+        abstract void onKeyDown(int key, int mod);
+        abstract void onCharDown(dchar ch);
 
         abstract void onMouseMove(int x, int y, int dx, int dy);
         abstract void onMouseDown(int button);

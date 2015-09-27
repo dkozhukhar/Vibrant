@@ -2,7 +2,7 @@ module bullettime;
 
 import players;
 
-class BulletTime
+final class BulletTime
 {
     enum float MAX_BULLET_TIME = 20.0f;
 

@@ -14,7 +14,7 @@ import globals;
 import sdl.all;
 
 
-class Overlay
+final class Overlay
 {
     enum ATTR = TEXT_SHADOW;
     public

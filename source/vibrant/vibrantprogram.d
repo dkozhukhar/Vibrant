@@ -13,7 +13,7 @@ import mousex;
 import joy;
 import derelict.util.exception;
 
-class VibrantProgram : SDLApp
+final class VibrantProgram : SDLApp
 {
     private
     {
@@ -139,7 +139,7 @@ class VibrantProgram : SDLApp
             m_game.progress(_mouse, dt);
         }
 
-        override void onKeyUp(int key, int mod, dchar ch)
+        override void onKeyUp(int key, int mod)
         {
             if (key == SDLK_ESCAPE) terminate();
 
@@ -153,7 +153,12 @@ class VibrantProgram : SDLApp
         {
         }
 
-        override void onKeyDown(int key, int mod, dchar ch)
+        override void onCharDown(dchar ch)
+        {
+            m_game.charTyped(ch);
+        }
+
+        override void onKeyDown(int key, int mod)
         {
 
             debug
@@ -163,7 +168,6 @@ class VibrantProgram : SDLApp
                     m_doRender = !m_doRender;
                 }
             }
-            m_game.keyTyped(ch);
         }
 
         override void onMouseMove(int x, int y, int dx, int dy)

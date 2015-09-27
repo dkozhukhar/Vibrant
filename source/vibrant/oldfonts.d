@@ -17,7 +17,7 @@ const TEXT_BOLD = 1,      // the text is written in bold
       TEXT_SHADOW = 64;
 
 
-class TextRenderer
+final class TextRenderer
 {
     public
     {
@@ -88,7 +88,7 @@ class TextRenderer
         int _charHeight;
         const(ubyte) * _selectedFont;
         int _cursorX = 0;
-        int _cursorY = 0;       
+        int _cursorY = 0;
         Image _image;
 
         void setPixel(int x, int y, uint color)
@@ -116,7 +116,7 @@ class TextRenderer
             ubyte[16] n;
             for (int i = 0; i < _charHeight; ++i)
                 n[i] = p[i];
-       
+
             int bxx = 1;
             int byy = 1;
             int by = y;

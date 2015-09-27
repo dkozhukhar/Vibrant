@@ -24,7 +24,7 @@ enum Attitude {HUMAN, AGGRESSIVE, FEARFUL, KAMIKAZE, OCCUPIED };
 
 enum float MAX_DESTROY = 32 / 60.0f;
 
-class Player
+final class Player
 {
     enum int MAX_DRAGGED_POWERUPS = 4; // can't drag more than that powerup
     static const MAX_TAIL = 100;
@@ -95,7 +95,7 @@ class Player
         destroy = 0.0f;
         life = 1;
         engineExcitation = 0;
-        
+
 
         turbo = false;
         shipSize = SHIP_MIN_SIZE + ((*_random).nextFloat() ^^ 2) * (SHIP_MAX_SIZE - SHIP_MIN_SIZE);
@@ -153,7 +153,7 @@ class Player
 
     void cleanup()
     {
-        stopDraggingPlayer();       
+        stopDraggingPlayer();
         stopDraggingPowerups();
     }
 
@@ -171,24 +171,24 @@ class Player
     {
         debug checkDragInvariant();
         assert(_numDraggedPowerups < MAX_DRAGGED_POWERUPS);
-        
+
         // check for non-presence
         for (int i = 0; i < _numDraggedPowerups; ++i)
             assert(_draggedPowerups[i] !is p);
 
         _draggedPowerups[_numDraggedPowerups++] = p;
-                  
+
         game.soundManager.playSound(p.pos, 0.7f + (*_random).nextFloat * 0.3f, SOUND.CATCH_POWERUP);
         debug checkDragInvariant();
     }
 
     void stopDragPowerup(Powerup p)
-    {        
+    {
         debug checkDragInvariant();
         bool found = false;
         int i = 0;
         while (i < _numDraggedPowerups)
-        {        
+        {
             if (p is _draggedPowerups[i])
             {
                 assert(!found);
@@ -223,9 +223,9 @@ class Player
             assert(_draggedPowerups[0].getDragger() is this);
             _draggedPowerups[0].setDragger(null);
             ++i;
-        }      
+        }
         debug checkDragInvariant();
-    }    
+    }
 
     float invMass()
     {
@@ -339,7 +339,7 @@ class Player
             for (int i = 0; i < MAX_TAIL - 1; ++i)
             {
                 float df = i / cast(float)(MAX_TAIL - 1);
-                
+
                 vec2f B = positions[i];
                 vec2f E = positions[i + 1];
                 vec2f diff = B - E;
@@ -349,7 +349,7 @@ class Player
 
                 float alpha = gfm.math.clamp(0.06f * (lastDl - 5) * (df * (1-df)) * (1 - destroy / MAX_DESTROY), 0.0f, 0.3f);
 
-                
+
                 GL.color = vec4f(color, alpha);
 
                 if (dl < 1e-3f)
@@ -365,16 +365,16 @@ class Player
                 vertexf(D);
                 vertexf(F);
             }
-            vertexf(positions[MAX_TAIL - 1]);        
+            vertexf(positions[MAX_TAIL - 1]);
             GL.end();
         }
 
         vga2d.translate(currentPosition);
 
-        scale(shipSize, shipSize);        
+        scale(shipSize, shipSize);
 
         rotate(-angle + PI_2);
- 
+
 
         // shadow
         {
@@ -523,7 +523,7 @@ class Player
                     py = py + sina * dist;
                     vertexf(px,py);
 
-                    if (i < 3) 
+                    if (i < 3)
                         vertexf(px,py);
                 }
                 GL.end();
@@ -538,10 +538,10 @@ class Player
                 float wingswidth = std.algorithm.min(3, weaponclass);
                 pushmatrix;
                 rotate(-waitforshootTime*12);
-                
+
 
                 GL.begin(GL.TRIANGLES);
-                {                    
+                {
                     auto a = vec2f(-0.72f, -0.143f);
                     auto b = vec2f(-0.29f, -0.143f);
                     auto c = vec2f(-0.51f-0.29f*weaponclass,0.43f+0.29f*weaponclass);
@@ -560,7 +560,7 @@ class Player
                 GL.end();
 
                 rotate(waitforshootTime*24);
-                
+
                 GL.begin(GL.TRIANGLES);
                 {
                     auto a = vec2f(0.72f, -0.143f);
@@ -576,7 +576,7 @@ class Player
                     GL.color = armsColor;
                     vertexf(b);
                     vertexf(c);
-                    vertexf(d);                   
+                    vertexf(d);
                 }
                 GL.end();
                 popmatrix;
@@ -603,16 +603,16 @@ class Player
                     GL.color = lerp(c, vec3f(0.2f, 0.6f, 0.6f),  0.5f);
                     float bb = baseVelocity / PLAYER_BASE_VELOCITY;
                     vertexf(0.0f,-0.5f);
-                    vertexf(0.42f,-0.5f);                    
+                    vertexf(0.42f,-0.5f);
                     vertexf(0.12f,-0.75f - bb * 0.25f);
                     vertexf(0.0f,-0.5f);
-                    vertexf(-0.42f,-0.5f);                    
+                    vertexf(-0.42f,-0.5f);
                     vertexf(-0.12f,-0.75f - bb * 0.25f);
                 }
                 GL.end();
 
                 GL.begin(GL.QUADS);
-                {  
+                {
                     vec3f col = lerp(color, RGBF(ColorROR(Frgb(color), 24)), 0.5f);
                     GL.color = lerp(col, vec3f(0.0f), 0.95f);
                     vertexf(0.0,0.5);
@@ -624,7 +624,7 @@ class Player
                     vertexf(0.36,-0.5);
                 }
                 GL.end();
-            }          
+            }
         }
         else
         {
@@ -680,14 +680,14 @@ class Player
             {
                 BulletTime.exit();
             }
-            
+
             life = -0.001;
         }
     }
 
     uint particleColor()
     {
-        vec3f r = color;      
+        vec3f r = color;
         r.z = std.algorithm.min(1.0f, r.z + mapEnergyGain * 0.02f);
         return Frgb(r);
     }
@@ -705,7 +705,7 @@ class Player
 
             int nParticul = cast(int)round((100 + (*_random).nextRange(60)) * PARTICUL_FACTOR * (shipSize / SHIP_MIN_SIZE));
             auto cc = particleColor();
-            for (int i = 0; i <= nParticul; ++i)            
+            for (int i = 0; i <= nParticul; ++i)
             {
                 int life = cast(int)round(sqr((*_random).nextFloat) * (*_random).nextRange(800 - cast(int)round(400 * explode_power))) + 5;
                 game.particles.add(currentPosition, sqr((*_random).nextFloat) * mov * invMass,  0, 0, (*_random).nextAngle,
@@ -780,7 +780,7 @@ class Player
                 float mangle = baseangle + 0.07f * (i - (forwardBullet-1) * 0.5f);
 
                 float mspeed = ((forwardBullet == 3) && (i == 1)) ? BULLET_BASE_SPEED + 0.5 : BULLET_BASE_SPEED;
-                if (isHuman) 
+                if (isHuman)
                     mspeed *= 1.25;
 
                 vec2f vel = mov;
@@ -914,7 +914,7 @@ class Player
             mapEnergyGain = 0.0f;
 
             float fx = map.distanceToBorder(currentPosition);
-   
+
             if (fx < 100)
             {
                 mapEnergyGain += 0.4f * dt * (100 - fx) * mov.squaredLength;
@@ -947,7 +947,7 @@ class Player
             destroy += dt;
 
             if (destroy >= MAX_DESTROY)
-            {                
+            {
                 dead = true;
             }
         }
@@ -1078,7 +1078,7 @@ class Player
 
                 float dangle = normalizeAngle(a - angle);
                 float dpangle = normalizeAngle(a - targetAngle);
-                if ((*_random).nextFloat < 0.6 * dt) 
+                if ((*_random).nextFloat < 0.6 * dt)
                     drag();
 
                 switch(attitude)
@@ -1133,7 +1133,7 @@ class Player
                             vangle = vangle + (*_random).nextFloat2 * TURNSPEED * 0.012;
                             if ((*_random).nextFloat < 0.1f * dt) turbo = !turbo;
                             progress(velocity() * 0.5,0, dt);
-                            if ((*_random).nextFloat < 0.6 * dt) 
+                            if ((*_random).nextFloat < 0.6 * dt)
                                 drag();
                         }
                         break;
@@ -1155,7 +1155,7 @@ class Player
         if ((turbo) && (r > 0))
         {
             if (!buyWithEnergy(TURBO_COST * dt * 60.0f))
-            {                
+            {
                 turbo = false;
             }
             else
@@ -1190,7 +1190,7 @@ class Player
         if (!isAlive()) return;
         float dmin = sqr(DRAG_DISTANCE);
         Powerup nearest = null;
-        Player nearestPlayer = null;        
+        Player nearestPlayer = null;
 
         int count = 0;
 
@@ -1215,7 +1215,7 @@ class Player
 
         // big ships, with life, with invincibility, want to drag you more
         float probOfCatching = 0.0025f * shipSize * life * (isInvincible() ? 3 : 1);
-        
+
         void catchOtherPlayer(Player other)
         {
             if (other is null)
@@ -1243,7 +1243,7 @@ class Player
         if (isHuman || ((*_random).nextFloat() < probOfCatching)) // AI rarely catch you
         {
             catchOtherPlayer(player);
-            for (int i = 0; i < ia.length; ++i) 
+            for (int i = 0; i < ia.length; ++i)
                 catchOtherPlayer(ia[i]);
         }
 
@@ -1253,13 +1253,13 @@ class Player
             _catchedPlayer._catchedPlayer = this;
             _catchedPlayerDistance = _catchedPlayer.currentPosition.distanceTo(currentPosition);
             _catchedPlayer._catchedPlayerDistance = _catchedPlayerDistance;
-            assert(isFinite(_catchedPlayerDistance));    
-            game.soundManager.playSound(_catchedPlayer.currentPosition, 0.7f + (*_random).nextFloat * 0.3f, 
+            assert(isFinite(_catchedPlayerDistance));
+            game.soundManager.playSound(_catchedPlayer.currentPosition, 0.7f + (*_random).nextFloat * 0.3f,
                                         SOUND.CATCH_POWERUP);
         }
         else if ((nearest !is null) && (_numDraggedPowerups < MAX_DRAGGED_POWERUPS))
         {
-            nearest.setDragger(this);          
+            nearest.setDragger(this);
         }
         else // nearest is null
         {
@@ -1312,7 +1312,7 @@ class Player
                         p2.mov *= 2.0f;
                         p1.invincibility = 0.0f;
                         p2.invincibility = 0.0f;
-                    }                    
+                    }
                 }
                 else
                 {

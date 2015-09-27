@@ -173,7 +173,7 @@ final class Game
             setZoomfactor(_zoomFactor + x);
         }
 
-        void keyTyped(dchar ch)
+        void charTyped(dchar ch)
         {
             if (ch == 'p')
                 pause();
