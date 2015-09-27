@@ -1,42 +1,72 @@
 module sdl.keyboard;
 
-private import derelict.sdl.sdl;
+import derelict.sdl2.sdl;
 
-class SDLKeyboard
+
+/// Holds SDL keyboard state.
+/// Bugs: This class should disappear.
+final class SDLKeyboard
 {
-    private
-    {
-        bool[SDLK_LAST] key_pressed;
-
-        enum PRESSED = true,
-              RELEASED = false;
-    }
-
     public
     {
         this()
         {
-            key_pressed[] = RELEASED;
+            clearState();
         }
 
-        bool isPressed(SDLKey key)
+        /// Returns: true if a key is pressed.
+        bool isPressed(SDL_Keycode key)
         {
-            return (key_pressed[key] == PRESSED);
+            SDL_Scancode scan = SDL_GetScancodeFromKey(key);
+            return (_state[scan] == PRESSED);
         }
 
-        bool markAsPressed(SDLKey key)
+        /// Mark a key as unpressed.
+        /// Returns: true if a key was pressed.
+        bool markAsReleased(SDL_Keycode key)
         {
-            bool oldState = key_pressed[key];
-            key_pressed[key] = PRESSED;
+            SDL_Scancode scan = SDL_GetScancodeFromKey(key);
+            return markKeyAsReleased(scan);
+        }
+
+        /// Mark a key as unpressed.
+        /// Returns: true if a key was pressed.
+        bool markAsPressed(SDL_Keycode key)
+        {
+            SDL_Scancode scan = SDL_GetScancodeFromKey(key);
+            return markKeyAsPressed(scan);
+        }
+    }
+
+    package
+    {
+        void clearState()
+        {
+            _state[] = RELEASED;
+        }
+
+        // Mark key as pressed and return previous state.
+        bool markKeyAsPressed(SDL_Scancode scancode)
+        {
+            bool oldState = _state[scancode];
+            _state[scancode] = PRESSED;
             return oldState;
         }
 
-        bool markAsReleased(SDLKey key)
+        // Mark key as released and return previous state.
+        bool markKeyAsReleased(SDL_Scancode scancode)
         {
-            bool oldState = key_pressed[key];
-            key_pressed[key] = RELEASED;
+            bool oldState = _state[scancode];
+            _state[scancode] = RELEASED;
             return oldState;
         }
     }
 
+    private
+    {
+        bool[SDL_NUM_SCANCODES] _state;
+
+        static const PRESSED = true,
+                     RELEASED = false;
+    }
 }

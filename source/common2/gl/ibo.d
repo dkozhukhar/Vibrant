@@ -1,9 +1,9 @@
 module gl.ibo;
-
+/*
 import gl.buffer;
 import derelict.opengl.gl;
 import derelict.opengl.gl20;
-/*
+
 
 final class IBO : GLBuffer
 {

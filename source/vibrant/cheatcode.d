@@ -56,8 +56,10 @@ final class CheatcodeManager
             m_game = game;
         }
 
-        void keyTyped(wchar c)
+        void keyTyped(dchar c)
         {
+            if (c > 255)
+                return;
             char ch = cast(char)c;
             m_current ~= ch;
             bool stillPossible = false;

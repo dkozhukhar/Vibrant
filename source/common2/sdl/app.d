@@ -1,7 +1,7 @@
 module sdl.app;
 
 import gfm.math;
-import derelict.sdl.sdl;
+import derelict.sdl2.sdl;
 import sdl.state, std.stdio, std.string, std.conv;
 import misc.framecounter;
 import gl.state;
@@ -21,8 +21,8 @@ class SDLApp
 
         SDL m_sdl;
         GLState m_GLState;
-
-        SDL_Surface* m_screen;
+        //SDL_Surface* m_screen;
+        SDL_Window* _window;
         FrameCounter m_frameCounter;
 
         int m_mousex, m_mousey, m_ancmousex, m_ancmousey;
@@ -56,23 +56,24 @@ class SDLApp
             m_fullscreen = fullscreen;
             m_resizable = resizable & (! fullscreen);
 
+            SDL_DisplayMode videoInfo;
+            int should_be_zero = SDL_GetCurrentDisplayMode(0, &videoInfo);
 
-            SDL_VideoInfo* videoInfo = SDL_GetVideoInfo();
+            m_width = (width == AUTO_DETECT) ? videoInfo.w : width;
+            m_height = (height == AUTO_DETECT) ? videoInfo.h : height;
 
-            m_width = (width == AUTO_DETECT) ? videoInfo.current_w : width;
-            m_height = (height == AUTO_DETECT) ? videoInfo.current_h : height;
+            uint flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE
+                       | SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_MOUSE_FOCUS;
+            if (resizable) flags |= SDL_WINDOW_RESIZABLE;
+            if (fullscreen) flags |= SDL_WINDOW_FULLSCREEN;
 
-            uint flags = SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_OPENGL;
-            if (resizable) flags |= SDL_RESIZABLE;
-            if (fullscreen) flags |= SDL_FULLSCREEN;
-
-            if (iconFile !is null)
+     /*       if (iconFile !is null)
             {
                 SDL_Surface* icon = SDL_LoadBMP(toStringz(iconFile));
                 uint colorkey = SDL_MapRGB(icon.format, 255, 0, 255); // magenta is transparent
                 SDL_SetColorKey(icon, SDL_SRCCOLORKEY, colorkey);
                 SDL_WM_SetIcon(icon, null);
-            }
+            }*/
 
             SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
             SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -81,32 +82,16 @@ class SDLApp
             SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
             SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
-            // Create the screen surface (ie window)
-            m_screen = SDL_SetVideoMode(m_width,
-                                        m_height,
-                                        SDL_GetVideoInfo().vfmt.BitsPerPixel,
-                                        flags);
-
-            if (m_screen is null) // failed, fallback to initial screen resolution
-            {
-                m_width = videoInfo.current_w;
-                m_height = videoInfo.current_h;
-
-                m_screen = SDL_SetVideoMode(m_width, m_height, SDL_GetVideoInfo().vfmt.BitsPerPixel, flags);
-
-                if (m_screen is null) // mega fail, cannot change screen
-                {
-                    string err = fromStringz(SDL_GetError()).idup;
-                    string msg = format("Unable to create screen surface : %s", err);
-                    throw new SDLException(msg);
-                }
-            }
-
-            SDL_EnableUNICODE(1);
+            _window = SDL_CreateWindow(toStringz(initTitle),
+                SDL_WINDOWPOS_CENTERED,
+                SDL_WINDOWPOS_CENTERED,
+                m_width,
+                m_height,
+                flags);
 
             title = initTitle;
 
-            m_GLState = GL = new GLState(requiredGLVersion);
+            m_GLState = GL = new GLState();
 
             if (wantedFrameRate > 0)
             {
@@ -135,7 +120,7 @@ class SDLApp
 
         final string title(string s)
         {
-            SDL_WM_SetCaption(toStringz(s), null);
+            SDL_SetWindowTitle(_window, toStringz(s));
             return s;
         }
 
@@ -146,7 +131,7 @@ class SDLApp
 
         final void swapBuffers()
         {
-            SDL_GL_SwapBuffers();
+            SDL_GL_SwapWindow(_window);
         }
 
         final void processEvents()
@@ -160,9 +145,9 @@ class SDLApp
 
                     case SDL_KEYUP:
                     {
-                        SDLKey key = event.key.keysym.sym;
-                        SDLMod mod = event.key.keysym.mod;
-                        wchar ch = event.key.keysym.unicode;
+                        SDL_Keycode key = event.key.keysym.sym;
+                        SDL_Keymod mod = event.key.keysym.mod;
+                        dchar ch = event.key.keysym.unicode;
                         SDL.instance.keyboard.markAsReleased( key );
                         onKeyUp( key, mod, ch );
                         break;
@@ -170,9 +155,9 @@ class SDLApp
 
                     case SDL_KEYDOWN:
                     {
-                        SDLKey key = event.key.keysym.sym;
-                        SDLMod mod = event.key.keysym.mod;
-                        wchar ch = event.key.keysym.unicode;
+                        SDL_Keycode key = event.key.keysym.sym;
+                        SDL_Keymod mod = event.key.keysym.mod;
+                        dchar ch = event.key.keysym.unicode;
                         SDL.instance.keyboard.markAsPressed( key );
                         onKeyDown( key, mod, ch );
                         break;
@@ -218,10 +203,19 @@ class SDLApp
                         terminate();
                         break;
 
-                    case SDL_VIDEORESIZE:
-                        m_width = event.resize.w;
-                        m_height = event.resize.h;
-                        onReshape(event.resize.w,event.resize.h);
+                    case SDL_WINDOWEVENT:
+
+                        switch(event.window.event)
+                        {
+                        case SDL_WINDOWEVENT_RESIZED:
+                        case SDL_WINDOWEVENT_SIZE_CHANGED:
+                            m_width = event.window.data1;
+                            m_height = event.window.data2;
+                            onReshape(m_width,m_height);
+                            break;
+                        default:
+                            break;
+                        }
                         break;
 
                     default:
@@ -234,8 +228,8 @@ class SDLApp
 
         abstract void onRender(double elapsedTime);
         abstract void onMove(double elapsedTime, double dt);
-        abstract void onKeyUp(int key, int mod, wchar ch);
-        abstract void onKeyDown(int key, int mod, wchar ch);
+        abstract void onKeyUp(int key, int mod, dchar ch);
+        abstract void onKeyDown(int key, int mod, dchar ch);
 
         abstract void onMouseMove(int x, int y, int dx, int dy);
         abstract void onMouseDown(int button);

@@ -1,7 +1,6 @@
 module gl.shaders;
 
-import derelict.opengl.gl;
-import derelict.opengl.gl20;
+import derelict.opengl3.gl3;
 import misc.textfile;
 
 import gl.texture, gl.textureunit;
@@ -147,7 +146,7 @@ final class Shader
         this(int handle) // to create the default shader
         {
             this.handle = handle;
-            m_state = GL;            
+            m_state = GL;
         }
 
         final string getInfoLog()

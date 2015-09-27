@@ -4,3 +4,5 @@ vibrant
 vibrant.sublime-project
 .DS_Store
 *.a
+Vibrant.app/Contents/Frameworks/
+Vibrant.app/Contents/MacOS/

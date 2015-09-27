@@ -4,7 +4,10 @@ import core.stdc.stdlib;
 
 import gl.texture;
 import gl.state;
-import derelict.opengl.gl;
+import derelict.opengl3.gl3;
+import derelict.opengl3.deprecatedConstants;
+import derelict.opengl3.deprecatedFunctions;
+
 import gfm.math;
 
 final class Texture2D : Texture

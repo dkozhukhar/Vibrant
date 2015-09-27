@@ -1,5 +1,5 @@
 module gl.vbo;
-
+/+
 import gl.buffer;
 import gl.state;
 import derelict.opengl.gl;
@@ -259,3 +259,4 @@ final class VBO(T)
     }
 }
 
++/

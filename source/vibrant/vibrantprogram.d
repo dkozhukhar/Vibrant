@@ -11,7 +11,7 @@ import utils;
 import game;
 import mousex;
 import joy;
-import derelict.opengl.gl, derelict.opengl.glu, derelict.opengl.gl20, derelict.util.exception;
+import derelict.util.exception;
 
 class VibrantProgram : SDLApp
 {
@@ -48,10 +48,10 @@ class VibrantProgram : SDLApp
             try
             {
                 // try to load OpenGL 2.0
-                DerelictGL.loadVersions(GLVersion.Version20);
+                DerelictGL3.load();
                 doPostProcessing = true;
             }
-            catch(SharedLibProcLoadException e)
+            catch(DerelictException e)
             {
                 // fallback to ugly mode
                 doPostProcessing = false;
@@ -85,7 +85,7 @@ class VibrantProgram : SDLApp
             GL.check();
             GL.disable(GL.DEPTH_TEST);
             GL.disable(GL.BLEND, GL.FOG, GL.LIGHTING, GL.NORMALIZE, GL.STENCIL_TEST, GL.CULL_FACE);
-            GL.disable(GL.AUTO_NORMAL, GL.DITHER, GL.FOG, GL.LIGHTING, GL.NORMALIZE);        
+            GL.disable(GL.AUTO_NORMAL, GL.DITHER, GL.FOG, GL.LIGHTING, GL.NORMALIZE);
             GL.disable(GL.POLYGON_SMOOTH, GL.LINE_SMOOTH, GL.POINT_SMOOTH);
             GL.clearColor = vec4f(0, 0, 0, 1);
             GL.alphaFunc(GL.GREATER, 0.001f);
@@ -104,9 +104,9 @@ class VibrantProgram : SDLApp
         override void onRender(double elapsedTime)
         {
             if (m_doRender)
-            {                
+            {
                 GL.clear(true, true, true);
-  
+
                 m_game.draw();
             }
         }
@@ -132,14 +132,14 @@ class VibrantProgram : SDLApp
             {
                 if (iskeydown(SDLK_PAGEDOWN))
                     m_game.addZoomFactor(1.2f * dt);
-               
+
                 if (iskeydown(SDLK_PAGEUP))
                     m_game.addZoomFactor(- 1.2f * dt);
             }
             m_game.progress(_mouse, dt);
         }
 
-        override void onKeyUp(int key, int mod, wchar ch)
+        override void onKeyUp(int key, int mod, dchar ch)
         {
             if (key == SDLK_ESCAPE) terminate();
 
@@ -153,7 +153,7 @@ class VibrantProgram : SDLApp
         {
         }
 
-        override void onKeyDown(int key, int mod, wchar ch)
+        override void onKeyDown(int key, int mod, dchar ch)
         {
 
             debug
@@ -185,11 +185,11 @@ class VibrantProgram : SDLApp
             if (button == SDL_BUTTON_RIGHT)
                 _mouse.buttons |= MOUSE_RIGHT;
 
-            if (button == SDL_BUTTON_WHEELUP)
+            /*if (button == SDL_BUTTON_WHEELUP)
                 _mouse.buttons |= MOUSE_CENTER;    // hack to catch powerups with mousewheel
 
             if (button == SDL_BUTTON_WHEELDOWN)
-                _mouse.buttons |= MOUSE_CENTER;    // hack to catch powerups with mousewheel
+                _mouse.buttons |= MOUSE_CENTER;    // hack to catch powerups with mousewheel*/
         }
 
         override void onMouseUp(int button)
@@ -219,9 +219,9 @@ class VibrantProgram : SDLApp
 
                 double time = m_frameCounter.elapsedTime;
 
-                double dt = m_frameCounter.deltaTime;                
+                double dt = m_frameCounter.deltaTime;
                 processEvents();
-                onMove(time, dt);                
+                onMove(time, dt);
 
                 if (!firstFrame) swapBuffers();
 

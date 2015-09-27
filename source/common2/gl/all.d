@@ -2,10 +2,11 @@ module gl.all;
 
 public
 {
-    /*import derelict.opengl.gl;
-    import derelict.opengl.glu;
-    import derelict.opengl.glext;
-    */
+    import derelict.opengl3.gl3;
+    import derelict.opengl3.deprecatedConstants;
+    import derelict.opengl3.deprecatedFunctions;
+
+
     import gl.error;
     import gl.state;
     import gl.buffer;

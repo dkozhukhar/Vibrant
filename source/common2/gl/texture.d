@@ -1,12 +1,10 @@
 module gl.texture;
 
 import std.string;
-import derelict.opengl.gl;
-import derelict.opengl.gl20;
-import derelict.opengl.extension.arb.texture_float;
-import derelict.opengl.extension.ext.framebuffer_object;
-import derelict.opengl.extension.arb.half_float_pixel;
-import derelict.opengl.extension.arb.depth_texture;
+
+import derelict.opengl3.gl3;
+import derelict.opengl3.deprecatedConstants;
+import derelict.opengl3.deprecatedFunctions;
 
 
 
@@ -17,6 +15,22 @@ import gl.textureunit;
 import gl.state;
 
 import gfm.math;
+
+enum
+{
+    GL_RGBA32F                     = 0x8814,
+    GL_RGB32F                      = 0x8815,
+    GL_ALPHA32F                    = 0x8816,
+    GL_INTENSITY32F                = 0x8817,
+    GL_LUMINANCE32F                = 0x8818,
+    GL_LUMINANCE_ALPHA32F          = 0x8819,
+    GL_RGBA16F                     = 0x881A,
+    GL_RGB16F                      = 0x881B,
+    GL_ALPHA16F                    = 0x881C,
+    GL_INTENSITY16F                = 0x881D,
+    GL_LUMINANCE16F                = 0x881E,
+    GL_LUMINANCE_ALPHA16F          = 0x881F,
+}
 
 
 // support DXT1 and DXT5 but not all combinations
@@ -101,7 +115,7 @@ class Texture
     }
 
     private
-    {        
+    {
 
         GLint translateIformat_toGL(IFormat fmt, bool compressed, bool sRGB)
         {
@@ -109,40 +123,40 @@ class Texture
 
             if (sRGB)
                 assert(false);
-            
+
             if (compressed)
             {
-                assert(false);                
+                assert(false);
             }
             else
             {
                 switch(fmt)
                 {
                     case IFormat.I8: format = GL_INTENSITY; break;
-                    case IFormat.I16F: format = GL_INTENSITY16F_ARB; break;
-                    case IFormat.I32F: format = GL_INTENSITY32F_ARB; break;
+                    case IFormat.I16F: format = GL_INTENSITY16F; break;
+                    case IFormat.I32F: format = GL_INTENSITY32F; break;
                     case IFormat.A8: format = GL_ALPHA; break;
-                    case IFormat.A16F: format = GL_ALPHA16F_ARB; break;
-                    case IFormat.A32F: format = GL_ALPHA32F_ARB; break;
+                    case IFormat.A16F: format = GL_ALPHA16F; break;
+                    case IFormat.A32F: format = GL_ALPHA32F; break;
                     case IFormat.L8: format = GL_LUMINANCE; break;
-                    case IFormat.L16F: format = GL_LUMINANCE16F_ARB; break;
-                    case IFormat.L32F: format = GL_LUMINANCE32F_ARB; break;
+                    case IFormat.L16F: format = GL_LUMINANCE16F; break;
+                    case IFormat.L32F: format = GL_LUMINANCE32F; break;
                     case IFormat.LA8: format = GL_LUMINANCE_ALPHA; break;
-                    case IFormat.LA16F: format = GL_LUMINANCE_ALPHA16F_ARB; break;
-                    case IFormat.LA32F: format = GL_LUMINANCE_ALPHA32F_ARB; break;
+                    case IFormat.LA16F: format = GL_LUMINANCE_ALPHA16F; break;
+                    case IFormat.LA32F: format = GL_LUMINANCE_ALPHA32F; break;
                     case IFormat.RGB8: format = GL_RGB; break;
-                    case IFormat.RGB16F: format = GL_RGB16F_ARB; break;
-                    case IFormat.RGB32F: format = GL_RGB32F_ARB; break;
+                    case IFormat.RGB16F: format = GL_RGB16F; break;
+                    case IFormat.RGB32F: format = GL_RGB32F; break;
                     case IFormat.RGBA8: format = GL_RGBA; break;
-                    case IFormat.RGBA16F: format = GL_RGBA16F_ARB; break;
-                    case IFormat.RGBA32F: format = GL_RGBA32F_ARB; break;
+                    case IFormat.RGBA16F: format = GL_RGBA16F; break;
+                    case IFormat.RGBA32F: format = GL_RGBA32F; break;
                     case IFormat.DEPTH: format = GL_DEPTH_COMPONENT; break;
-                    case IFormat.DEPTH16: format = GL_DEPTH_COMPONENT16_ARB; break;
-                    case IFormat.DEPTH24: format = GL_DEPTH_COMPONENT24_ARB; break;
-                    case IFormat.DEPTH32: format = GL_DEPTH_COMPONENT32_ARB; break;
+                    case IFormat.DEPTH16: format = GL_DEPTH_COMPONENT16; break;
+                    case IFormat.DEPTH24: format = GL_DEPTH_COMPONENT24; break;
+                    case IFormat.DEPTH32: format = GL_DEPTH_COMPONENT32; break;
                     default: assert(false);
                 }
-            }          
+            }
 
             return format;
         }
@@ -173,7 +187,7 @@ class Texture
             GL_UNSIGNED_INT,
             GL_INT,
             GL_FLOAT,
-            GL_HALF_FLOAT_ARB
+            GL_HALF_FLOAT
         ];
 
         static const GLint[Wrap.max + 1] Wrap_toGL =

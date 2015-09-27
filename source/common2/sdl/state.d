@@ -1,7 +1,7 @@
 module sdl.state;
 
 
-import derelict.sdl.sdl;
+import derelict.sdl2.sdl;
 import misc.singleton;
 import sdl.joystick, sdl.keyboard;
 
@@ -33,7 +33,7 @@ class SDL
 
         this()
         {
-            DerelictSDL.load();
+            DerelictSDL2.load();
 
             if (0 != SDL_Init(0)) throw new SDLException("Unable to initialize SDL");
 
@@ -50,7 +50,7 @@ class SDL
 
             m_kb = new SDLKeyboard();
 
-            SDL_EventState ( cast(ubyte) SDL_ALLEVENTS, SDL_ENABLE);
+//            SDL_EventState ( cast(ubyte) SDL_ALLEVENTS, SDL_ENABLE);
         }
 
         ~this()

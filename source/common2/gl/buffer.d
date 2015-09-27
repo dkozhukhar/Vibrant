@@ -1,8 +1,7 @@
 module gl.buffer;
 
-import derelict.opengl.gl;
-//import derelict.opengl.gl20;
-import derelict.opengl.extension.arb.vertex_buffer_object;
+import derelict.opengl3.gl3;
+
 import gl.state;
 
 class GLBuffer
@@ -39,14 +38,14 @@ class GLBuffer
 
             m_target = target;
 
-            glGenBuffersARB(1, &m_handle);
+            glGenBuffers(1, &m_handle);
 
-            GL.check;            
+            GL.check;
         }
 
         ~this()
         {
-            glDeleteBuffersARB(1, &m_handle);
+            glDeleteBuffers(1, &m_handle);
             GL.check;
         }
 
@@ -59,13 +58,13 @@ class GLBuffer
             // discard previous data
             if (!m_firstLoad)
             {
-                glBufferDataARB(target, size, null, usage);
-                glBufferSubDataARB(target, 0, size, data);
+                glBufferData(target, size, null, usage);
+                glBufferSubData(target, 0, size, data);
             //    glBufferData(target, size, data, usage);
             }
             else
             {
-                glBufferDataARB(target, size, data, usage);
+                glBufferData(target, size, data, usage);
             }
             GL.check;
 
@@ -76,7 +75,7 @@ class GLBuffer
         {
             bind();
             GLenum target = getGLConstantForTarget(m_target);
-            glBufferSubDataARB(target, offset, size, data);
+            glBufferSubData(target, offset, size, data);
             GL.check;
         }
 
@@ -84,7 +83,7 @@ class GLBuffer
         {
             //if (this !is binded)
             {
-                glBindBufferARB(getGLConstantForTarget(m_target), m_handle);
+                glBindBuffer(getGLConstantForTarget(m_target), m_handle);
                 GL.check;
         //        binded = this;
             }
@@ -94,7 +93,7 @@ class GLBuffer
         {
         //    if (this is binded)
             {
-                glBindBufferARB(getGLConstantForTarget(m_target), 0);
+                glBindBuffer(getGLConstantForTarget(m_target), 0);
         //        binded = null;
             }
         }

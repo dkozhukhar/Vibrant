@@ -1,13 +1,8 @@
 module misc.framecounter;
 
-import derelict.sdl.sdl;
-/*
-version(Windows)
-{
-    import win32.windows;
-}
 
-*/
+import derelict.sdl2.sdl;
+
 class FrameCounter
 {
     protected

@@ -1,9 +1,9 @@
 module gl.fbo;
 
+import derelict.opengl3.gl3;
+import derelict.opengl3.deprecatedConstants;
+import derelict.opengl3.deprecatedFunctions;
 
-import derelict.opengl.gl;
-import derelict.opengl.gl20;
-import derelict.opengl.extension.ext.framebuffer_object;
 
 import gl.error;
 import gl.renderbuffer;
@@ -196,8 +196,6 @@ final class FBO
         this(bool main)
         {
             m_state = GL;
-
-            assert(EXTFramebufferObject.isEnabled(), "require EXT_Framebuffer_Object extension");
 
             m_main = main;
             if (main)

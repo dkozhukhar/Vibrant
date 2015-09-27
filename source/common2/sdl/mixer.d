@@ -3,7 +3,7 @@ module sdl.mixer;
 //import math.all;
 import std.string;
 
-import derelict.sdl.sdl, derelict.sdl.mixer;
+import derelict.sdl2.sdl, derelict.sdl2.mixer;
 
 import misc.singleton;
 import sdl.state;
@@ -27,7 +27,7 @@ final class SDLMixer
 
 		this(int numChannels = 16)
 		{
-			DerelictSDLMixer.load();
+			DerelictSDL2Mixer.load();
 			m_SDL = SDL.instance;
 			m_SDL.subSystemInit(SDL_INIT_AUDIO);
 
@@ -93,7 +93,7 @@ final class Chunk
 		this(SDLMixer mixer, string filename)
 		{
 			m_SDLMixer = mixer;
-			m_handle = Mix_LoadWAV(filename);
+			m_handle = Mix_LoadWAV(toStringz(filename));
 			if (m_handle is null) throw new SDLException(format("Unable to load the %s", filename));
 		}
 	}
@@ -167,16 +167,16 @@ final class Music
 		this(string filename)
 		{
 			m_handle = Mix_LoadMUS(toStringz(filename));
-			if (m_handle is null) 
+			if (m_handle is null)
             {
                 string msg = format("Unable to load the music %s", filename);
-                throw new SDLException(msg);			
+                throw new SDLException(msg);
             }
 		}
 
 		~this()
 		{
-			if (m_handle !is null) 
+			if (m_handle !is null)
 			{
 				Mix_FreeMusic(m_handle);
 			}

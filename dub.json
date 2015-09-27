@@ -8,14 +8,13 @@
 
     "sourceFiles-windows": ["vibrant.res", "vibrant.def"],
 
-	"buildRequirements": 
+	"buildRequirements":
 	[
 		"disallowInlining"
 	],
 
 	"dependencies": {
-        "vibrant:derelict": "*",
-        "vibrant:common2": "*"	
+        "vibrant:common2": "*"
     },
 
     "libs-posix":["dl"],
@@ -23,13 +22,7 @@
     "commented-dflags-windows": ["-L/SUBSYSTEM:windows,5.01"],
 
     "subPackages": [
-        {
-            "name": "derelict",
-            "sourcePaths": [ "source/derelict" ],
-            "importPaths": [ "source/derelict" ],
-            "targetType": "library",
-            "libs-windows": ["gdi32", "user32"]
-        },
+
         {
             "name": "common2",
             "sourcePaths": [ "source/common2" ],
@@ -37,7 +30,8 @@
             "targetType": "library",
 
             "dependencies": {
-                "vibrant:derelict": "*",
+                "derelict-gl3": "~>1.0",
+                "derelict-sdl2": "~>1.0",
                 "gfm:core": "~>2.0",
 				"gfm:math": "~>2.0",
                 "gfm:image": "~>2.0"

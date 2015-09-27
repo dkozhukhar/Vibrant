@@ -2,12 +2,11 @@ module gl.state;
 
 import std.stdio, std.string, std.c.stdio;
 
-import derelict.opengl.gl, derelict.opengl.glu, derelict.opengl.glext;
+import derelict.opengl3.gl3;
+import derelict.opengl3.deprecatedConstants;
+import derelict.opengl3.deprecatedFunctions;
 
-import derelict.opengl.extension.arb.color_buffer_float;
-import derelict.opengl.extension.arb.vertex_buffer_object;
-import derelict.opengl.extension.arb.half_float_pixel;
-import derelict.opengl.extension.ext.blend_minmax;
+
 import derelict.util.exception;
 
 import gfm.math;
@@ -89,7 +88,7 @@ final class GLState
         static const POINT_SMOOTH_HINT = GL_POINT_SMOOTH_HINT;
         static const LINE_SMOOTH_HINT = GL_LINE_SMOOTH_HINT;
         static const POLYGON_SMOOTH_HINT = GL_POLYGON_SMOOTH_HINT;
-    
+
         static const TEXTURE_1D = GL_TEXTURE_1D;
         static const TEXTURE_2D = GL_TEXTURE_2D;
         static const TEXTURE_3D = GL_TEXTURE_3D;
@@ -102,10 +101,10 @@ final class GLState
         static const MODELVIEW_MATRIX = GL_MODELVIEW_MATRIX;
         static const PROJECTION_MATRIX = GL_PROJECTION_MATRIX;
 
-        static const ARRAY_BUFFER = GL_ARRAY_BUFFER_ARB;
-        static const ELEMENT_ARRAY_BUFFER = GL_ELEMENT_ARRAY_BUFFER_ARB;
-        static const PIXEL_PACK_BUFFER = GL_PIXEL_PACK_BUFFER_ARB;
-        static const PIXEL_UNPACK_BUFFER = GL_PIXEL_UNPACK_BUFFER_ARB;
+        static const ARRAY_BUFFER = GL_ARRAY_BUFFER;
+        static const ELEMENT_ARRAY_BUFFER = GL_ELEMENT_ARRAY_BUFFER;
+        static const PIXEL_PACK_BUFFER = GL_PIXEL_PACK_BUFFER;
+        static const PIXEL_UNPACK_BUFFER = GL_PIXEL_UNPACK_BUFFER;
 
 
         static const BYTE           = GL_BYTE;
@@ -114,7 +113,7 @@ final class GLState
         static const UNSIGNED_SHORT = GL_UNSIGNED_SHORT;
         static const INT            = GL_INT;
         static const UNSIGNED_INT   = GL_UNSIGNED_INT;
-        static const HALF           = GL_HALF_FLOAT_ARB;
+        static const HALF           = GL_HALF_FLOAT;
         static const FLOAT          = GL_FLOAT;
         static const DOUBLE         = GL_DOUBLE;
 
@@ -175,11 +174,11 @@ final class GLState
 
         static const GLint[BlendMode.max + 1] blendMode_toGL =
         [
-            GL_FUNC_ADD,
-            GL_FUNC_SUBTRACT,
-            GL_FUNC_REVERSE_SUBTRACT,
-            GL_MIN,
-            GL_MAX,
+            derelict.opengl3.constants.GL_FUNC_ADD,
+            derelict.opengl3.constants.GL_FUNC_SUBTRACT,
+            derelict.opengl3.constants.GL_FUNC_REVERSE_SUBTRACT,
+            derelict.opengl3.constants.GL_MIN,
+            derelict.opengl3.constants.GL_MAX,
         ];
 
         static const GLint[BlendFactor.max + 1] blendFactor_toGL =
@@ -196,7 +195,7 @@ final class GLState
             GL_ONE_MINUS_DST_ALPHA,
             GL_SRC_ALPHA_SATURATE
         ];
-
+/*
         GLVersion version_toDerelict(OpenGLVersion ver)
         {
             switch(ver)
@@ -210,7 +209,7 @@ final class GLState
                 case OpenGLVersion.Version21: return GLVersion.Version21;
                 default: assert(false, "oups");
             }
-        }
+        }*/
 
         private bool glBool(bool b)
         {
@@ -223,31 +222,29 @@ final class GLState
 
     public
     {
-        this(OpenGLVersion ver)
+        this()
         {
-            GLVersion requiredGLVersion = version_toDerelict(ver);
-
             try
             {
-                DerelictGL.load();
-                DerelictGLU.load();
+                DerelictGL3.load();
+          //      DerelictGLU.load();
             }
             catch(DerelictException e)
             {
                 throw new OpenGLException("Cannot load OpenGL");
             }
 
-            try
+       /*     try
             {
-                DerelictGL.loadVersions(requiredGLVersion);
+                DerelictGL3.loadVersions(requiredGLVersion);
             }
             catch(DerelictException e)
             {
                 throw new OpenGLException("Cannot load the right version of OpenGL. Upgrade!");
-            }
+            }*/
 
 
-            int extLoaded = DerelictGL.loadExtensions();
+            //int extLoaded = DerelictGL3.loadExtensions();
 
             m_textureUnits = new TextureUnits();
         }
@@ -256,9 +253,8 @@ final class GLState
         {
             m_textureUnits.unbindAll();
 
-            DerelictGL.load();
+            //DerelictGL3.load();
             GL.check();
-            DerelictGLU.unload();
         }
 
         TextureUnits textureUnits()
@@ -267,7 +263,7 @@ final class GLState
         }
 
         void enable(GLint feature0)
-        {   
+        {
             glEnable(feature0);
             GL.check;
         }
@@ -388,12 +384,12 @@ final class GLState
                 glMultTransposeMatrixd(m.ptr);
             }
         }
-
+/*
         void lookAt(vec3f eye, vec3f target, vec3f up)
         {
             gluLookAt(eye.x, eye.y, eye.z, target.x, target.y, target.z, up.x, up.y, up.z);
         }
-
+*/
         // get projection matrix in double format
         mat4d projectionMatrix()
         {
@@ -448,11 +444,11 @@ final class GLState
 
         string errorString(GLint r)
         {
-            if (gluErrorString !is null)
+/*            if (gluErrorString !is null)
             {
                 char* errStringZ = cast(char*) gluErrorString(r);
                 return fromStringz(errStringZ).idup;
-            } else
+            } else*/
             {
                 switch(r)
                 {
@@ -658,11 +654,11 @@ final class GLState
 
         void clampColors(bool clampVertexColor, bool clampFragmentColor, bool clampReadColor)
         {
-            if (glClampColorARB !is null)
+            if (glClampColor !is null)
             {
-                glClampColorARB(GL_CLAMP_VERTEX_COLOR_ARB, glBool(clampVertexColor));
-                glClampColorARB(GL_CLAMP_FRAGMENT_COLOR_ARB, glBool(clampFragmentColor));
-                glClampColorARB(GL_CLAMP_READ_COLOR_ARB, glBool(clampReadColor));
+                glClampColor(GL_CLAMP_VERTEX_COLOR, glBool(clampVertexColor));
+                glClampColor(GL_CLAMP_FRAGMENT_COLOR, glBool(clampFragmentColor));
+                glClampColor(GL_CLAMP_READ_COLOR, glBool(clampReadColor));
             }
             GL.check();
         }
@@ -727,22 +723,22 @@ final class GLState
         void translate(float x, float y, float z)
         {
             if (x != 0 || y != 0 || z != 0)
-                glTranslatef(x, y, z); 
+                glTranslatef(x, y, z);
         }
         void translate(vec3f v)
         {
             if (v.x != 0 || v.y != 0 || v.z != 0)
-                glTranslatef(v.x, v.y, v.z); 
+                glTranslatef(v.x, v.y, v.z);
         }
 
         void scale(float x, float y, float z)    {    glScalef(x, y, z); }
         void scale(vec3f v)                        {    glScalef(v.x, v.y, v.z);    }
 
-        void rotate(float angle, float x, float y, float z)  
-        {    
+        void rotate(float angle, float x, float y, float z)
+        {
             if (angle == 0)
                 return;
-            glRotatef(angle, x, y, z); 
+            glRotatef(angle, x, y, z);
         }
 
         void rotate(vec4f v)
@@ -794,11 +790,60 @@ final class GLState
             glPopMatrix();
         }
 
-        void project(double objX, double objY, double objZ, double* model, double* proj, int* view, double* winX, double* winY, double* winZ)
+        void project(double objX, double objY, double objZ,
+                     double* model, double* proj, int* view,
+                     double* winX, double* winY, double* winZ)
         {
-            gluProject(objX, objY, objZ, model, proj, view, winX, winY, winZ);
+            gluProjectImpl(objX, objY, objZ, model, proj, view, winX, winY, winZ);
         }
     }
 }
 
+private:
 
+// From http://jet.ro/creations
+
+int gluProjectImpl(double objx, double objy, double objz,
+           const(double)* modelMatrix,
+           const(double)* projMatrix,
+           const(GLint)* viewport,
+           double *winx, double *winy, double *winz)
+{
+    double[4] inp;
+    double[4] outp;
+
+    inp[0]=objx;
+    inp[1]=objy;
+    inp[2]=objz;
+    inp[3]=1.0;
+    gluMultMatrixVecd(modelMatrix, inp.ptr, outp.ptr);
+    gluMultMatrixVecd(projMatrix, outp.ptr, inp.ptr);
+    if (inp[3] == 0.0) return(0);
+    inp[0] /= inp[3];
+    inp[1] /= inp[3];
+    inp[2] /= inp[3];
+    /* Map x, y and z to range 0-1 */
+    inp[0] = inp[0] * 0.5 + 0.5;
+    inp[1] = inp[1] * 0.5 + 0.5;
+    inp[2] = inp[2] * 0.5 + 0.5;
+
+    /* Map x,y to viewport */
+    inp[0] = inp[0] * viewport[2] + viewport[0];
+    inp[1] = inp[1] * viewport[3] + viewport[1];
+
+    *winx=inp[0];
+    *winy=inp[1];
+    *winz=inp[2];
+    return(1);
+}
+
+void gluMultMatrixVecd(const(GLdouble)* matrix, const(double)* inp, double* outp)
+{
+    for (int i=0; i<4; i++) {
+        outp[i] =
+        inp[0] * matrix[0*4+i] +
+        inp[1] * matrix[1*4+i] +
+        inp[2] * matrix[2*4+i] +
+        inp[3] * matrix[3*4+i];
+    }
+}

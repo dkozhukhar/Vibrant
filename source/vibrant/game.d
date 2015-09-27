@@ -26,10 +26,6 @@ import camera;
 import map;
 import overlay;
 
-
-
-import derelict.opengl.extension.sgis.generate_mipmap;
-
 import sound, joy;
 
 final class Game
@@ -40,7 +36,7 @@ final class Game
         Texture2D m_fbTex;
 
         Overlay _overlay;
-        
+
         Image m_ui;
         box2i m_viewport;
         SoundManager m_soundManager;
@@ -130,12 +126,12 @@ final class Game
                 m_mainTexture.generateMipmaps();
 
                 GL.check;
-            }            
+            }
 
             if (m_usePostProcessing)
             {
                 m_mainFBO = new FBO();
-                m_mainFBO.color[0].setTarget(m_mainTexture, 0);                
+                m_mainFBO.color[0].setTarget(m_mainTexture, 0);
                 m_mainFBO.setWrite(FBO.Component.COLORS);
                 int[1] drawBuffer;
                 drawBuffer[0] = 0;
@@ -153,11 +149,11 @@ final class Game
             if (m_usePostProcessing)
             {
                 m_postProcessing = new PostProcessing(basePath, m_defaultFBO, m_mainTexture, viewport, m_fbTex);
-             
-                m_blit = new Shader(buildPath(basePath, "data/blit.vs"), 
+
+                m_blit = new Shader(buildPath(basePath, "data/blit.vs"),
                                     buildPath(basePath, "data/blit.fs"));
             }
-            
+
             m_viewport = viewport;
 
             // sound
@@ -177,7 +173,7 @@ final class Game
             setZoomfactor(_zoomFactor + x);
         }
 
-        void keyTyped(wchar ch)
+        void keyTyped(dchar ch)
         {
             if (ch == 'p')
                 pause();
@@ -238,7 +234,7 @@ final class Game
 
             if (_mainPlayerMustReborn)
             {
-                vec2f posBirth = _camera.position(); 
+                vec2f posBirth = _camera.position();
                 float playerBirthAngle = _camera.angle() + PI_2;
                 player = new Player(this, true, posBirth, playerBirthAngle); // #GC
                 m_soundManager.setMainPlayer(player);
@@ -281,14 +277,14 @@ final class Game
 
             m_particleManager.move(_map, dt);
 
-            m_bulletPool.move(_map, dt);            
+            m_bulletPool.move(_map, dt);
 
             for (int i = 0; i < powerupIndex; ++i)
             {
                 powerupPool[i].move(_map, dt);
             }
 
-            m_bulletPool.checkCollision(dt);            
+            m_bulletPool.checkCollision(dt);
             m_bulletPool.removeDead();
 
             for (int i = 0; i < powerupIndex; ++i)
@@ -364,26 +360,26 @@ final class Game
 
                 GL.viewport = box2i(0, 0, m_viewport.width, m_viewport.height);
 
-                GL.clear();                
+                GL.clear();
             }
             else
-            {        
+            {
                 GL.viewport = m_viewport;
-            }            
+            }
             if (_localTime < 5.0)
             {
                 setZoomfactor(0.85f + 0.35f * sin(-PI_2 + PI * _localTime / 5));
             }
 
             _overlay.clearBuffer();
-            
+
             if ((player !is null) && (player.dead) && (!_paused))
             {
                 _overlay.drawHelpScreen(TIPS[_tipIndex], _timeBeforeReborn == 0.0f);
             }
             else if (_paused)
             {
-                _overlay.drawPauseScreen();                
+                _overlay.drawPauseScreen();
             }
             else if (_localTime >= 5.0 && _localTime < 21.0)
             {
@@ -428,15 +424,15 @@ final class Game
             }
 
             _overlay.drawStatus();
-            
+
             drawMinimap(_camera, _map, m_bulletPool);
             showBars();
-            
+
             GL.enable(GL.ALPHA_TEST);
 
 
             m_fbTex.setSubImage(0, 0, 0, SCREENX, SCREENY, Texture.Format.RGBA, Texture.Type.UBYTE, _overlay._mb.ptr);
-            
+
             {
                 int texUnit = m_fbTex.use();
 
@@ -469,12 +465,12 @@ final class Game
     {
         void addBullet(vec2f pos, vec2f mov, vec3f color, float angle, int guided, Player owner)
         {
-            m_bulletPool.add(this, pos, mov, color, angle, guided, owner);            
+            m_bulletPool.add(this, pos, mov, color, angle, guided, owner);
         }
 
         void addPowerup(vec2f pos, vec2f mov, float angle, float v)
         {
-            if (powerupIndex >= MAX_POWERUPS) 
+            if (powerupIndex >= MAX_POWERUPS)
                 return;
             powerupPool[powerupIndex++] = new Powerup(this, pos, mov + polarOld(angle, 1.0f) * v); // #GC
         }
@@ -482,9 +478,9 @@ final class Game
         void initenemies()
         {
             level++;
-            if (level > 1) 
+            if (level > 1)
                 soundManager.playSound(_camera.position() + vec2f(0.001f), 1.0f, SOUND.PSCHIT);
-            
+
             int realLevel = std.algorithm.min(NUMBER_OF_IA, level);
 
             for (int i = 0; i < realLevel; ++i)

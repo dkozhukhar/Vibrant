@@ -5,7 +5,7 @@ import std.path;
 
 import gfm.math;
 import sdl.mixer;
-import derelict.sdl.mixer;
+import derelict.sdl2.mixer;
 import sdl.all;
 import utils;
 import camera;
@@ -43,7 +43,7 @@ final class SoundManager
             _musicActivated = true;
 
             m_music.play(true);
-            
+
             _paused = false;
 
             m_chunks.length = SOUND.max + 1;
@@ -85,7 +85,7 @@ final class SoundManager
         }
 
         void setMainPlayer(Player p)
-        {       
+        {
             synchronized(this)
             {
                  _mainPlayer = p;
@@ -96,7 +96,7 @@ final class SoundManager
         void close()
         {
             m_music.stop();
-            Mix_UnregisterAllEffects(MIX_CHANNEL_POST);          
+            Mix_UnregisterAllEffects(MIX_CHANNEL_POST);
         }
 
         void setPaused(bool paused)
@@ -104,7 +104,7 @@ final class SoundManager
             synchronized(this)
             {
                 _paused = paused;
-                if (paused) 
+                if (paused)
                 {
                     Mix_Pause(-1);
                     Mix_PauseMusic();
@@ -118,10 +118,10 @@ final class SoundManager
         }
 
         ~this()
-        {            
+        {
         }
 
-        
+
         void playSound(vec2f position, float baseVolume, SOUND sound)
         {
             if( m_SDLMixer !is null)
@@ -162,7 +162,7 @@ final class SoundManager
         double[SOUND.max + 1] _timeToWait;
         Chunk[] m_chunks;
         double[] m_bufL;
-        double[] m_bufR;    
+        double[] m_bufR;
         bool _paused;
         bool _musicActivated;
 
@@ -184,7 +184,7 @@ final class SoundManager
             "fail.wav",
         ];
 
-   
+
         double l0 = 0.0;
         double l1 = 0.0;
         double l2 = 0.0;
@@ -218,202 +218,208 @@ final class SoundManager
 
         bool firstCallback = true;
 
-        void processFX(int chan, void *stream, int len, void *udata)
+        void processFX(int chan, void *stream, int len, void *udata) nothrow
         {
-            synchronized(this)
+            try
             {
-                int N = len >> 2;
-
-                double * delayBufL = m_bufL.ptr;
-                double * delayBufR = m_bufR.ptr;
-
-                float mgoal = void;
-                float mFact = void;
-                if (BulletTime.isEnabled())
+                synchronized(this)
                 {
-                    float attF = 5e-5f;
-                    mgoal = 1.0f;
-                    mFact = attF;
-                }
-                else
-                {
-                    float relF = 1e-2f;
-                    mgoal = 0.0f;
-                    mFact = relF;
-                }
+                    int N = len >> 2;
 
-                bool playerAlive = (_mainPlayer !is null) && (!_mainPlayer.dead);
+                    double * delayBufL = m_bufL.ptr;
+                    double * delayBufR = m_bufR.ptr;
 
-                float subBassGoal = playerAlive ? ( _mainPlayer.mapEnergyGain * (1.0f + 0.3f * cos(t * 1.2f))) : 0.0f;
-                float invincibilityGoal = void;
-
-                if (playerAlive && (_mainPlayer.isInvincible))
-                {
-                    invincibilityGoal = 1.0f;
-                }
-                else
-                {
-                    invincibilityGoal = 0.0f;
-                }
-
-                float feedbackAmount = std.algorithm.min(bullettimeTime / 5.0f + 0.2f, 1.0f);
-
-
-                short* p = cast(short*) stream;
-
-                static double saturate(double x)
-                {
-                    if (x > 1.0) x = 1.0;
-                    if (x < -1.0) x = -1.0;
-                    return (1.5 - 0.5 * x * x) * x;
-                }
-
-                static const float INC_TIME = 1.0f / 44100.0f;
-                static const float MAX_PHASE = (2 * PI) * 32.0f;
-                static const float XTAU = 1e-3f;
-
-                for (int i = 0; i < N; ++i)
-                {
-                    m += (mgoal - m) * mFact;
-                    lastFeedBackAmount += (feedbackAmount - lastFeedBackAmount) * XTAU;
-                    lastSubAmount += (subBassGoal - lastSubAmount) * XTAU;
-                    lastInvincibilityAmount += (invincibilityGoal - lastInvincibilityAmount) * XTAU * 0.3f;
-
-                    t += INC_TIME;
-
-                    lfo1.next;
-                    lfo2.next;
-                    lfo3.next;
-                    lfo4.next;
-                    lfo5.next;
-                    lfo6.next;
-
-                    float mod6 = 0.9f + 0.1f * lfo6.s;
-                    float am = (m + lfo1.c * 0.05f) * mod6;
-                    float A = cos(am * (2 * PI) * 0.21f);
-                    float B = (1.0f - A);
-
-                    float fact = -1.0f * B / short.max;
-                    double feedL = saturate(l3 * fact) * short.max;
-                    double feedR = saturate(r3 * fact) * short.max;
-
-
-                    float subbass = 200 * lastSubAmount * saturate(lfo2.s + lfo4.s * 0.2f);
-
-                    float delayModL = (lfo3.c ) * lastInvincibilityAmount;
-                    float delayModR = (lfo3.s ) * lastInvincibilityAmount;
-
-                    float delaySamplesL = 90 + 5.0f * delayModL;
-                    float delaySamplesR = 80 + 5.0f * delayModR;
-
-
-                    int indexL = cast(int)(delaySamplesL);
-                    int indexR = cast(int)(delaySamplesR);
-                    float fractL = delaySamplesL - indexL;
-                    float fractR = delaySamplesR - indexR;
-
-                    double Lm1 = delayBufL[((delayIndex - indexL - 1 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
-                    double Lp0 = delayBufL[((delayIndex - indexL     + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
-                    double Lp1 = delayBufL[((delayIndex - indexL + 1 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
-                    double Lp2 = delayBufL[((delayIndex - indexL + 2 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
-                    double Rm1 = delayBufR[((delayIndex - indexR - 1 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
-                    double Rp0 = delayBufR[((delayIndex - indexR     + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
-                    double Rp1 = delayBufR[((delayIndex - indexR + 1 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
-                    double Rp2 = delayBufR[((delayIndex - indexR + 2 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
-
-                    double delayL = hermite!(double)(fractL, Lm1, Lp0, Lp1, Lp2);
-                    double delayR = hermite!(double)(fractR, Rm1, Rp0, Rp1, Rp2);
-                    dL  = dL * 0.7f + (delayL + delayBufR[delayIndex] * 0.15f) * 0.3f;
-                    dR  = dR * 0.7f + (delayR + delayBufL[delayIndex] * 0.14f) * 0.3f;
-                    dL2 = dL2 * 0.8f + dL * 0.2f;
-                    dR2 = dR2 * 0.8f + dR * 0.2f;
-
-                    float mod5 = (0.9f + 0.1f * lfo5.s);
-                    delayL = short.max * saturate(dL2 * lastInvincibilityAmount / short.max) * -0.496f * mod5;
-                    delayR = short.max * saturate(dR2 * lastInvincibilityAmount / short.max) * -0.496f * mod5;
-
-                    double inL = p[i * 2] + feedL * lastFeedBackAmount + subbass + delayL ;
-                    double inR = p[i * 2 + 1] + feedR * lastFeedBackAmount + subbass + delayR ;
-
-                    l0 = inL * A + l0 * B;
-                    l1 = l0  * A + l1 * B;
-                    l2 = l1  * A + l2 * B;
-                    l3 = l2  * A + l3 * B;
-
-                    r0 = inR * A + r0 * B;
-                    r1 = r0  * A + r1 * B;
-                    r2 = r1  * A + r2 * B;
-                    r3 = r2  * A + r3 * B;
-
-                    // sub-bass (energy from map borders)
-                    float correction = 1.0f + m * 0.9f;
-
-                    double inLimiterL = l3 * correction;
-                    double inLimiterR = r3 * correction;
-
-                    delayBufL[delayIndex] = inLimiterL * 0.85f;
-                    delayBufR[delayIndex] = inLimiterR * 0.85f;
-
-                    delayIndex = (delayIndex + 1) & (BUF_LENGTH - 1);
-
-
-                    // peak limiter
-
-                    float envValueL = abs(inLimiterL / short.max);
-                    float envValueR = abs(inLimiterR / short.max);
-
-                    float factL = (envValueL > envL) ? limiterAttack : limiterRelease;
-                    float factR = (envValueR > envR) ? limiterAttack : limiterRelease;
-
-                    envL = factL * (envL - envValueL) + envValueL;
-                    envR = factR * (envR - envValueR) + envValueR;
-
-                    static const float threshold = 0.9f;
-                    static const float ratio = 0.1f;
-
-                    float gainL = (envL < threshold) ? 1.0f : (envL / (threshold + (envL - threshold) * ratio));
-                    float gainR = (envR < threshold) ? 1.0f : (envR / (threshold + (envR - threshold) * ratio));
-
-                    if (_paused)
+                    float mgoal = void;
+                    float mFact = void;
+                    if (BulletTime.isEnabled())
                     {
-                        gainL = 0;
-                        gainR = 0;
+                        float attF = 5e-5f;
+                        mgoal = 1.0f;
+                        mFact = attF;
+                    }
+                    else
+                    {
+                        float relF = 1e-2f;
+                        mgoal = 0.0f;
+                        mFact = relF;
                     }
 
-                    oldGainL = (oldGainL + gainL) * 0.5f;
-                    oldGainR = (oldGainR + gainR) * 0.5f;
-                                    
+                    bool playerAlive = (_mainPlayer !is null) && (!_mainPlayer.dead);
 
-                    double left = inLimiterL * oldGainL;
-                    double right = inLimiterR * oldGainR;
+                    float subBassGoal = playerAlive ? ( _mainPlayer.mapEnergyGain * (1.0f + 0.3f * cos(t * 1.2f))) : 0.0f;
+                    float invincibilityGoal = void;
+
+                    if (playerAlive && (_mainPlayer.isInvincible))
+                    {
+                        invincibilityGoal = 1.0f;
+                    }
+                    else
+                    {
+                        invincibilityGoal = 0.0f;
+                    }
+
+                    float feedbackAmount = std.algorithm.min(bullettimeTime / 5.0f + 0.2f, 1.0f);
 
 
-                    short outL = cast(short)clamp(left, short.min + 1, short.max);
-                    short outR = cast(short)clamp(right, short.min + 1, short.max);
+                    short* p = cast(short*) stream;
 
-                    p[i * 2] = outL;
-                    p[i * 2 + 1] = outR;
+                    static double saturate(double x)
+                    {
+                        if (x > 1.0) x = 1.0;
+                        if (x < -1.0) x = -1.0;
+                        return (1.5 - 0.5 * x * x) * x;
+                    }
+
+                    static const float INC_TIME = 1.0f / 44100.0f;
+                    static const float MAX_PHASE = (2 * PI) * 32.0f;
+                    static const float XTAU = 1e-3f;
+
+                    for (int i = 0; i < N; ++i)
+                    {
+                        m += (mgoal - m) * mFact;
+                        lastFeedBackAmount += (feedbackAmount - lastFeedBackAmount) * XTAU;
+                        lastSubAmount += (subBassGoal - lastSubAmount) * XTAU;
+                        lastInvincibilityAmount += (invincibilityGoal - lastInvincibilityAmount) * XTAU * 0.3f;
+
+                        t += INC_TIME;
+
+                        lfo1.next;
+                        lfo2.next;
+                        lfo3.next;
+                        lfo4.next;
+                        lfo5.next;
+                        lfo6.next;
+
+                        float mod6 = 0.9f + 0.1f * lfo6.s;
+                        float am = (m + lfo1.c * 0.05f) * mod6;
+                        float A = cos(am * (2 * PI) * 0.21f);
+                        float B = (1.0f - A);
+
+                        float fact = -1.0f * B / short.max;
+                        double feedL = saturate(l3 * fact) * short.max;
+                        double feedR = saturate(r3 * fact) * short.max;
+
+
+                        float subbass = 200 * lastSubAmount * saturate(lfo2.s + lfo4.s * 0.2f);
+
+                        float delayModL = (lfo3.c ) * lastInvincibilityAmount;
+                        float delayModR = (lfo3.s ) * lastInvincibilityAmount;
+
+                        float delaySamplesL = 90 + 5.0f * delayModL;
+                        float delaySamplesR = 80 + 5.0f * delayModR;
+
+
+                        int indexL = cast(int)(delaySamplesL);
+                        int indexR = cast(int)(delaySamplesR);
+                        float fractL = delaySamplesL - indexL;
+                        float fractR = delaySamplesR - indexR;
+
+                        double Lm1 = delayBufL[((delayIndex - indexL - 1 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
+                        double Lp0 = delayBufL[((delayIndex - indexL     + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
+                        double Lp1 = delayBufL[((delayIndex - indexL + 1 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
+                        double Lp2 = delayBufL[((delayIndex - indexL + 2 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
+                        double Rm1 = delayBufR[((delayIndex - indexR - 1 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
+                        double Rp0 = delayBufR[((delayIndex - indexR     + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
+                        double Rp1 = delayBufR[((delayIndex - indexR + 1 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
+                        double Rp2 = delayBufR[((delayIndex - indexR + 2 + BUF_LENGTH) & (BUF_LENGTH - 1)) ];
+
+                        double delayL = hermite!(double)(fractL, Lm1, Lp0, Lp1, Lp2);
+                        double delayR = hermite!(double)(fractR, Rm1, Rp0, Rp1, Rp2);
+                        dL  = dL * 0.7f + (delayL + delayBufR[delayIndex] * 0.15f) * 0.3f;
+                        dR  = dR * 0.7f + (delayR + delayBufL[delayIndex] * 0.14f) * 0.3f;
+                        dL2 = dL2 * 0.8f + dL * 0.2f;
+                        dR2 = dR2 * 0.8f + dR * 0.2f;
+
+                        float mod5 = (0.9f + 0.1f * lfo5.s);
+                        delayL = short.max * saturate(dL2 * lastInvincibilityAmount / short.max) * -0.496f * mod5;
+                        delayR = short.max * saturate(dR2 * lastInvincibilityAmount / short.max) * -0.496f * mod5;
+
+                        double inL = p[i * 2] + feedL * lastFeedBackAmount + subbass + delayL ;
+                        double inR = p[i * 2 + 1] + feedR * lastFeedBackAmount + subbass + delayR ;
+
+                        l0 = inL * A + l0 * B;
+                        l1 = l0  * A + l1 * B;
+                        l2 = l1  * A + l2 * B;
+                        l3 = l2  * A + l3 * B;
+
+                        r0 = inR * A + r0 * B;
+                        r1 = r0  * A + r1 * B;
+                        r2 = r1  * A + r2 * B;
+                        r3 = r2  * A + r3 * B;
+
+                        // sub-bass (energy from map borders)
+                        float correction = 1.0f + m * 0.9f;
+
+                        double inLimiterL = l3 * correction;
+                        double inLimiterR = r3 * correction;
+
+                        delayBufL[delayIndex] = inLimiterL * 0.85f;
+                        delayBufR[delayIndex] = inLimiterR * 0.85f;
+
+                        delayIndex = (delayIndex + 1) & (BUF_LENGTH - 1);
+
+
+                        // peak limiter
+
+                        float envValueL = abs(inLimiterL / short.max);
+                        float envValueR = abs(inLimiterR / short.max);
+
+                        float factL = (envValueL > envL) ? limiterAttack : limiterRelease;
+                        float factR = (envValueR > envR) ? limiterAttack : limiterRelease;
+
+                        envL = factL * (envL - envValueL) + envValueL;
+                        envR = factR * (envR - envValueR) + envValueR;
+
+                        static const float threshold = 0.9f;
+                        static const float ratio = 0.1f;
+
+                        float gainL = (envL < threshold) ? 1.0f : (envL / (threshold + (envL - threshold) * ratio));
+                        float gainR = (envR < threshold) ? 1.0f : (envR / (threshold + (envR - threshold) * ratio));
+
+                        if (_paused)
+                        {
+                            gainL = 0;
+                            gainR = 0;
+                        }
+
+                        oldGainL = (oldGainL + gainL) * 0.5f;
+                        oldGainR = (oldGainR + gainR) * 0.5f;
+
+
+                        double left = inLimiterL * oldGainL;
+                        double right = inLimiterR * oldGainR;
+
+
+                        short outL = cast(short)clamp(left, short.min + 1, short.max);
+                        short outR = cast(short)clamp(right, short.min + 1, short.max);
+
+                        p[i * 2] = outL;
+                        p[i * 2 + 1] = outR;
+                    }
+
+                    float ANTI_DENORMAL = 1e-25f;
+                    lastFeedBackAmount += ANTI_DENORMAL;
+                    lastFeedBackAmount -= ANTI_DENORMAL;
+                    m += ANTI_DENORMAL;
+                    m -= ANTI_DENORMAL;
+                    lastSubAmount += ANTI_DENORMAL;
+                    lastSubAmount -= ANTI_DENORMAL;
+                    lastInvincibilityAmount += ANTI_DENORMAL;
+                    lastInvincibilityAmount -= ANTI_DENORMAL;
+
+
+                    while (t > MAX_PHASE) t -= MAX_PHASE;
+
+                    lfo1.resync();
+                    lfo2.resync();
+                    lfo3.resync();
+                    lfo4.resync();
+                    lfo5.resync();
+                    lfo6.resync();
                 }
-
-                float ANTI_DENORMAL = 1e-25f;
-                lastFeedBackAmount += ANTI_DENORMAL;
-                lastFeedBackAmount -= ANTI_DENORMAL;
-                m += ANTI_DENORMAL;
-                m -= ANTI_DENORMAL;
-                lastSubAmount += ANTI_DENORMAL;
-                lastSubAmount -= ANTI_DENORMAL;
-                lastInvincibilityAmount += ANTI_DENORMAL;
-                lastInvincibilityAmount -= ANTI_DENORMAL;
-
-
-                while (t > MAX_PHASE) t -= MAX_PHASE;
-
-                lfo1.resync();
-                lfo2.resync();
-                lfo3.resync();
-                lfo4.resync();
-                lfo5.resync();
-                lfo6.resync();
+            }
+            catch(Exception e)
+            {
             }
         }
     }
@@ -451,8 +457,8 @@ void makePowerupSound(SoundManager soundManager, Xorshift32* random, vec2f pos)
 //   - 4LP filter sweep with reso when bullet time
 //   - subbass when approaching borders
 
-extern(C) void processFXCallback(int chan, void *stream, int len, void *udata)
+extern(C) void processFXCallback(int chan, void *stream, int len, void *udata) nothrow
 {
-    SoundManager manager = cast(SoundManager)udata;    
-    manager.processFX(chan, stream, len, udata);    
+    SoundManager manager = cast(SoundManager)udata;
+    manager.processFX(chan, stream, len, udata);
 }

@@ -1,13 +1,13 @@
 module sdl.joystick;
 
-import derelict.sdl.sdl;
+import derelict.sdl2.sdl;
 import std.string;
 
 class SDLJoystick
 {
     private
     {
-        SDL_Joystick* m_handle;
+        SDL_Joystick* m_handle = null;
         int m_index;
 
         enum PRESSED = true,
@@ -25,13 +25,17 @@ class SDLJoystick
 
         void close()
         {
-            if (opened()) SDL_JoystickClose(m_handle);
+            if (m_handle != null)
+            {
+                m_handle = null;
+                SDL_JoystickClose(m_handle);
+            }
         }
-
+/*
         bool opened()
         {
             return (SDL_JoystickOpened(m_index) != 0);
-        }
+        }*/
     }
 
     public
@@ -46,7 +50,7 @@ class SDLJoystick
             m_axis.length = SDL_JoystickNumAxes(m_handle);
             m_axis[] = 0.0f;
 
-            m_name = fromStringz(SDL_JoystickName(m_index)).idup;
+            m_name = fromStringz(SDL_JoystickName(m_handle)).idup;
 
         }
 

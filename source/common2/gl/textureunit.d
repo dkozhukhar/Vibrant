@@ -1,6 +1,9 @@
 module gl.textureunit;
 
-import derelict.opengl.gl;
+import derelict.opengl3.gl3;
+import derelict.opengl3.deprecatedConstants;
+import derelict.opengl3.deprecatedFunctions;
+
 import misc.singleton;
 import gl.texture;
 import gl.state;
