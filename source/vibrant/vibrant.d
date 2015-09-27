@@ -25,7 +25,7 @@ class InvalidCommandLine : Exception
 
 T safeConvert(T)(string src, string errorMsg)
     if (is(T == int) || is(T == float))
-{   
+{
     try
     {
         T res = to!T(src);
@@ -39,7 +39,7 @@ T safeConvert(T)(string src, string errorMsg)
 
 int main(string[]args)
 {
-    string basePath = dirName(absolutePath(thisExePath())); 
+    string basePath = dirName(absolutePath(thisExePath()));
 
     auto width = SDLApp.AUTO_DETECT;
     auto height = SDLApp.AUTO_DETECT;
@@ -51,11 +51,11 @@ int main(string[]args)
     int fsaa = 4;
     bool blur = true;
 
-    version(darwin)
+    /*version(darwin)
     {
         pragma(msg, "Building with Mac OS X fullscreen work-around");
         fullscreen = false;
-    }
+    }*/
 
     // parse command-line arguments
     {

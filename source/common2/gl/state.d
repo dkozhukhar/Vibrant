@@ -224,7 +224,7 @@ final class GLState
     {
         this()
         {
-            try
+      /*      try
             {
                 DerelictGL3.load();
           //      DerelictGLU.load();
@@ -232,7 +232,7 @@ final class GLState
             catch(DerelictException e)
             {
                 throw new OpenGLException("Cannot load OpenGL");
-            }
+            }*/
 
        /*     try
             {

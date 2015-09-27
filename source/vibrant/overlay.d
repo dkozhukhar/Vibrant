@@ -30,7 +30,7 @@ class Overlay
             void[] uiData = std.file.read(buildPath(basePath, "data/ui.png"));
             _ui = new Image(stbiLoadImageAE(uiData));
         }
-        
+
         void drawWindowBox(int x1, int y1, int x2, int y2, uint c)
         {
             _mb.drawBox(x1, y1, x2, y2, c);
@@ -72,7 +72,7 @@ class Overlay
 
             drawWindowBox(BX - 16, BY - 28 + cast(int)(0.5 + h), BX + 30 * 8 + 16, BY + 116 - cast(int)(0.5 + h), 0x8F8080FF);
 
-            static immutable string[] test = 
+            static immutable string[] test =
             [
                 "      The Homeric wars.       ",
                 "  In these times of trouble,  ",
@@ -120,7 +120,7 @@ class Overlay
             _text.setColor(0xFFFFFFFF);
             _text.setFont(FontType.SMALL);
 
-            _text.drawString(BX, BY,      "                   Vibrant v1.7");
+            _text.drawString(BX, BY,      "                   Vibrant v1.8");
             _text.setColor(0xffff7477);
 
             _text.drawString(BX, BY + 16, "               www.gamesfrommars.fr    ");
@@ -160,7 +160,7 @@ class Overlay
                 _text.outputString("   catch:      ,    ");
 
                 _text.setColor(0xffbfbf50);
-                
+
                 _text.setCursorPosition(BX, BY + 64);
                 _text.outputString("          ARROWS              ALT");
                 _text.setCursorPosition(BX, BY + 80);
@@ -178,14 +178,14 @@ class Overlay
             _text.setAttr(ATTR);
             _text.setColor(0xffff7477);
             _text.setCursorPosition(40, 10);
-            
+
             int levelMod100 = level % 100;
 
             int[2] levelDigit;
             levelDigit[0] = levelMod100 / 10;
             levelDigit[1] = levelMod100 % 10;
 
-            if (levelDigit[0] != 0) 
+            if (levelDigit[0] != 0)
                 _text.outputChar('0' + levelDigit[0]);
             else
                 _text.outputChar(' ');
@@ -194,7 +194,7 @@ class Overlay
     }
 
     private
-    {        
-        Image _ui;        
+    {
+        Image _ui;
     }
 }

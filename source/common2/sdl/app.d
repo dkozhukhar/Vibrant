@@ -1,6 +1,7 @@
 module sdl.app;
 
 import gfm.math;
+import derelict.opengl3.gl;
 import derelict.sdl2.sdl;
 import sdl.state, std.stdio, std.string, std.conv;
 import misc.framecounter;
@@ -24,6 +25,7 @@ class SDLApp
         //SDL_Surface* m_screen;
         SDL_Window* _window;
         FrameCounter m_frameCounter;
+        SDL2GLContext _glContext;
 
         int m_mousex, m_mousey, m_ancmousex, m_ancmousey;
 
@@ -82,12 +84,26 @@ class SDLApp
             SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
             SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+
+            SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
+
+
+
+            DerelictGL.load();
+
             _window = SDL_CreateWindow(toStringz(initTitle),
                 SDL_WINDOWPOS_CENTERED,
                 SDL_WINDOWPOS_CENTERED,
                 m_width,
                 m_height,
                 flags);
+
+            _glContext = new SDL2GLContext(this);
+            _glContext.makeCurrent();
+
+            DerelictGL.reload();
 
             title = initTitle;
 
@@ -249,4 +265,57 @@ class SDLApp
     }
 }
 
+
+/// SDL OpenGL context wrapper. You probably don't need to use it directly.
+final class SDL2GLContext
+{
+    public
+    {
+        /// Creates an OpenGL context for a given SDL window.
+        this(SDLApp window)
+        {
+            _window = window;
+            _context = SDL_GL_CreateContext(window._window);
+            _initialized = true;
+        }
+
+        ~this()
+        {
+            close();
+        }
+
+        /// Release the associated SDL ressource.
+        void close()
+        {
+            if (_initialized)
+            {
+                // work-around Issue #19
+                // SDL complains with log message "wglMakeCurrent(): The handle is invalid."
+                // in the SDL_DestroyWindow() call if we destroy the OpenGL context before-hand
+                //
+                // SDL_GL_DeleteContext(_context);
+                _initialized = false;
+            }
+        }
+
+        /// Makes this OpenGL context current.
+        /// Throws: $(D SDL2Exception) on error.
+        void makeCurrent()
+        {
+             if (0 != SDL_GL_MakeCurrent(_window._window, _context))
+                throw new Exception("SDL_GL_MakeCurrent failed");
+        }
+    }
+
+    package
+    {
+        SDL_GLContext _context;
+        SDLApp _window;
+    }
+
+    private
+    {
+        bool _initialized;
+    }
+}
 
