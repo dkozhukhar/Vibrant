@@ -43,19 +43,19 @@ class VibrantProgram : SDLApp
 
             super(asked_width, asked_height, fullscreen, false, "Vibrant", buildPath(basePath, "data/icon.bmp"), aa, 0, OpenGLVersion.Version20, true);
 
-            bool doPostProcessing = void;
+            bool doPostProcessing = true;
 
-            try
+     /*       try
             {
                 // try to load OpenGL 2.0
-                DerelictGL3.load();
+                DerelictGL.load();
                 doPostProcessing = true;
             }
             catch(DerelictException e)
             {
                 // fallback to ugly mode
                 doPostProcessing = false;
-            }
+            }*/
 
             version(linux)
             {

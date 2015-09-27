@@ -33,7 +33,11 @@ class SDL
 
         this()
         {
-            DerelictSDL2.load();
+            version(OSX)
+                DerelictSDL2.load("../Frameworks/SDL2.framework/SDL2");
+
+            else
+                DerelictSDL2.load();
 
             if (0 != SDL_Init(0)) throw new SDLException("Unable to initialize SDL");
 

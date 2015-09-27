@@ -41,6 +41,10 @@ int main(string[]args)
 {
     string basePath = dirName(absolutePath(thisExePath()));
 
+    // For finding Frameworks nside the bundle
+    version(OSX)
+        chdir(basePath);
+
     auto width = SDLApp.AUTO_DETECT;
     auto height = SDLApp.AUTO_DETECT;
     string sratio = "auto"; // auto-detect ratio from width and height

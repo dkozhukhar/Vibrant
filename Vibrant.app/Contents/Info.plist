@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleIconFile</key>
-	<string>Vibrant.icns</string>
+	<string>vibrant</string>
 	<key>DTXcodeBuild</key>
 	<string>5B1008</string>
 	<key>DTSDKBuild</key>

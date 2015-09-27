@@ -27,7 +27,11 @@ final class SDLMixer
 
 		this(int numChannels = 16)
 		{
-			DerelictSDL2Mixer.load();
+			version(OSX)
+                DerelictSDL2Mixer.load("../Frameworks/SDL2_mixer.framework/SDL2_mixer");
+            else
+                DerelictSDL2Mixer.load();
+
 			m_SDL = SDL.instance;
 			m_SDL.subSystemInit(SDL_INIT_AUDIO);
 
