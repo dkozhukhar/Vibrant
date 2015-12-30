@@ -24,3 +24,10 @@ It's very simple, especially on Windows.
 
 The software is licensed under the Boost 1.0 software license.
 The music's right are held by Nelson Rafael.
+
+## Press
+Vibrant 1.5 has been featured in the Tigsource blog: https://www.tigsource.com/2010/10/01/vibrant/
+and the Joystick magazine.
+
+Now it's in 1.8 and the game is better than ever before.
+Past level 10 it takes a lot of concentration to achieve survival, and I think it could be a kind of brain exercise.
