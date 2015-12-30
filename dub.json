@@ -3,6 +3,8 @@
 	"description": "Abstract ballistic shooter game.",
 	"targetType": "executable",
 
+    "license": "BSL-1.0",
+
 	"sourcePaths": ["source/vibrant"],
 	"importPaths": ["source/vibrant"],
 

@@ -1,31 +1,3 @@
-Vibrant v1.7:
-
-[ok] touching border disable invicibility
-[ok] touching invicible ennemies disable both
-[ok] remove highscores
-[ok] remove cell powerup
-[ok] fix typo in tips
-[ok] fix life powerups for big ships
-[ok] add a bit of background story at startup
-[ok] better graphics for bullets, ships and particles
-[ok] big ships have 25% less acceleration instead of 50% less
-[ok] nerfed ennemies blast
-[ok] ability to disable music pressing M
-[ok] document more keys
-[ok] remove console window in release mode (1.6 regression)
-
-Vibrant 1.8:
-[ok] ported to D2
-[ok] less random stutter while playing
-[ok] most desirable powerups are pulled slower for more entropy
-[ok] ships now have a graphical tail
-[ok] ennemies change attitude more often when being shot
-[ok] the 2 larger ship sizes were removed
-[ok] energy renewal is now a fixed quantity, energy powerup doesn't affect it anymore
-[ok] ennemies don't get bullet damage when out of sight, makes the levels fuller of ennemies
-[ok] HD! Now using an aspect ratio of 16/9
-[ok] Fix crash when launched with a working directory that isn't the app directory
-
 decreasing timer
 
 different terrain for levels?
