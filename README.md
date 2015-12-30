@@ -1,13 +1,13 @@
 # Vibrant
 
-Vibrant is an unique experience of fast-paced arena shooter action revolving around inertia and dog-fighting. You will meet with increasingly numerous enemies in a blissful techno trance until you meet your fate.
+Vibrant is a hectic experience of 2D arena shooter action revolving around inertia and dog-fighting against vicious AIs. You will meet with increasingly numerous enemies in a blissful techno trance until you meet your fate.
 
-![Vibrant game screenshot](https://img.itch.io/aW1hZ2UvMjYyNTQvMTA2MjI4LnBuZw==/original/tafu0o.png)
+![Vibrant game screenshot](screenshot.jpg)
 
 You can find the game page here: http://gamesfrommars.fr/vibrant
 or here: http://ponce.itch.io/vibrant
 
-## Hot to build
+## How to build
 
 It's very simple, especially on Windows.
 
@@ -25,9 +25,9 @@ It's very simple, especially on Windows.
 The software is licensed under the Boost 1.0 software license.
 The music's right are held by Nelson Rafael.
 
-## Press
+## Press coverage
 Vibrant 1.5 has been featured in the Tigsource blog: https://www.tigsource.com/2010/10/01/vibrant/
 and the Joystick magazine.
 
-Now it's in 1.8 and the game is better than ever before.
+Now it's in 1.8 and the game is better than ever before, and is available on OS X too.
 Past level 10 it takes a lot of concentration to achieve survival, and I think it could be a kind of brain exercise.
