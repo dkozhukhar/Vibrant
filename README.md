@@ -1,6 +1,6 @@
 # Vibrant
 
-Vibrant is a hectic experience of 2D arena shooter action revolving around inertia and dog-fighting against vicious AIs. You will meet with increasingly numerous enemies in a blissful techno trance until you meet your fate.
+Vibrant is a hectic experience of 2D shoot'em up action revolving around inertia and dog-fighting against vicious AIs. You'll meet increasingly numerous enemies in a blissful techno trance until you meet your fate.
 
 ![Vibrant game screenshot](screenshot.jpg)
 
@@ -15,10 +15,12 @@ It's very simple, especially on Windows.
 
 - type `dub` in the root directory
 
-- then the game will run but will crash because of not finding the right dynamic libraries. You need SDL2 and SDL_mixer 2.0+
+- then the game will run but crash because of not finding the right dynamic libraries. You need SDL2 and SDL_mixer 2.0+
   * on Windows, copy DLLs from `32-bit dependencies/` or `64-bit dependencies/` directory
   * on Ubuntu, you'll need to install SDL2 and SDL2_mixer
   * on Mac, copy the executable in the bundle, along with relevant SDL2 and SDL2_mixer bundles. This is a bit tricky, look how its done on OS X release: http://gamesfrommars.fr/vibrant
+
+- type `dub` again to run
 
 ## License
 
