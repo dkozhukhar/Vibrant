@@ -19,7 +19,9 @@
         "vibrant:common2": "*"
     },
 
-    "libs-posix":["dl"],
+    "comment-libs": "FreeBSD doesn't use libdl, it is part of libc",
+    "libs-linux":["dl"],
+    "libs-osx":["dl"],
 
     "commented-dflags-windows": ["-L/SUBSYSTEM:windows,5.01"],
 
