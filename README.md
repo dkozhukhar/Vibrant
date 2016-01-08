@@ -31,5 +31,6 @@ The music's right are held by Nelson Rafael.
 Vibrant 1.5 has been featured in the Tigsource blog: https://www.tigsource.com/2010/10/01/vibrant/
 and the Joystick magazine.
 
-Now it's in 1.8 and the game is better than ever before, and is available on OS X too.
+Now it's in 1.8 and the game is better than ever before, and is available on Windows and OS X.
+If you want to build it yourself, it is also known to work on Linux and FreeBSD.
 Past level 10 it takes a lot of concentration to achieve survival, and I think it could be a kind of brain exercise.
