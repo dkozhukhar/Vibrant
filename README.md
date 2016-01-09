@@ -17,8 +17,9 @@ It's very simple, especially on Windows.
 
 - then the game will run but crash because of not finding the right dynamic libraries. You need SDL2 and SDL_mixer 2.0+
   * on Windows, copy DLLs from `32-bit dependencies/` or `64-bit dependencies/` directory
-  * on Ubuntu, you'll need to install SDL2 and SDL2_mixer
+  * on Ubuntu/Debian, you'll need to install SDL2 and SDL2_mixer
   * on Mac, copy the executable in the bundle, along with relevant SDL2 and SDL2_mixer bundles. This is a bit tricky, look how its done on OS X release: http://gamesfrommars.fr/vibrant
+  * on FreeBSD, install SDL2 and SDL2_mixer: `pkg  install sdl2 sdl2_mixer`
 
 - type `dub` again to run
 
