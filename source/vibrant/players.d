@@ -983,6 +983,7 @@ final class Player
                 auto axisx = joyAxis(0);
                 auto axisy = joyAxis(1);
                 bool isAlt = iskeydown(SDLK_LALT) || iskeydown(SDLK_RALT) || joyButton(3);
+                isAlt = !isAlt; //invert strafe 
                 bool isShift = iskeydown(SDLK_LSHIFT) || iskeydown(SDLK_RSHIFT);
 
 
@@ -1002,11 +1003,15 @@ final class Player
                     shoot();
                 }
 
-                if (   keyoff(SDLK_SPACE)
+                // continuous drag, except if space pressed
+                // TODO mousecenter and joystik
+                if  (   iskeydown(SDLK_SPACE)
                     || (joyButton(2) && lastTimeButton2WasOff)
-                    || keyoff(SDLK_z)
+                    || iskeydown(SDLK_z)
                     || mouseCenter )
                 {
+                    // drag();
+                } else {
                     drag();
                 }
 
@@ -1016,7 +1021,15 @@ final class Player
                 lastTimeButton2WasOff = !joyButton(2);
 
                 turbo = isShift || joyButton(0) || iskeydown(SDLK_x) || mouseRight;
-
+                
+                // TODO: FUNNIER MOUSE TURNS 
+                if (true)
+                {
+                    // MOUSESENSITIVITY = 5.0f;
+                    angle -= mouse.vx * dt * 5.0f * TURNSPEED * invMass();
+                    mouse.vx = 0; // stops turning madness on start
+                }
+                
                 if (isLeft && (!isAlt))
                 {
                     angle += dt * 60.0f * TURNSPEED * invMass();
