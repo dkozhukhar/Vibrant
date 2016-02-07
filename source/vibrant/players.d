@@ -984,7 +984,8 @@ final class Player
                 auto axisx = joyAxis(0);
                 auto axisy = joyAxis(1);
                 bool isAlt = iskeydown(SDLK_LALT) || iskeydown(SDLK_RALT) || joyButton(3);
-                isAlt = !isAlt; //invert strafe 
+                isAlt = !isAlt; //invert strafe
+                //bool isAlt = true; // always strafe
 
                 bool isShift = iskeydown(SDLK_LSHIFT) || iskeydown(SDLK_RSHIFT);
 
@@ -1024,6 +1025,7 @@ final class Player
 
                 turbo = isShift || joyButton(0) || iskeydown(SDLK_x) || mouseRight;
 
+
                 // TODO: FUNNIER MOUSE TURNS 
                 if (true)
                 {
@@ -1032,6 +1034,7 @@ final class Player
                     mouse.vx = 0; // stops turning madness on start
                     
                 }
+
 
                 if (isLeft && (!isAlt))
                 {
