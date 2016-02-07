@@ -771,7 +771,8 @@ final class Player
         {
             float baseangle = angle;
 
-            int forwardBullet = std.algorithm.min(weaponclass, 3);
+            //int forwardBullet = std.algorithm.min(weaponclass, 3);
+            int forwardBullet = std.algorithm.min(weaponclass, 31666); // hell yeah!
             int mguided = isHuman ? 50 : 20;
 
 
@@ -984,6 +985,7 @@ final class Player
                 auto axisy = joyAxis(1);
                 bool isAlt = iskeydown(SDLK_LALT) || iskeydown(SDLK_RALT) || joyButton(3);
                 isAlt = !isAlt; //invert strafe 
+
                 bool isShift = iskeydown(SDLK_LSHIFT) || iskeydown(SDLK_RSHIFT);
 
 
@@ -1021,15 +1023,16 @@ final class Player
                 lastTimeButton2WasOff = !joyButton(2);
 
                 turbo = isShift || joyButton(0) || iskeydown(SDLK_x) || mouseRight;
-                
+
                 // TODO: FUNNIER MOUSE TURNS 
                 if (true)
                 {
-                    // MOUSESENSITIVITY = 5.0f;
-                    angle -= mouse.vx * dt * 5.0f * TURNSPEED * invMass();
+                    // MOUSESENSITIVITY ;
+                    angle += mouse.vx * dt * 10.0f * TURNSPEED * invMass();
                     mouse.vx = 0; // stops turning madness on start
+                    
                 }
-                
+
                 if (isLeft && (!isAlt))
                 {
                     angle += dt * 60.0f * TURNSPEED * invMass();

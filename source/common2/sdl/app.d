@@ -68,7 +68,12 @@ class SDLApp
                        | SDL_WINDOW_INPUT_FOCUS | SDL_WINDOW_MOUSE_FOCUS;
             if (resizable) flags |= SDL_WINDOW_RESIZABLE;
             if (fullscreen) flags |= SDL_WINDOW_FULLSCREEN;
-
+            // SDL2 mouse capture /doesn't work
+            // if (true) flags |= SDL_WINDOW_INPUT_GRABBED; /// grab the mouse SDL2
+            // if (true) flags |= SDL_WINDOW_MOUSE_CAPTURE; /// grab the mouse SDL2
+            // SDL_SetRelativeMouseMode(SDL_TRUE);
+            SDL_SetWindowGrab(_window, SDL_TRUE);
+            
      /*       if (iconFile !is null)
             {
                 SDL_Surface* icon = SDL_LoadBMP(toStringz(iconFile));
@@ -122,6 +127,7 @@ class SDLApp
 
             //version(darwin)
             //    SDL_WM_GrabInput(SDL_GRAB_ON);
+            
         }
 
         final int width()
@@ -199,6 +205,10 @@ class SDLApp
                         m_mousey = event.motion.y;
 
                         onMouseMove(m_mousex, m_mousey, m_mousex - m_ancmousex, m_mousey - m_ancmousey);
+                        
+                        /// center mouse on each move 
+                        /// to unlock through screen edge
+                        SDL_WarpMouseInWindow(_window, width / 2, height / 2);
                         break;
 
                     case SDL_MOUSEBUTTONDOWN:

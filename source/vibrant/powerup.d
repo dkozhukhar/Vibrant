@@ -211,7 +211,8 @@ final class Powerup
             }
             case PowerupType.IMPROVE_WEAPON:
             {
-                s.weaponclass = std.algorithm.min(3, s.weaponclass + 1);
+                //s.weaponclass = std.algorithm.min(3, s.weaponclass + 1);
+                s.weaponclass +=1 ; // kekeke
                 makePowerupSound(game.soundManager, random, pos);
                 break;
             }
