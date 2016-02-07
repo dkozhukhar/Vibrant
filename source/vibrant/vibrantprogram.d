@@ -172,8 +172,10 @@ final class VibrantProgram : SDLApp
 
         override void onMouseMove(int x, int y, int dx, int dy)
         {
-            _mouse.x = x;
-            _mouse.y = y;
+            //_mouse.x = x; 
+            _mouse.x = width/2; // capture at center mouse anytime
+            //_mouse.y = y;
+            _mouse.y = height/2;
             _mouse.vx = dx;
             _mouse.vy = dx;
         }

@@ -11,15 +11,19 @@ final class CheatcodeManager
 {
     public
     {
-        enum Cheat { MAXENCE, NEXT, LEVELMAX };
+        enum Cheat { MAXENCE, NEXT, KISS, LOL, JOY, KEK };
     }
 
     private
     {
         static immutable string[Cheat.max + 1] cheatcodeString =
         [
+            "maxence",
             "next",
-            "levelmax",
+            "kiss",
+            "lol",
+            "joy",
+            "kek",
         ];
 
         string m_current;
@@ -27,20 +31,32 @@ final class CheatcodeManager
 
         void executeCheat(Cheat cheat)
         {
+
             m_game.soundManager.playSound(0.5f, SOUND.CATCH_POWERUP);
             switch(cheat)
             {
-                debug
-                {
-                case Cheat.LEVELMAX:
+                case Cheat.KISS:
                     for (int i = 0; i < 30; ++i)
                         m_game.initenemies;
                     break;
-                }
 
                 case Cheat.NEXT:
-                default:
                     m_game.initenemies;
+                    break;
+
+                case Cheat.LOL:
+                    player.invincibility += 1e+20f;
+                    break;
+
+                case Cheat.JOY:
+                    player.energygain *= 5;
+                    break;
+
+                case Cheat.KEK:
+                    player.weaponclass += 10;
+                    break;
+
+                default:
                     break;
             }
 
