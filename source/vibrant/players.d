@@ -24,6 +24,8 @@ enum Attitude {HUMAN, AGGRESSIVE, FEARFUL, KAMIKAZE, OCCUPIED };
 
 enum float MAX_DESTROY = 32 / 60.0f;
 
+enum Anomaly {ATTRACTOR, WALL};
+
 final class Player
 {
     enum int MAX_DRAGGED_POWERUPS = 4; // can't drag more than that powerup
@@ -57,6 +59,7 @@ final class Player
     float waitforshootTime;
     float destroy;
     Attitude attitude;
+    Anomaly anomaly;
     bool turbo;
     float energygain;
     int weaponclass;
@@ -66,6 +69,7 @@ final class Player
     float mapEnergyGain;
     bool bounced;
     bool isHuman;
+    bool isAnomaly;
     Player _catchedPlayer;
     float _catchedPlayerDistance;
     Xorshift32* _random;
@@ -150,7 +154,27 @@ final class Player
             attitude = ((*_random).nextRange(2) == 0) ? Attitude.OCCUPIED : Attitude.FEARFUL;
         }
     }
+/*
+  this(Game game, bool isAnomaly_, vec2f pos, Anomaly anomaly_)
+    {
+        this.isAnomaly = isAnomaly_;
+        this.Anomaly = anomaly_;
+        this.positions[] = pos;
+        this.game = game;
 
+        _random = game.random();
+
+        mov = vec2f(0.0f);
+        dead = false;
+        destroy = 0.0f;
+        life = 1;
+        engineExcitation = 0;
+
+        livingTime = 0.0f;
+    }
+*/
+        
+    
     void cleanup()
     {
         stopDraggingPlayer();
@@ -666,6 +690,11 @@ final class Player
         return (life + 1e-2f) / (damageMultiplier() * DAMAGE_MULTIPLIER);
     }
 
+    float trapDamage()
+    {
+        return (life + 1e-2f) * 0.1f + 0.5;
+    }    
+    
     void damage(float amount)
     {
         if (invincibility > 0) return;
@@ -1291,7 +1320,8 @@ final class Player
 
     void rotatePush(float vangleAmount)
     {
-        vangle += vangleAmount;
+        vangle += vangleAmount; 
+        //if (isHuman) return; // no to dizzy!
         if (isHuman)
             game.camera().dizzy(10 * abs(vangleAmount));
     }

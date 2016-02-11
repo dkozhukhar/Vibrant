@@ -73,6 +73,32 @@ final class Game
         }
     }
 
+    private /// player settings
+    {
+        float    vlife = 1;
+        float    vshipSize = SHIP_MIN_SIZE;
+        float    venergygain = BASE_ENERGY_GAIN * 1.5f;
+        int      vweaponclass = 1;
+
+        void save_main_player_settings(Player s) 
+        {
+            vlife     =  level; 
+            vshipSize = s.shipSize;
+            venergygain = s.energygain;
+            vweaponclass = s.weaponclass;
+        }
+
+        void load_main_player_settings(Player s) 
+        {
+            s.life =     vlife;
+            s.shipSize = vshipSize;
+            s.energygain = venergygain;
+            s.weaponclass = vweaponclass;
+        }
+    }
+    
+    
+    
     public
     {
         ParticleManager particles()
@@ -241,6 +267,8 @@ final class Game
 
                 _mainPlayerMustReborn = false;
                 renewTipIndex();
+                
+                load_main_player_settings(player);
             }
 
             bool playerWasAlive = player !is null && !player.dead;
@@ -257,6 +285,8 @@ final class Game
                 addPowerup(_map.randomPoint(), vec2f(0), 0, 0);
             }
 
+            if (player !is null) save_main_player_settings(player);
+            
             if (player !is null) player.intelligence(mouse, dt);
             for (int i = 0; i < ia.length; ++i)
             {
@@ -321,6 +351,7 @@ final class Game
                 _timeBeforeReborn = 1.4f;
 
             _camera.progress(dt, isRotateViewNow);
+            //_camera.progress(dt, false);
 
         }
 
@@ -340,10 +371,15 @@ final class Game
                 _overlay.drawBar(SCREENX - 18, SCREENY - 14, std.algorithm.max(s, cast(int)round(player.energy / cast(float)ENERGYMAX * s)), player.energy / cast(float)ENERGYMAX,  rgb(252, 26, 15));
 
                 // life bar
-                _overlay.drawBar(SCREENX - 7, SCREENY - 14, std.algorithm.max(s, cast(int)round(player.life*s)),player.life, rgb(42, 6, 245));
+                ///_overlay.drawBar(SCREENX - 7, SCREENY - 14, std.algorithm.max(s, cast(int)round(player.life*s)),player.life, rgb(42, 6, 245));
+                float lifeFraction = log(player.life)/5;
+                _overlay.drawBar(SCREENX - 7, SCREENY - 14, s, lifeFraction, rgb(42, 6, 245));
 
                 // invicibility bar
-                _overlay.drawBar(SCREENX - 7, SCREENY - 14, std.algorithm.max(s,cast(int)round(player.life*s)),player.life * std.algorithm.min(3.0f, player.invincibility) / 3.0f, rgb(252, 26, 15));
+                ///_overlay.drawBar(SCREENX - 7, SCREENY - 14, std.algorithm.max(s,cast(int)round(player.life*s)),player.life * std.algorithm.min(3.0f, player.invincibility) / 3.0f, rgb(252, 26, 15));
+                ////_overlay.drawBar(SCREENX - 40, SCREENY - 14, std.algorithm.max(s,cast(int)round(player.life*s)),player.life * std.algorithm.min(3.0f, player.invincibility) / 3.0f, rgb(252, 26, 15));
+                float invicibilityFraction = log(player.invincibility)/100;
+                _overlay.drawBar(SCREENX - 40, SCREENY - 14, s, invicibilityFraction, rgb(252, 26, 15));
 
                 if (player.isInvincible)
                 {

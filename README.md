@@ -1,3 +1,49 @@
+# Modding the Vibrant game
+
+Vibrant is a fun game to play. But after some levels passed I get bored with low gameplay variability. Also came ideas on things can be added for more fun. So comes this modding.
+
+## Changes so far
+
+### Controls
+
+Strafe (that was Alt key before) now ON on default. So now left-right keys do strafe and holding Alt make ship turns. But this is unnecessary, see below.
+Turning ship supposed to do using the mouse left-right moves. Only x-axis used. Y-axis moves do nothing (by now).
+Grag is always ON. Holding Space key to temporarily get it OFF (really needed only to get rid of trap).
+Less cammera rotations (annoys too much).
+
+### Powerups
+
+Powerups rebalanced
+
+Trap damage reduced. Life adds more life.
+
+### Cheatcodes
+
+Added:
+JOY - increase energy replenish level (permanent effect)
+LOL - invincibility for some long time
+KEK - adds fire power (immensive result and make game slow and crash sometimes when overused)
+
+Changed:
+KISS - +30 levels
+
+Still there:
+NEXT - +1 level
+
+
+### Other
+
+Lifted firepower limit (for testing)
+
+### TODO Ideas
+
+AI/enemies - vary enemies, make them more aggressive;
+Balance - alter ship upgrade limits;
+Terrain - walls/gravity wells(attractors)/gravity hills(anti-attractors);
+Weapons - bombs/novas/wave of bullets/laser beams;
+More players - battle stations(flying cannons)/critters/bosses;
+Do something clever with trap;
+
 # Vibrant
 
 Vibrant is a hectic experience of 2D shoot'em up action revolving around inertia and dog-fighting against vicious AIs. You'll meet increasingly numerous enemies in a blissful techno trance until you meet your fate.

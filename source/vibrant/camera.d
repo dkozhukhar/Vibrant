@@ -53,7 +53,12 @@ final class Camera
             double trucAngle = truc * std.algorithm.max(0.0f, 1.0f - _camDizzy);
             _lastAngle = _angle;
             _lastPosition = _position;
-            _angle = _angle + normalizeAngle(_targetAngle - _angle) * trucAngle * (isRotateViewNow ? 0.4 : 1.0f);
+                // standart camera:
+            //_angle = _angle + normalizeAngle(_targetAngle - _angle) * trucAngle * (isRotateViewNow ? 0.4 : 1.0f);
+                // test:
+            //_angle = _angle + normalizeAngle(_targetAngle - _angle) * trucAngle * 0.5f ;
+                // Good steady camera:
+            _angle = _targetAngle;
             _position += (_targetPosition - _position) * truc;
 
             _camDizzy = std.algorithm.max(0.0f, _camDizzy - dt);

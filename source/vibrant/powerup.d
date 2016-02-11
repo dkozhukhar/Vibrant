@@ -21,7 +21,7 @@ private static immutable int[PowerupType.max + 1] DRAG_SPEED = [    18,     24, 
 
 static immutable string[PowerupType.max + 1] POWERUP_NAMES =   ["life", "cell", "weapon+",  "energy", "blast", "size+", "madness", "trap", "engine+", "bullet time", "invincibility"];
 
-static immutable uint[PowerupType.max + 1] powerupWeights =    [    40,      0,        10,        10,      12,       8,         0,      8,        10,            10,               5];
+static immutable uint[PowerupType.max + 1] powerupWeights =    [    40,     10,        10,        10,      12,       8,        10,      8,        10,            10,               5];
 
 
 final class Powerup
@@ -181,13 +181,15 @@ final class Powerup
         {
             case PowerupType.LIFE:
             {
-                s.life = std.algorithm.min(2.0f, s.life + 0.5f);
+                ///s.life = std.algorithm.min(2.0f, s.life + 0.5f);
+                s.life = s.life * 1.1f + 0.5f ;
                 makePowerupSound(game.soundManager, random, pos);                
                 break;
             }
             case PowerupType.ENERGY_CELL:
             {
-                s.energy = 2 * ENERGYMAX;
+                //s.energy = 2 * ENERGYMAX;
+                s.energygain *= 2;               
                 makePowerupSound(game.soundManager, random, pos);
                 break;
             }
@@ -270,7 +272,8 @@ final class Powerup
             {
                 if (!s.isInvincible)
                 {
-                    s.damage(s.damageToExplode);
+                    ///s.damage(s.damageToExplode);
+                    s.damage(s.trapDamage);
                 }
                 break;
             }
