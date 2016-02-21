@@ -69,7 +69,7 @@ final class Game
 
         void setZoomfactor(float zoom)
         {
-            _zoomFactor = clamp(zoom, 0.5f, 1.5f);
+            _zoomFactor = clamp(zoom, 0.5f, 11.5f);
         }
     }
 

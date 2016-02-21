@@ -33,13 +33,15 @@ NEXT - +1 level
 
 ### Other
 
-Lifted firepower limit (for testing)
+Lifted firepower limit (for testing).
+Bullets can damage outside of player's view.
 
 ### TODO Ideas
 
-AI/enemies - vary enemies, make them more aggressive;
+AI/enemies - vary enemies, make them more aggressive; pack attack on player;
 Balance - alter ship upgrade limits;
 Terrain - walls/gravity wells(attractors)/gravity hills(anti-attractors);
+Terrain - labiribth level
 Weapons - bombs/novas/wave of bullets/laser beams;
 More players - battle stations(flying cannons)/critters/bosses;
 Do something clever with trap;

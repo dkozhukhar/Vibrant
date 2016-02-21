@@ -160,11 +160,15 @@ final struct Bullet
                 }
             }
 
-            if (_camera.canSee(p.currentPosition))
-                p.damage(BULLET_DAMAGE * _damage); // trick: AIs outside the field of vision of an human don't take damages from bullets
+            //if (_camera.canSee(p.currentPosition))
+            //    p.damage(BULLET_DAMAGE * _damage); // trick: AIs outside the field of vision of an human don't take damages from bullets
 
+            // no tricks!
+            p.damage(BULLET_DAMAGE * _damage);
+
+            // temporally off
             // change attitude of AI when receiving player bullets
-            if (!p.isHuman && owner.isHuman)
+            if (false) // (!p.isHuman && owner.isHuman)
             {
                 if ((*random).nextFloat < 0.3f) p.attitude = Attitude.AGGRESSIVE;
                 if ((*random).nextFloat < 0.3f) p.attitude = Attitude.FEARFUL;
@@ -193,7 +197,9 @@ final struct Bullet
                         if (isFinite(angle))
                         {
                             float pushAmount = -cos(angle) * 0.5f;
-                            float rotAmount = -sin(angle) * (p.isHuman ? 0.4f : 0.75f);
+                            //float rotAmount = -sin(angle) * (p.isHuman ? 0.4f : 0.75f);
+                            // less rotation on hit
+                            float rotAmount = -sin(angle) * (p.isHuman ? 0.04f : 0.075f);
 
                             if (isFinite(pushAmount))
                             {

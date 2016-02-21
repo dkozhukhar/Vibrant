@@ -329,9 +329,9 @@ final class Player
     static bool collisioned(Player s1, Player s2)
     {
         // trick: collision do not happen outside of vision :)
-        if ((!player._camera.canSee(s1.currentPosition)) || (!player._camera.canSee(s2.currentPosition)))
-            return false;
-
+        //if ((!player._camera.canSee(s1.currentPosition)) || (!player._camera.canSee(s2.currentPosition)))
+        //    return false;
+        // no triks!
         return s1.currentPosition.squaredDistanceTo(s2.currentPosition) < ((s1.effectiveSize + s2.effectiveSize) ^^ 2);
     }
 
@@ -765,7 +765,8 @@ final class Player
             {
                 movePlayer(ia[i]);
             }
-            movePlayer(player);
+            //nope
+            //movePlayer(player);
 
             int nPowerup = 1 + cast(int)round((*_random).nextFloat * level * 0.08);
             if (nPowerup > 2)
