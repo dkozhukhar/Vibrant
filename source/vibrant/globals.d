@@ -40,25 +40,21 @@ const OUT_OF_SIGHT_SQUARED = 240000.0f * 240000.0f;
 
 const string[] TIPS =
 [
-  "Tip: Hit SPACE to capture a powerup.",
-  "Tip: Hit SPACE to capture ennemies.",
-  "Tip: You can play with a joypad.",
-  "Tip: You can give traps away.",
-  "Tip: Blast bullets are guided.",
-  "Tip: Borders can give you energy.",
-  "Tip: Borders deplete your energy.",
-  "Tip: Borders break captures.",
-  "Tip: Borders terminate invicibility.",
-  "Tip: Don't get too fat.",
-  "Tip: No, inertia won't be removed.",
-  "Tip: Blue bullets inflict 2x damage.",
-  "Tip: Take a look at our other products!",
-  "Tip: Visit our website to get updates.",  
-  "Tip: Enemies get smarter and smarter.",
-  "Tip: WASD + mouse are alternate keys.",
-  "Tip: You get 2 safe seconds on respawn.",
+  "Tip: SPACE key does not do a lot.",  
+  "Tip: You can play with a joypad. Maybe.",
+  "Tip: You can give traps away. Joking. You can not.",
+  "Tip: Blast bullets are guided. That's hirt.",
+  "Tip: Borders are too faaaar away.",    
+  "Tip: While invinsible you inflict 2x damage. And your bullets are blue",
+  "Tip: Use WASD + mouse.",
+  "Tip: Circles around display yours reality distortion.",
+  "Tip: PGUP and PGDWN change your perspective.",
+  "Tip: You get 2 invinsible seconds on respawn.",
   "Tip: Press P for pausing.",
-  "Tip: It's OK to loose often."
+  "Tip: Try typing a KISS.",
+  "Tip: Central aria is the funnest.",
+  "Tip: Upgrades stay with you even if you die.",
+  "Not a Tip: Just Hello."
 ];
 
 __gshared float bullettimeTime = 0;

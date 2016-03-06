@@ -440,13 +440,19 @@ final class Game
             }
 
             _map.draw(_camera);
+            draw_center();
+            
             m_particleManager.draw();
 
             showPowerups(_overlay._text);
 
             m_bulletPool.draw();
 
-            if (player !is null) player.show();
+            if (player !is null) 
+            {
+                player.show();
+                draw_geom (player.currentPosition());
+            }
 
             foreach (ref p; ia)
             {
@@ -502,6 +508,11 @@ final class Game
         void addBullet(vec2f pos, vec2f mov, vec3f color, float angle, int guided, Player owner)
         {
             m_bulletPool.add(this, pos, mov, color, angle, guided, owner);
+        }
+        
+        void addDummies(vec2f pos, Player owner)
+        {
+            m_bulletPool.add_dummies(this, pos, owner);
         }
 
         void addPowerup(vec2f pos, vec2f mov, float angle, float v)
