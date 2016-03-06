@@ -833,6 +833,20 @@ final class Player
         }
     }
 
+    
+    void release_dummies()
+    {
+        if ((*_random).nextFloat > 0.1f) return;
+
+
+        if (isAlive()) 
+        {
+            vec2f mpos = currentPosition;
+            Player owner = this;
+            game.addDummies(mpos, owner);
+        }
+
+    }    
 
     void move(Map map, double dt)
     {
@@ -913,8 +927,9 @@ final class Player
                 _catchedPlayer.mov += (idealPosOther - _catchedPlayer.currentPosition) * std.algorithm.min(1.0f, 0.25f * dt);
             }
         }
-
-        positions[0] = positions[0] + mov * invMass * 60.0f * dt;
+        
+        //positions[0] = positions[0] + mov * invMass * 60.0f * dt;
+        positions[0] = positions[0] + geom.current_geom(positions[0],mov) * invMass * 60.0f * dt;
 
         // damping
         {
@@ -1036,6 +1051,13 @@ final class Player
                     shoot();
                 }
 
+                if  (   iskeydown(SDLK_q) )                
+                {
+                    release_dummies();
+                }            
+                
+                
+                
                 // continuous drag, except if space pressed
                 // TODO mousecenter and joystik
                 if  (   iskeydown(SDLK_SPACE)

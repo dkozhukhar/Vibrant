@@ -1,50 +1,28 @@
-# Modding the Vibrant game
+# Игра в игру Vibrant
 
-Vibrant is a fun game to play. But after some levels passed I get bored with low gameplay variability. Also came ideas on things can be added for more fun. So comes this modding.
+В игре маловато контента, зато красивая и винрарная. Захотелось улучшить по своему разумению. Тем более идеи имеются. Уже второй вопрос, как их реализовать. И заодно в язык D окунуться маленько.
 
-## Changes so far
+## Изменения
 
-### Controls
+### Управление
 
-Strafe (that was Alt key before) now ON on default. So now left-right keys do strafe and holding Alt make ship turns. But this is unnecessary, see below.
-Turning ship supposed to do using the mouse left-right moves. Only x-axis used. Y-axis moves do nothing (by now).
-Grag is always ON. Holding Space key to temporarily get it OFF (really needed only to get rid of trap).
-Less cammera rotations (annoys too much).
+Мыш+WASD наше всё. И по кнопке Q стреляет слабыми пульками во все стороны.
+PgUp и PgDN разлочен для изменения масштаба.
 
-### Powerups
+### Всякое. 
 
-Powerups rebalanced
+Больше пулек и толще враги.
 
-Trap damage reduced. Life adds more life.
+Карта теперь совсем не ровная. Воткнул стереографическую проекцию сферы и псевдосферы. Получилась интересная аномалия. 
 
-### Cheatcodes
+### Есть читы, хотя кажется, и так довольно просто.
 
-Added:
-JOY - increase energy replenish level (permanent effect)
-LOL - invincibility for some long time
-KEK - adds fire power (immensive result and make game slow and crash sometimes when overused)
+JOY - большой реген маны.
+LOL - неуязвимость на время.
+KEK - очень много пулек. если переюзать игра вылетит.
+KISS - перескок на 30 уровней сложности.
+NEXT - перескок на 1 уровень.
 
-Changed:
-KISS - +30 levels
-
-Still there:
-NEXT - +1 level
-
-
-### Other
-
-Lifted firepower limit (for testing).
-Bullets can damage outside of player's view.
-
-### TODO Ideas
-
-AI/enemies - vary enemies, make them more aggressive; pack attack on player;
-Balance - alter ship upgrade limits;
-Terrain - walls/gravity wells(attractors)/gravity hills(anti-attractors);
-Terrain - labiribth level
-Weapons - bombs/novas/wave of bullets/laser beams;
-More players - battle stations(flying cannons)/critters/bosses;
-Do something clever with trap;
 
 # Vibrant
 

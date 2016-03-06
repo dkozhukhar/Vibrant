@@ -69,10 +69,22 @@ final class Overlay
 
             if (t < 0.03) h = 60 * (1 - t / 0.03);
             if (t > STOP) h = 60 * (t - STOP) / (1 - STOP);
+            
+            static immutable string[] introtext =
+            [
+                "  The battle will start soon. ",
+                " Use the time for the better. "
+            ];            
+            
+            //drawWindowBox(BX - 16, BY - 28 + cast(int)(0.5 + h), BX + 30 * 8 + 16, BY + 116 - cast(int)(0.5 + h), 0x8F8080FF);
+            drawWindowBox
+            (   
+                BX - 16, BY - 28 + cast(int)(0.5 + h), 
+                BX + 30 * 8 + 16, BY + 8 + 18 * (introtext.length) - cast(int)(0.5 + h), 
+                0x8F8080FF
+            );
 
-            drawWindowBox(BX - 16, BY - 28 + cast(int)(0.5 + h), BX + 30 * 8 + 16, BY + 116 - cast(int)(0.5 + h), 0x8F8080FF);
-
-            static immutable string[] test =
+            static immutable string[] test0 =
             [
                 "      The Homeric wars.       ",
                 "  In these times of trouble,  ",
@@ -80,13 +92,15 @@ final class Overlay
                 "  warrior of a defeated tribe ",
                 "    to face an humiliating    ",
                 "          execution.          "
-            ];
+            ];    
+            
+
 
             if (t > START && t < STOP)
             {
-                for (int i = 0; i < 6; ++i)
+                for (int i = 0; i < introtext.length; ++i)
                 {
-                    _text.drawString(BX, BY + 16 * i, test[i]);
+                    _text.drawString(BX, BY + 16 * i, introtext[i]);
                 }
             }
         }

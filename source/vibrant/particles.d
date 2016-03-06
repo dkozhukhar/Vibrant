@@ -80,7 +80,7 @@ final class ParticleManager
                 {
                     life -= dt;
                     if (life < 16 / 60.0f) color = colorsub(color,DECAY);
-                    pos += mov * dt2;
+                    pos += geom.current_geom(pos,mov) * dt2;
 
                     map.enforceBounds(pos, mov, 0.0f, 0.35f, 0.0f);
                 }

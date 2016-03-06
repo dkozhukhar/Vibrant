@@ -229,7 +229,9 @@ final struct Bullet
 
         angle = angle + BULLET_CONSTANT_ROTATION * dt;
         vec2f anc = pos[0];
-        pos[0] = pos[0] + mov * dt * 60.0f;
+        //pos[0] = pos[0] + mov * dt * 60.0f;
+        //geometry
+        pos[0] = pos[0] + geom.current_geom(pos[0],mov) * dt * 60.0f;
 
         if (_camera.canSee(pos[0]))
         {
@@ -356,6 +358,25 @@ class BulletPool
             _bulletPool[_bulletIndex++] = Bullet(game, pos, mov, color, angle, guided, owner, damage);
         }
 
+        void add_dummies(Game game, vec2f pos, Player owner)
+        {
+            if (_bulletIndex >= MAX_BULLETS)
+                return;
+
+            float damage = 0.1f; 
+            int guided = 0;
+            auto color = RGBF(0xFFFFFF) * 0.5f;
+            
+            for (int i = 0; i < 8; i++) 
+            {
+                float angle =  2*PI * i / 8;
+                vec2f mov = 2 * vec2f(sin(angle), cos(angle));                
+                _bulletPool[_bulletIndex++] 
+                    = Bullet(game, pos, mov, color, angle, guided, owner, damage);                
+            }
+        }        
+        
+        
         void move(Map map, float dt)
         {
             for(int i = 0; i < _bulletIndex; ++i)

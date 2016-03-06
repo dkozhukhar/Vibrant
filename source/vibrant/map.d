@@ -8,6 +8,8 @@ import vga2d;
 import utils;
 import misc.alignedbuffer;
 
+public import geodesic;
+
 enum TILE_SIZE = 200.0f;
 enum TILE_OUTSIDE = 0;
 enum TILE_NORMAL = 1;
@@ -43,14 +45,16 @@ struct MapTile
 
         vec2f pos() nothrow @nogc
         {
-            return vec2f((_index.x - NTILE_X / 2) * TILE_SIZE,
-                         (_index.y - NTILE_Y / 2) * TILE_SIZE);
+            return //geom.current_geom
+                (vec2f((_index.x - NTILE_X / 2) * TILE_SIZE,
+                         (_index.y - NTILE_Y / 2) * TILE_SIZE));
         }
 
         box2f bounds() nothrow @nogc
         {
             vec2f p = pos();
-            return box2f(p, p + vec2f(TILE_SIZE, TILE_SIZE));
+            return box2f(p, p + //geom.current_geom
+                    (vec2f(TILE_SIZE, TILE_SIZE)));
         }
     }
 
@@ -66,6 +70,7 @@ final class Map
 {
     public
     {
+    
         AlignedBuffer!MapLine _outLines;
         Xorshift32* random;
 
@@ -162,8 +167,10 @@ final class Map
         }
 
         // ensure an object is inside bounds
-        void enforceBounds(ref vec2f pos, float radius)
+        void enforceBounds_obsolette(ref vec2f pos, float radius)
         {
+        // box.contains (pos + radiusx,pos+radiusy,pos-radiusx,pos-radiusy)
+        // ~~ box-radius.contains(pos)
             float m = SIZE_OF_MAP - radius;
             if (m < 0.0f) m = 0.0f;
             int res = 0;
@@ -189,6 +196,12 @@ final class Map
             }
         }
 
+        void enforceBounds(ref vec2f pos, float radius)
+        {
+        // box.contains (pos + radiusx,pos+radiusy,pos-radiusx,pos-radiusy)
+        // ~~ box-radius.contains(pos)
+            enforceBounds_obsolette(pos, radius);
+        }
         // ensure an object is inside bounds
         // and make it bounce
         int enforceBounds(ref vec2f pos, ref vec2f mov, float radius, float bounce, float constantBounce)
